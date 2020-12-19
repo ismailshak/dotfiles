@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+
+# ~/.macos — https://github.com/kentcdodds/dotfiles/blob/master/.macos
+# Modified by Ismail Elshakankiry
+# Run without downloading:
+# curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos | bash
+
+# Ask for the administrator password upfront
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+echo "Hello $(whoami)! Let's get you set up."
+
+echo "mkdir -p ${HOME}/code"
+mkdir -p "${HOME}/code"
+
+if [ ! -x /usr/local/bin/brew ]; then
+    echo "Installing Homebrew..."
+    /usr/bin/env ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+else
+    echo "Homebrew is installed"
+fi
+
+# install if we haven't installed any version
+brew ls --versions spotify || brew cask install spotify
+brew ls --versions iterm2 || brew cask install iterm2
+brew ls --versions postman || brew cask install postman
+brew ls --versions tableplus || brew cask install tableplus
+brew ls --versions notion || brew cask install notion
+brew ls --versions firefox || brew cask install firefox
+brew ls --versions lastpass || brew cask install lastpass
+
+# VSCode setup
+brew ls --versions visual-studio-code || brew cask install visual-studio-code
+
+# Add 'code' alias to launch from the command line
+
+
+echo "Installing Node (via n-install)"
+curl -L https://git.io/n-install | bash
+
+echo "node --version: $(node --version)"
+echo "npm --version: $(npm --version)"
+
+if [[ `xcode-select -p` != "/Applications/Xcode.app/Contents/Developer" && `xcode-select -p` != "/Applications/Xcode-beta.app/Contents/Developer" ]]; then
+  echo "Install XCode from the App Store..."
+  exit 1
+else
+  echo "XCode is installed"
+fi
+
+declare xcode_select_installed=`xcode-select --install 2>&1 | grep "command line tools are already installed"`
+if [ -z "$xcode_select_installed" ]; then
+  echo "Installing xcode-select..."
+  xcode-select --install
+else
+  echo "xcode-select installed"
+fi
+
+if [ ! -x /usr/local/bin/docker ]; then
+  echo "Install Docker for Mac: https://www.docker.com/products/docker#/mac"
+  exit 1
+else
+    echo "Docker is installed"
+fi
+
+echo "Cloning dotfiles"
+git clone git@github.com:kentcdodds/dotfiles.git "${HOME}/dotfiles"
+ln -s "${HOME}/dotfiles/.zshrc" "${HOME}/.zshrc"
+ln -s "${HOME}/dotfiles/.gitignore_global" "${HOME}/.gitignore_global"
+ln -s "${HOME}/dotfiles/.gitconfig" "${HOME}/.gitconfig"
+ln -s "${HOME}/dotfiles/.my_bin" "${HOME}/.my_bin"
+ln -s "${HOME}/dotfiles/.vimrc" "${HOME}/.vimrc"
+ln -s "${HOME}/dotfiles/.vimrc-parts" "${HOME}/.vimrc-parts"
+
+echo "Generating an RSA token for GitHub"
+mkdir -p ~/.ssh
+touch ~/.ssh/config
+ssh-keygen -t rsa -b 4096 -C "ismailshak94@yahoo.com"
+echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_rsa" | tee ~/.ssh/config
+eval "$(ssh-agent -s)"
+echo "run 'pbcopy < ~/.ssh/id_rsa.pub' and paste that into GitHub"
+
+# if [ ! -x /usr/local/bin/ansible ]; then
+#     echo "Installing ansible via Homebrew..."
+#     brew install ansible
+# else
+#     echo "ansible is installed"
+# fi
+
+# ansible-playbook -i playbooks/inventory playbooks/main.yml
+
+# docker-compose up -d
+
+echo "Ready to go!"
