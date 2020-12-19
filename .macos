@@ -66,15 +66,6 @@ else
     echo "Docker is installed"
 fi
 
-echo "Cloning dotfiles"
-git clone git@github.com:kentcdodds/dotfiles.git "${HOME}/dotfiles"
-ln -s "${HOME}/dotfiles/.zshrc" "${HOME}/.zshrc"
-ln -s "${HOME}/dotfiles/.gitignore_global" "${HOME}/.gitignore_global"
-ln -s "${HOME}/dotfiles/.gitconfig" "${HOME}/.gitconfig"
-ln -s "${HOME}/dotfiles/.my_bin" "${HOME}/.my_bin"
-ln -s "${HOME}/dotfiles/.vimrc" "${HOME}/.vimrc"
-ln -s "${HOME}/dotfiles/.vimrc-parts" "${HOME}/.vimrc-parts"
-
 echo "Generating an RSA token for GitHub"
 mkdir -p ~/.ssh
 touch ~/.ssh/config
