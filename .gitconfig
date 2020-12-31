@@ -11,7 +11,7 @@
   b = checkout -b
   amend = commit -a --amend --no-edit
   unstage = reset --soft HEAD
-  cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|dev' | xargs -n 1 git branch -d"
+  cleanup = "!git branch --merged | grep  -v '\\*\\|main\\|master\\|dev' | xargs -n 1 git branch -d"
 [push]
   default = current
 [init]
