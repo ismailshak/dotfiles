@@ -4,14 +4,21 @@
 [pull]
   rebase = true
 [branch]
-  autosetuprebase = always
+  autoSetupRebase = always
+  autoSetupMerge = always
 [alias]
-  rh = reset --hard HEAD
   b = checkout -b
-  amend = commit -a --amend --no-edit
+  rh = reset --hard HEAD
   unstage = reset --soft HEAD
+  amend = commit -a --amend --no-edit
   cleanup = "!git branch --merged | grep  -v '\\*\\|main\\|master\\|dev' | xargs -n 1 git branch -d"
 [push]
   default = current
 [init]
   defaultBranch = main
+[fetch]
+  prune = true
+[diff]
+  colorMoved = zebra
+[help]
+  autocorrect = 50
