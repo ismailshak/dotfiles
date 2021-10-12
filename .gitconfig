@@ -8,6 +8,7 @@
   autoSetupMerge = always
 [alias]
   b = checkout -b
+  poh = push origin HEAD
   rh = reset --hard HEAD
   unstage = reset --soft HEAD
   amend = commit -a --amend --no-edit
