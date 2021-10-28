@@ -24,22 +24,23 @@ else
 fi
 
 # install if we haven't installed any version
-brew ls --versions spotify || brew cask install spotify
-brew ls --versions iterm2 || brew cask install iterm2
-brew ls --versions postman || brew cask install postman
-brew ls --versions tableplus || brew cask install tableplus
-brew ls --versions notion || brew cask install notion
-brew ls --versions firefox || brew cask install firefox
-brew ls --versions lastpass || brew cask install lastpass
+brew ls --versions spotify || brew install --cask spotify
+brew ls --versions iterm2 || brew install --cask iterm2
+brew ls --versions postman || brew install --cask postman
+brew ls --versions tableplus || brew install --cask tableplus
+brew ls --versions notion || brew install --cask notion
+brew ls --versions firefox || brew install --cask firefox
+brew ls --versions lastpass || brew install --cask lastpass
+brew ls --versions alfred || brew install --cask alfred
+brew ls --versions visual-studio-code || brew install --cask visual-studio-code
 
-# VSCode setup
-brew ls --versions visual-studio-code || brew cask install visual-studio-code
+echo "Installing 'asdf'"
+brew install asdf
+echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
 
-# Add 'code' alias to launch from the command line
-
-
-echo "Installing Node (via n-install)"
-curl -L https://git.io/n-install | bash
+## Install asdf for node management
+asdf install nodejs latest
+asdf global nodejs latest
 
 echo "node --version: $(node --version)"
 echo "npm --version: $(npm --version)"
@@ -60,8 +61,8 @@ else
 fi
 
 if [ ! -x /usr/local/bin/docker ]; then
-  echo "Install Docker for Mac: https://www.docker.com/products/docker#/mac"
-  exit 1
+  echo "Installing Docker"
+  brew install docker
 else
     echo "Docker is installed"
 fi
@@ -72,7 +73,8 @@ touch ~/.ssh/config
 ssh-keygen -t rsa -b 4096 -C "ismailshak94@yahoo.com"
 echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_rsa" | tee ~/.ssh/config
 eval "$(ssh-agent -s)"
-echo "run 'pbcopy < ~/.ssh/id_rsa.pub' and paste that into GitHub"
+pbcopy < ~/.ssh/id_rsa.pub
+echo "SSH key added to clipboard. Paste that into GitHub"
 
 # if [ ! -x /usr/local/bin/ansible ]; then
 #     echo "Installing ansible via Homebrew..."
