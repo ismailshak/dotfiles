@@ -3,7 +3,7 @@
 # ~/.macos — https://github.com/kentcdodds/dotfiles/blob/master/.macos
 # Modified by Ismail Elshakankiry
 # Run without downloading:
-# curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos | bash
+# curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/macos/.macos | bash
 
 # Ask for the administrator password upfront
 sudo -v
