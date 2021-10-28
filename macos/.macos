@@ -38,16 +38,8 @@ else
     echo "Homebrew is installed"
 fi
 
-# install if we haven't installed any version
-brew ls --versions spotify || brew install --cask spotify
-brew ls --versions iterm2 || brew install --cask iterm2
-brew ls --versions postman || brew install --cask postman
-brew ls --versions tableplus || brew install --cask tableplus
-brew ls --versions notion || brew install --cask notion
-brew ls --versions firefox || brew install --cask firefox
-brew ls --versions lastpass || brew install --cask lastpass
-brew ls --versions alfred || brew install --cask alfred
-brew ls --versions visual-studio-code || brew install --cask visual-studio-code
+# Install all casks specified in `cask.txt`
+brew install --cask $(curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/macos/casks.txt)
 
 echo "Installing 'asdf'"
 brew install asdf
