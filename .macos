@@ -18,7 +18,7 @@ mkdir -p "${HOME}/code"
 
 if [ ! -x /usr/local/bin/brew ]; then
     echo "Installing Homebrew..."
-    curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
     echo "Homebrew is installed"
 fi
