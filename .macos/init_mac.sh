@@ -48,7 +48,7 @@ fi
 
 # Install all casks specified in `cask.txt`
 echo "Installing all brew casks"
-brew install --cask $(curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/macos/casks.txt)
+brew install --cask $(curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos/casks.txt)
 
 echo "Installing 'asdf'"
 brew install asdf
