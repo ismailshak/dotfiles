@@ -14,6 +14,7 @@
 #     - fully support both architecures for every command (x86 vs arm64)
 #     - redirect useless command logging into files and replace with spinners
 #     - make logs more verbose when communicating progress e.g. check mark steps and spinners
+#     - create functions that encapsulate functionality e.g. handling redirects if file doesn't exist etc
 #
 
 CODE_DIR="code"
@@ -91,6 +92,9 @@ cd ~
 
 echo "Appending remote .zshrc into local ~/.zshrc"
 cat ~/$CODE_DIR/dotfiles/.zshrc >> ~/.zshrc
+
+echo "Appending remote .gitconfig into local ~/.gitconfig"
+cat ~/$CODE_DIR/dotfiles/.gitconfig >> ~/.gitconfig
 
 echo "Installing 'asdf'"
 brew install asdf
