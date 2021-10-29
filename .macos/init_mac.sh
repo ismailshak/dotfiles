@@ -31,6 +31,7 @@ else
   echo "xcode-select installed"
 fi
 
+# TODO: investigate if xcode code dev tools already install homebrew, if so skip below (or add path that supports apple silicon i.e. opt/homebrew)
 if [ ! -x /usr/local/bin/brew ]; then
     echo "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -49,7 +50,7 @@ echo "Installing the nodejs plugin dependencies"
 brew install gpg gawk
 
 echo "Installing the nodejs plugin"
-asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git 
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 
 asdf install nodejs latest
 asdf global nodejs latest
@@ -57,12 +58,9 @@ asdf global nodejs latest
 echo "node --version: $(node --version)"
 echo "npm --version: $(npm --version)"
 
-if [ ! -x /usr/local/bin/docker ]; then
-  echo "Installing Docker"
-  brew install docker
-else
-    echo "Docker is installed"
-fi
+# Install docker
+echo "Installing Docker"
+brew install docker
 
 echo "Generating an RSA token for GitHub"
 mkdir -p ~/.ssh
@@ -72,6 +70,8 @@ echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_rsa
 eval "$(ssh-agent -s)"
 pbcopy < ~/.ssh/id_rsa.pub
 echo "SSH key added to clipboard. Paste that into GitHub"
+
+# TODO: add user prompt to continue here
 
 # if [ ! -x /usr/local/bin/ansible ]; then
 #     echo "Installing ansible via Homebrew..."
@@ -83,5 +83,36 @@ echo "SSH key added to clipboard. Paste that into GitHub"
 # ansible-playbook -i playbooks/inventory playbooks/main.yml
 
 # docker-compose up -d
+
+# TODO: Install `Input Mono Regular etc` here
+
+# TODO: `oh-my-zsh` + `spaceship-prompt` here
+
+# Install Github CLI
+echo "Installing gh"
+brew install gh
+
+# Authenticate with gh
+gh auth login
+
+# TODO: add a confirmation before this step, or else skip (maybe list repos in a checkbox menu if < 30[or user input, or paginate if im boss] for example)
+
+# Clone all repos for user that just auth'd above
+gh repo list --json name | jq '.[].name' | xargs -n1 gh repo clone
+
+# Install tmux
+echo "Installing tmux"
+brew install tmux
+
+# Install neovim
+echo "Installing neovim"
+brew install neovim
+
+# Install NvChad for a quick-n-dirty ready to use neovim setup
+git clone https://github.com/NvChad/NvChad ~/.config/nvim
+# TODO: copy custom config from github/dotfiles into custom dir in NvChad config
+
+#TODO: log the following things I have to run separately
+# - nvim +'hi NormalFloat guibg=#1e222a' +PackerSync (for nvim init)
 
 echo "Ready to go!"
