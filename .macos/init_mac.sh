@@ -17,10 +17,10 @@ echo "mkdir -p ${HOME}/code"
 mkdir -p "${HOME}/code"
 
 if [[ `xcode-select -p` != "/Applications/Xcode.app/Contents/Developer" && `xcode-select -p` != "/Applications/Xcode-beta.app/Contents/Developer" ]]; then
-  echo "Install XCode from the App Store..."
+  echo "Install Xcode from the App Store..."
   exit 1
 else
-  echo "XCode is installed"
+  echo "Xcode is installed"
 fi
 
 # Install oh-my-zsh early, since it dominates the ~/.zshrc
@@ -79,7 +79,7 @@ eval "$(ssh-agent -s)"
 pbcopy < ~/.ssh/id_rsa.pub
 echo "SSH key added to clipboard. Paste that into GitHub"
 
-# TODO: add user prompt to continue here
+# TODO: add user prompt to continue here after the key has been submitted
 
 # if [ ! -x /usr/local/bin/ansible ]; then
 #     echo "Installing ansible via Homebrew..."
