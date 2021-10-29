@@ -45,7 +45,12 @@ echo "Installing 'asdf'"
 brew install asdf
 echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
 
-## Install asdf for node management
+echo "Installing the nodejs plugin dependencies"
+brew install gpg gawk
+
+echo "Installing the nodejs plugin"
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git 
+
 asdf install nodejs latest
 asdf global nodejs latest
 
