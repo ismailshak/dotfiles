@@ -19,7 +19,7 @@ alias vsrc="source ~/.vimrc"
 alias ip="ifconfig | grep broadcast"
 alias openport="npx localtunnel --port"
 
-killport() { kill $( lsof -i:$1 -t ) }
+killport() { kill -9 $(lsof -i:$1 -t) }
 diff() { git diff --color --no-index "$1" "$2" }
 cdiff() { code --diff "$1" "$2"}
 
