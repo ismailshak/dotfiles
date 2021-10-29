@@ -12,6 +12,7 @@ export PATH="bin:node_modules/.bin:$PATH" # Add node_modules to PATH export
 # General aliases
 
 alias ..="cd ../";
+alias -- -="cd -";
 alias zrc="nvim ~/.zshrc"
 alias zsrc="source ~/.zshrc"
 alias vrc="nvim ~/.vimrc"
