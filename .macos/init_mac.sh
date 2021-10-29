@@ -23,6 +23,13 @@ else
   echo "XCode is installed"
 fi
 
+# Install oh-my-zsh early, since it dominates the ~/.zshrc
+echo "Installing oh-my-zsh"
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+echo "Setting oh-my-zsh to 'spaceship' theme"
+# TODO: replace ZSH_THEME var with 'spaceship'
+
 declare xcode_select_installed=`xcode-select --install 2>&1 | grep "command line tools are already installed"`
 if [ -z "$xcode_select_installed" ]; then
   echo "Installing xcode-select..."
@@ -40,6 +47,7 @@ else
 fi
 
 # Install all casks specified in `cask.txt`
+echo "Installing all brew casks"
 brew install --cask $(curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/macos/casks.txt)
 
 echo "Installing 'asdf'"
@@ -85,8 +93,7 @@ echo "SSH key added to clipboard. Paste that into GitHub"
 # docker-compose up -d
 
 # TODO: Install `Input Mono Regular etc` here
-
-# TODO: `oh-my-zsh` + `spaceship-prompt` here
+# use docker command in the Gist I created
 
 # Install Github CLI
 echo "Installing gh"
@@ -100,6 +107,9 @@ gh auth login
 # Clone all repos for user that just auth'd above
 gh repo list --json name | jq '.[].name' | xargs -n1 gh repo clone
 
+# TODO: copy config files around from cloned dotfiles, to correct location
+
+
 # Install tmux
 echo "Installing tmux"
 brew install tmux
@@ -110,9 +120,14 @@ brew install neovim
 
 # Install NvChad for a quick-n-dirty ready to use neovim setup
 git clone https://github.com/NvChad/NvChad ~/.config/nvim
-# TODO: copy custom config from github/dotfiles into custom dir in NvChad config
 
-#TODO: log the following things I have to run separately
-# - nvim +'hi NormalFloat guibg=#1e222a' +PackerSync (for nvim init)
+# TODO: copy custom config from github/dotfiles into custom dir in NvChad config
+# TODO: install lsp dependencies via npm https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+
+
+# Script complete
+
+# TODO: log the following things I have to run separately
+# 1) nvim +'hi NormalFloat guibg=#1e222a' +PackerSync (for nvchad init)
 
 echo "Ready to go!"
