@@ -16,7 +16,8 @@ gitsigns.setup {
       ["n <leader>hp"] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
       ["n <leader>hb"] = '<cmd>lua require"gitsigns".blame_line()<CR>',
    },
-   numhl = false,
+   signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+   numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
 
    sign_priority = 5,
    signs = {
@@ -26,6 +27,16 @@ gitsigns.setup {
       delete = { hl = "DiffDelete", text = "_", numhl = "GitSignsDeleteNr" },
       topdelete = { hl = "DiffDelete", text = "‾", numhl = "GitSignsDeleteNr" },
    },
+
+   current_line_blame = true,
+   current_line_blame_opts = {
+      virt_text = true,
+      virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+      delay = 1000,
+   },
+   current_line_blame_formatter_opts = {
+      relative_time = true
+    },
 
    status_formatter = nil, -- Use default
    watch_gitdir = {
