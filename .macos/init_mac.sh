@@ -87,7 +87,7 @@ gh auth login
 
 # Clone all repos for user that just auth'd above
 cd ~/$CODE_DIR
-gh repo list --json name | jq '.[].name' | xargs -n1 gh repo clone
+gh repo list --json name --jq '.[].name' | xargs -n1 gh repo clone
 cd ~
 
 echo "Appending remote .zshrc into local ~/.zshrc"
