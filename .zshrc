@@ -11,32 +11,42 @@ export PATH="bin:node_modules/.bin:$PATH" # Add node_modules to PATH export
 
 # General aliases
 
-alias ..="cd ../";
-alias -- -="cd -";
+alias ..="cd ../"
+alias -- -="cd -"
 alias zrc="nvim ~/.zshrc"
 alias zsrc="source ~/.zshrc"
 alias vrc="nvim ~/.vimrc"
 alias vsrc="source ~/.vimrc"
+alias nvconf="nvim ~/.config/nvim"
 alias ip="ifconfig | grep broadcast"
 alias openport="npx localtunnel --port"
 
 killport() { kill -9 $(lsof -i:$1 -t) }
-diff() { git diff --color --no-index "$1" "$2" }
-cdiff() { code --diff "$1" "$2"}
+cdiff() { code --diff "$1" "$2" }
+diff() {
+	# If no args, use default diff command
+	if [ $# -eq 0 ]; then
+		git diff
+	else
+		git diff --color --no-index "$1" "$2"
+	fi
+}
 
 # npm aliases
 
-alias ni="npm install";
-alias nrs="npm run start";
-alias nrb="npm run build";
-alias nrt="npm run test";
+alias ni="npm install"
+alias nu="npm uninstall"
+alias nrs="npm run start"
+alias nrb="npm run build"
+alias nrt="npm run test"
 alias nci="npm ci"
 
 nr() { npm run "$1" };
 
-#pnpm aliases
+# pnpm aliases
 
 alias pni="pnpm install"
+alias pnu="pnpm uninstall"
 alias pns="pnpm start"
 alias pnb="pnpm build"
 alias pnt="pnpm test"
