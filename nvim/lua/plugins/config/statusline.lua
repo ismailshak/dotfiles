@@ -365,7 +365,7 @@ M.setup = function()
 	add_table(middle, opt.lsp_progress)
 
 	-- right
-	add_table(right, opt.lsp_icon)
+	--add_table(right, opt.lsp_icon)
 	add_table(right, opt.git_branch)
 	add_table(right, opt.empty_space)
 	add_table(right, opt.empty_spaceColored)

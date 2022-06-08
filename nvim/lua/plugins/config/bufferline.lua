@@ -5,6 +5,12 @@ end
 
 local colors = require("plugins.colors.nord-colors")
 
+-- keybindings
+local keymap = vim.api.nvim_set_keymap
+local opts = { noremap = true }
+keymap("n", "<leader>bn", ":BufferLineCycleNext <CR>", opts)
+keymap("n", "<leader>bv", ":BufferLineCyclePrev <CR>", opts)
+
 bufferline.setup({
 	options = {
 		numbers = "none", -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
@@ -37,13 +43,19 @@ bufferline.setup({
 		max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
 		tab_size = 21,
 		diagnostics = "nvim_lsp", -- | "nvim_lsp" | "coc" | false,
-		diagnostics_update_in_insert = false,
+		diagnostics_update_in_insert = true,
 		diagnostics_indicator = function(count, level, diagnostics_dict, context)
-			if not level:match("error") then
-				return
+      if not level:match("error") then
+        return
+      end
+			-- only count error diagnostics, and just display those
+			local errorCount = 0
+			for e, n in pairs(diagnostics_dict) do
+				if e == "error" then
+					errorCount = n
+				end
 			end
-
-			return " " .. count
+			return " " .. errorCount
 		end,
 		-- NOTE: this will be called a lot so don't do any heavy processing here
 		-- custom_filter = function(buf_number)

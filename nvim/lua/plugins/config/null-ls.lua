@@ -14,7 +14,8 @@ null_ls.setup({
 		-- formatting.prettier.with { extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" } },
 		formatting.prettier,
 		formatting.stylua,
-		diagnostics.eslint_d,
+		diagnostics.eslint,
 		code_actions.gitsigns,
+		code_actions.eslint
 	},
 })

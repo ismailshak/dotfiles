@@ -3,7 +3,10 @@ if not present then
 	return
 end
 
-require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
+
+-- each of these are documented in `:help nvim-tree.OPTION_NAME`
+-- nested options are documented by accessing them with `.` (eg: `:help nvim-tree.view.mappings.list`).
+require("nvim-tree").setup({
 	auto_reload_on_write = true,
 	create_in_closed_folder = false,
 	disable_netrw = false,
@@ -24,7 +27,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
 		width = 30,
 		height = 30,
 		hide_root_folder = false,
-		side = "left",
+		side = "right",
 		preserve_window_proportions = false,
 		number = false,
 		relativenumber = false,
@@ -140,7 +143,7 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
 			max_folder_discovery = 300,
 		},
 		open_file = {
-			quit_on_open = false,
+			quit_on_open = true,
 			resize_window = true,
 			window_picker = {
 				enable = true,
@@ -176,4 +179,14 @@ require("nvim-tree").setup({ -- BEGIN_DEFAULT_OPTS
 			watcher = false,
 		},
 	},
-}) -- END_DEFAULT_OPTS
+})
+
+-- auto close vim when nvim-tree is the last open buff
+--vim.api.nvim_create_autocmd("BufEnter", {
+--  nested = true,
+--  callback = function()
+--    if #vim.api.nvim_list_wins() == 1 and vim.api.nvim_buf_get_name(0):match("NvimTree_") ~= nil then
+--      vim.cmd "quit"
+--    end
+--  end
+--}):help nvim-tree.actions.open_file.quit_on_open
