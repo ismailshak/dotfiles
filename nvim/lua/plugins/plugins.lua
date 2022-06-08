@@ -77,6 +77,10 @@ M.load_plugins = function(use)
 		requires = { "nvim-lua/plenary.nvim" },
 	})
 	require("plugins.config.null-ls")
+
+	-- tmux navigation
+	use "numToStr/Navigator.nvim"
+	require("plugins.config.tmux-navigator")
 end
 
 return M
