@@ -1,6 +1,8 @@
 [user]
   name = Ismail Elshakankiry
   email = ismailshak94@yahoo.com
+[core]
+  editor = nvim
 [pull]
   rebase = true
 [branch]
