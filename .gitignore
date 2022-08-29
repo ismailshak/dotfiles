@@ -1,1 +1,5 @@
+# dirs
 nvim/plugin
+
+# files
+*.DS_Store
