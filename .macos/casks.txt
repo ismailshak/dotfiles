@@ -1,1 +1,11 @@
-iterm2 postman tableplus alfred lastpass visual-studio-code firefox notion spotify discord dropbox
+iterm2
+postman
+tableplus
+alfred
+lastpass
+visual-studio-code
+firefox
+notion
+spotify
+discord 
+dropbox
