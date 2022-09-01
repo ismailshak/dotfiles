@@ -1,5 +1,5 @@
 [user]
-  name = Ismail Elshakankiry
+  name = ismailshak
   email = ismailshak94@yahoo.com
 [core]
   editor = nvim
@@ -9,11 +9,13 @@
   autoSetupRebase = always
   autoSetupMerge = always
 [alias]
+  aa = "add -A"
+  amend = commit -a --amend --no-edit
   b = checkout -b
+  cm = "commit -m"
   poh = push origin HEAD
   rh = reset --hard HEAD
-  unstage = reset --soft HEAD
-  amend = commit -a --amend --no-edit
+  rs = reset --soft HEAD~1
   cleanup = "!git branch --merged | grep  -v '\\*\\|main\\|master\\|dev' | xargs -n 1 git branch -d"
 [push]
   default = current
@@ -25,3 +27,5 @@
   colorMoved = zebra
 [help]
   autocorrect = 50
+[core]
+	editor = nvim

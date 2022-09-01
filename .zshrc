@@ -20,6 +20,7 @@ alias vsrc="source ~/.vimrc"
 alias nvconf="nvim ~/.config/nvim"
 alias ip="ifconfig | grep broadcast"
 alias openport="npx localtunnel --port"
+alias catt="bat"
 
 killport() { kill -9 $(lsof -i:$1 -t) }
 cdiff() { code --diff "$1" "$2" }
