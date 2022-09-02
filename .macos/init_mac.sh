@@ -5,7 +5,7 @@ set -e
 # Inspired by: https://github.com/kentcdodds/dotfiles/blob/master/.macos
 #
 # Run without downloading:
-# curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/macos/.macos | bash
+# curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos/init_mac.sh | bash
 
 #
 # TODO:
