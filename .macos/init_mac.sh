@@ -14,7 +14,7 @@ set -e
 
 
 # Settings
-LOG_FILE_PATH="$HOME/Desktop/log.txt"
+LOG_FILE_PATH="/tmp/init_mac_logs.txt"
 CODE_DIR="code"
 CODE_DIR_PATH="${HOME}/${CODE_DIR}"
 GITHUB_USER="ismailshak"
