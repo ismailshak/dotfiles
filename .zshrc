@@ -32,6 +32,7 @@ diff() {
 		git diff --color --no-index "$1" "$2"
 	fi
 }
+delete_all_dirs() { find . -name "$1" -type d -print -prune -exec rm -rf '{}' \; }
 
 # npm aliases
 
