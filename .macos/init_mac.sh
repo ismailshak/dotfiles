@@ -375,8 +375,9 @@ function install_nodejs() {
 function _golang_vars() {
   echo "export GOPATH=$HOME/go" >> ${ZDOTDIR:-~}/.zshrc
   echo "export GOROOT=/opt/homebrew/opt/go/libexec" >> ${ZDOTDIR:-~}/.zshrc
-  echo "export PATH=$PATH:$GOPATH/bin" >> ${ZDOTDIR:-~}/.zshrc
-  echo "export PATH=$PATH:$GOROOT/bin" >> ${ZDOTDIR:-~}/.zshrc
+  source_zshrc # So we can reference these env vars
+  echo "export PATH=\"$PATH:$GOPATH/bin\"" >> ${ZDOTDIR:-~}/.zshrc
+  echo "export PATH=\"$PATH:$GOROOT/bin\"" >> ${ZDOTDIR:-~}/.zshrc
 }
 
 function install_go() {
