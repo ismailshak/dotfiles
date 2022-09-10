@@ -291,33 +291,45 @@ function configure_dock() {
 # TOOLS
 # -----
 
+function _install_oh_my_zsh() {
+  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+}
+
 function install_oh_my_zsh() {
   local prefix=$(job_prefix "oh-my-zsh")
   # TODO: replace ZSH_THEME var with 'spaceship'
   # echo "Setting oh-my-zsh to 'spaceship' theme"
   if [ ! -d ~/.oh-my-zsh ]; then
-    spinner "$TAB{s} $prefix: Installing..." sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    spinner "$TAB{s} $prefix: Installing..." _install_oh_my_zsh
     erase_line && prompt_success "${prefix}: Installed"
   else
     prompt_success "${prefix}: Already installed"
   fi
 }
 
+function _install_homebrew() {
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
 function install_homebrew() {
   local prefix=$(job_prefix "homebrew")
   if [ ! -x /usr/local/bin/brew ] && [ ! -x /opt/homebrew/bin/brew ]; then
-      spinner "$TAB{s} $prefix: Installing..." /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      spinner "$TAB{s} $prefix: Installing..." _install_homebrew
       erase_line && prompt_success "${prefix}: Installed $(grey $(brew --version | head -n 1))"
   else
       prompt_success "${prefix}: Already installed $(grey $(brew --version | head -n 1))"
   fi
 }
 
+function _handle_asdf_path() {
+  echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
+}
+
 function install_asdf() {
   local prefix=$(job_prefix "asdf")
   if ! execute which asdf; then
     spinner "$TAB{s} $prefix: Installing..." brew install asdf
-    execute echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
+    execute _handle_asdf_path
     erase_line && prompt_success "${prefix}: Installed $(grey $(asdf --version))"
   else
     prompt_success "${prefix}: Already installed $(grey $(asdf --version))"
