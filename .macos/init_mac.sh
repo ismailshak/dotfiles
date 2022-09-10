@@ -490,19 +490,19 @@ function clone_user_repos() {
 # DOCKER
 # ------
 
-function wait_for_daemon() {
-  until docker container ps
-  do
-    sleep 0.5
-  done
-}
+#function wait_for_daemon() {
+#  until docker container ps
+#  do
+#    sleep 0.5
+#  done
+#}
 
-function start_docker() {
-  local prefix=$(job_prefix "docker daemon")
-  spinner "$TAB{s} $prefix: Starting desktop app in the background" open --hide --background -a Docker
-  spinner "$TAB{s} $prefix: Waiting for daemon..." wait_for_daemon
-  erase_line && prompt_success "${prefix}: Dameon running"
-}
+#function start_docker() {
+#  local prefix=$(job_prefix "docker daemon")x
+#  spinner "$TAB{s} $prefix: Starting desktop app in the background" open --hide --background -a Docker
+#  spinner "$TAB{s} $prefix: Waiting for daemon..." wait_for_daemon
+#  erase_line && prompt_success "${prefix}: Dameon running"
+#}
 
 # DOTFILES
 # --------
@@ -653,9 +653,9 @@ log_ln
 task_header "Installing homebrew casks"
 install_brew_casks
 
-log_ln
-task_header "Starting docker daemon"
-start_docker
+#log_ln
+#task_header "Starting docker daemon"
+#start_docker
 
 log_ln
 task_header "Git & Github authentication"
