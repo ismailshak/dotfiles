@@ -329,7 +329,7 @@ function install_homebrew() {
 }
 
 function _handle_asdf_path() {
-  echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
+  echo -e "\n. /opt/homebrew/opt/asdf/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
 }
 
 function install_asdf() {
