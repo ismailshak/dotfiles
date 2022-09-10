@@ -613,7 +613,6 @@ task_header "Installing homebrew packages"
 install_brew_pkg "gh"
 install_brew_pkg "neovim"
 install_brew_pkg "tmux"
-install_brew_pkg "docker"
 install_brew_pkg "ripgrep"
 install_brew_pkg "circleci"
 install_brew_pkg "jq"
@@ -627,11 +626,15 @@ install_brew_casks
 log_ln
 task_header "Git & Github authentication"
 setup_git_ssh
-setup_gh_cli
 
-log_ln
-task_header "Cloning all user repos to '${CODE_DIR_PATH}'"
-clone_user_repos
+# This is interactive, maybe we prompt for a token or something
+#setup_gh_cli
+
+# Won't have my SSH keys uploaded by this point, so won't be able to clone
+
+#log_ln
+#task_header "Cloning all user repos to '${CODE_DIR_PATH}'"
+#clone_user_repos
 
 log_ln
 task_header "Configuring neovim"
