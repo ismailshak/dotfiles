@@ -311,10 +311,17 @@ function _install_homebrew() {
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
+function _handle_homebrew_path() {
+  # TODO: maybe handle intel macs?
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/ielshakankiry/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+}
+
 function install_homebrew() {
   local prefix=$(job_prefix "homebrew")
   if [ ! -x /usr/local/bin/brew ] && [ ! -x /opt/homebrew/bin/brew ]; then
       spinner "$TAB{s} $prefix: Installing..." _install_homebrew
+      execute _handle_homebrew_path
       erase_line && prompt_success "${prefix}: Installed $(grey $(brew --version | head -n 1))"
   else
       prompt_success "${prefix}: Already installed $(grey $(brew --version | head -n 1))"
