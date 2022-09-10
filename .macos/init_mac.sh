@@ -539,6 +539,15 @@ function sync_tmuxconf() {
   sync_file "$CODE_DIR_PATH/dotfiles/.tmux.conf" "$target_path" "tmux config"
 }
 
+# Disabled the welcome log when you open a terminal
+function sync_hushlogin() {
+  local target_path=~/.hushlogin
+  if [ ! -f "$target_path" ]; then
+    touch "$target_path"
+  fi
+  sync_file "$CODE_DIR_PATH/dotfiles/.hushlogin" "$target_path" "hushlogin"
+}
+
 # INPUT FONT
 # ----------
 
