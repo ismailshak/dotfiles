@@ -679,6 +679,7 @@ task_header "Syncing dotfiles"
 sync_gitconfig
 sync_zshrc
 sync_tmuxconf
+sync_hushlogin
 
 log_ln
 task_header "Installing Input font"
