@@ -295,13 +295,17 @@ function _install_oh_my_zsh() {
   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
+function _oh_my_zsh_theme() {
+  sed -i '' 's/^ZSH_THEME=.*/ZSH_THEME="spaceship"/g' ~/.zshrc
+}
+
 function install_oh_my_zsh() {
   local prefix=$(job_prefix "oh-my-zsh")
-  # TODO: replace ZSH_THEME var with 'spaceship'
   # echo "Setting oh-my-zsh to 'spaceship' theme"
   if [ ! -d ~/.oh-my-zsh ]; then
     spinner "$TAB{s} $prefix: Installing..." _install_oh_my_zsh
     erase_line && prompt_success "${prefix}: Installed"
+    execute _oh_my_zsh_theme
   else
     prompt_success "${prefix}: Already installed"
   fi
