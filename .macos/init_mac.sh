@@ -51,6 +51,10 @@ function exit_handler() {
 # Register handler to trap
 trap 'exit_handler' SIGINT
 
+source_zshrc() {
+  source ~/.zshrc
+}
+
 # COMMAND HELPERS
 # ---------------
 
@@ -296,7 +300,15 @@ function _install_oh_my_zsh() {
 }
 
 function _oh_my_zsh_theme() {
+  # Clone repo
+  git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+  # Symlink spaceship.zsh-theme to oh-my-zsh custom themes directory
+  ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+  # Replace default theme with spaceship
   sed -i '' 's/^ZSH_THEME=.*/ZSH_THEME="spaceship"/g' ~/.zshrc
+
+  # Source zshrc so changes take effect
+  source_zshrc
 }
 
 function install_oh_my_zsh() {
@@ -646,7 +658,6 @@ install_brew_pkg "tmux"
 install_brew_pkg "ripgrep"
 install_brew_pkg "circleci"
 install_brew_pkg "jq"
-install_brew_pkg "spaceship"
 install_brew_pkg "stylua"
 
 log_ln
@@ -691,7 +702,6 @@ task_header "List of things that need manual setup"
 log_todo "🔒" "Log into all the things"
 log_todo "📌" "Packer install remaining neovim plugins"
 log_todo "🔋" "Restore Alfred pack"
-log_todo "🪐" "Set oh-my-zsh theme to 'spaceship'"
 log_todo "☁️ " "Visit https://github.com/settings/keys and paste the key was copied to your clipboard" && pbcopy < ~/.ssh/id_rsa.pub
 log_todo "🔣" "Set VSCode & iTerm's font to Input"
 
