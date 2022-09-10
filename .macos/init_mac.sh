@@ -428,7 +428,7 @@ function configure_neovim() {
 
 function _setup_ssh() {
   touch ~/.ssh/config
-  ssh-keygen -q -t rsa -b 4096 -C "$GITHUB_EMAIL" -N '' -f ~/.ssh/id_rsa_fake <<<y
+  ssh-keygen -q -t rsa -b 4096 -C "$GITHUB_EMAIL" -N '' -f ~/.ssh/id_rsa <<<y
   echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_rsa" | tee ~/.ssh/config
   eval "$(ssh-agent -s)"
 }
