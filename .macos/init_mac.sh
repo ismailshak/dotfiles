@@ -256,7 +256,7 @@ function configure_general_settings() {
   # Enable tap to click
   execute defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
   # Disable “natural” (Lion-style) scrolling
-  execute defaults write NSGlobalDomain com.apple.swipescrolldirection -int 0
+  #execute defaults write NSGlobalDomain com.apple.swipescrolldirection -int 0
   # Set a fast key repeat rate
   execute defaults write NSGlobalDomain KeyRepeat -int 2
   execute defaults write NSGlobalDomain InitialKeyRepeat -int 15
