@@ -366,8 +366,8 @@ function _golang_vars() {
 function install_go() {
   local prefix=$(job_prefix "golang")
   if ! execute which go; then
-    spinner "$TAB{s} $prefix: Preparing..." _golang_vars
     spinner "$TAB{s} $prefix: Installing..." brew install go
+    spinner "$TAB{s} $prefix: Preparing..." _golang_vars
     erase_line && prompt_success "${prefix}: Installed $(grey $(go version))"
   else
     prompt_success "${prefix}: Already installed $(grey "$(go version)")"
