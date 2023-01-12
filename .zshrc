@@ -24,7 +24,7 @@ alias catt="bat"
 
 killport() { kill -9 $(lsof -i:$1 -t) }
 cdiff() { code --diff "$1" "$2" }
-diff() {
+gdiff() {
 	# If no args, use default diff command
 	if [ $# -eq 0 ]; then
 		git diff
