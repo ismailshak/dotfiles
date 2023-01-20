@@ -43,10 +43,38 @@ M.format_tab_title = function(tab)
 	})
 end
 
+M.get_battery_icon = function(percentage, state)
+	local icon = wezterm.nerdfonts.fa_battery_empty
+	if percentage > 0.99 then
+		icon = wezterm.nerdfonts.fa_battery_full
+	elseif percentage > 0.74 then
+		icon = wezterm.nerdfonts.fa_battery_three_quarters
+	elseif percentage > 0.49 then
+		icon = wezterm.nerdfonts.fa_battery_half
+	elseif percentage > 0.24 then
+		icon = percentage > wezterm.nerdfonts.fa_battery_quarter
+	end
+
+	if state == "Charging" and percentage < 1.0 then
+		icon = wezterm.nerdfonts.fa_bolt .. " " .. icon
+	end
+
+	if state == "Full" or (state == "Charging" and percentage == 1.0) then
+		icon = wezterm.nerdfonts.mdi_power_plug .. " " .. icon
+	end
+
+	return icon
+end
+
 M.set_status = function(window)
+	local battery = wezterm.battery_info()[1]
+	local battery_icon = M.get_battery_icon(battery.state_of_charge, battery.state)
 	window:set_right_status(wezterm.format({
 		{ Attribute = { Intensity = "Half" } },
-		{ Text = wezterm.strftime(" %A, %d %B %Y %I:%M %p ") },
+		{ Text = wezterm.strftime(" %a %b %-d %I:%M%P ") },
+		{ Foreground = { Color = palette.dark_fg } },
+		{ Background = { Color = palette.light_bg } },
+		{ Text = " " .. battery_icon .. "  " },
 	}))
 end
 

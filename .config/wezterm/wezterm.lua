@@ -20,7 +20,6 @@ return {
 	tab_bar_at_bottom = true,
 	show_new_tab_button_in_tab_bar = false,
 	tab_max_width = 50,
-
 	colors = {
 		tab_bar = {
 			-- The color of the strip that goes along the top/bottom of the window
