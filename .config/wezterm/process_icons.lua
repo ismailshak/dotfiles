@@ -12,6 +12,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.lavender } },
 		{ Text = wezterm.nerdfonts.cod_terminal_bash },
 	},
+	["bat"] = {
+		{ Foreground = { Color = palette.lavender } },
+		{ Text = wezterm.nerdfonts.mdi_page_first },
+	},
 	["beam.smp"] = {
 		{ Foreground = { Color = palette.purple } },
 		{ Text = wezterm.nerdfonts.custom_elixir },
