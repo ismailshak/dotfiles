@@ -4,9 +4,17 @@ local palette = require("colors").palette
 local M = {}
 
 M.process_icons = {
+	["aws"] = {
+		{ Foreground = { Color = palette.orange } },
+		{ Text = wezterm.nerdfonts.dev_aws },
+	},
 	["bash"] = {
 		{ Foreground = { Color = palette.lavender } },
 		{ Text = wezterm.nerdfonts.cod_terminal_bash },
+	},
+	["beam.smp"] = {
+		{ Foreground = { Color = palette.purple } },
+		{ Text = wezterm.nerdfonts.custom_elixir },
 	},
 	["cargo"] = {
 		{ Foreground = { Color = palette.red } },
@@ -14,7 +22,7 @@ M.process_icons = {
 	},
 	["curl"] = {
 		{ Foreground = { Color = palette.lavender } },
-		{ Text = wezterm.nerdfonts.mdi_flattr },
+		{ Text = wezterm.nerdfonts.cod_terminal_cmd },
 	},
 	["docker"] = {
 		{ Foreground = { Color = palette.blue } },
@@ -39,6 +47,10 @@ M.process_icons = {
 	["node"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.mdi_hexagon },
+	},
+	["Python"] = {
+		{ Foreground = { Color = palette.yellow } },
+		{ Text = wezterm.nerdfonts.dev_python },
 	},
 	["nvim"] = {
 		{ Foreground = { Color = palette.green } },

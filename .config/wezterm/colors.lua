@@ -12,9 +12,12 @@ M.palette = {
 	background = scheme_colors.background,
 
 	-- specific colors
-	red = "D14A32",
-	green = "A6E3A1",
+	red = "#D14A32",
+	green = "#A6E3A1",
 	blue = "#89B4FA",
+	orange = "#DD9344",
+	purple = "#4E2A8E",
+	yellow = "#F9DC66",
 	maroon = "#EBA0AC",
 	lavender = "#B4BEFE",
 }
