@@ -23,21 +23,21 @@ return {
 
 	colors = {
 		tab_bar = {
-			-- The color of the strip that goes along the top of the window
+			-- The color of the strip that goes along the top/bottom of the window
 			-- (does not apply when fancy tab bar is in use)
 			background = palette.dark_bg,
 		},
 	},
 
 	-- Window settings
+	window_background_opacity = 1.0,
+	window_decorations = "RESIZE",
 	window_padding = {
 		left = 0,
 		right = 0,
 		top = 0,
 		bottom = 0,
 	},
-	window_background_opacity = 1.0,
-	window_decorations = "RESIZE",
 
 	-- Key bindings
 	leader = { key = ",", mods = "CTRL", timeout_milliseconds = 1000 },
