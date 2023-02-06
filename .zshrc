@@ -4,11 +4,6 @@
 
 export PATH="bin:node_modules/.bin:$PATH" # Add node_modules to PATH export
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-[ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
-
-
 # General aliases
 
 alias ..="cd ../"
@@ -22,6 +17,8 @@ alias ip="ifconfig | grep broadcast"
 alias openport="npx localtunnel --port"
 alias catt="bat"
 
+delete_all_dirs() { find . -name "$1" -type d -print -prune -exec rm -rf '{}' \; }
+delete_all_files() { find . -name "$1" -type f -print -prune -exec rm -f '{}' \; }
 killport() { kill -9 $(lsof -i:$1 -t) }
 cdiff() { code --diff "$1" "$2" }
 gdiff() {
@@ -32,7 +29,6 @@ gdiff() {
 		git diff --color --no-index "$1" "$2"
 	fi
 }
-delete_all_dirs() { find . -name "$1" -type d -print -prune -exec rm -rf '{}' \; }
 
 # npm aliases
 
