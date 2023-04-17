@@ -29,6 +29,7 @@ return {
 	},
 
 	-- Window settings
+	adjust_window_size_when_changing_font_size = false,
 	window_background_opacity = 1.0,
 	window_decorations = "RESIZE",
 	window_padding = {
