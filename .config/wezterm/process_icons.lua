@@ -56,9 +56,17 @@ M.process_icons = {
 		{ Foreground = { Color = palette.yellow } },
 		{ Text = wezterm.nerdfonts.dev_python },
 	},
+	["psql"] = {
+		{ Foreground = { Color = palette.lavender } },
+		{ Text = wezterm.nerdfonts.mdi_elephant },
+	},
 	["nvim"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.custom_vim },
+	},
+	["ssh"] = {
+		{ Foreground = { Color = palette.lavender } },
+		{ Text = wezterm.nerdfonts.cod_terminal },
 	},
 	["vim"] = {
 		{ Foreground = { Color = palette.green } },
