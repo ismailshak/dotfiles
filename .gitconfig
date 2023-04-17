@@ -15,7 +15,7 @@
 [fetch]
   prune = true
 [diff]
-  colorMoved = zebra
+  colorMoved = default
 [help]
   autocorrect = 50
 [alias]
@@ -28,3 +28,15 @@
   rs = reset --soft HEAD~1
   cleanup = "!git branch --merged | grep  -v '\\*\\|main\\|master\\|dev' | xargs -n 1 git branch -d"
 
+; delta-specific config
+[include]
+  path = ~/code/dotfiles/.config/delta/themes.gitconfig
+[core]
+  pager = delta
+[delta]
+  features = decorations navigate chameleon
+  side-by-side = true
+[interactive]
+  diffFilter = delta --color-only --features=interactive
+[delta "interactive"]
+  keep-plus-minus-markers = false
