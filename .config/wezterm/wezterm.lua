@@ -29,6 +29,8 @@ return {
 	},
 
 	-- Window settings
+	initial_rows = 50,
+	initial_cols = 160,
 	adjust_window_size_when_changing_font_size = false,
 	window_background_opacity = 1.0,
 	window_decorations = "RESIZE",
