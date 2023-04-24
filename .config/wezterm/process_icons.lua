@@ -68,6 +68,9 @@ M.process_icons = {
 		{ Foreground = { Color = palette.lavender } },
 		{ Text = wezterm.nerdfonts.cod_terminal },
 	},
+	["transit"] = {
+		{ Text = "🚇" },
+	},
 	["vim"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.dev_vim },
