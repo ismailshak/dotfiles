@@ -17,7 +17,7 @@
 [diff]
   colorMoved = default
 [help]
-  autocorrect = 50
+  autocorrect = 25
 [alias]
   aa = "add -A"
   amend = commit -a --amend --no-edit
