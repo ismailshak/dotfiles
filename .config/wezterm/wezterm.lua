@@ -10,7 +10,7 @@ wezterm.on("update-status", helpers.set_status)
 return {
 	-- Font & Theme
 	color_scheme = theme,
-	font = wezterm.font_with_fallback({ "Input Nerd Font", "JetBrains Mono" }),
+	font = wezterm.font_with_fallback({ "CommitMono Nerd Font", "Input Nerd Font", "JetBrains Mono" }),
 	font_size = 14.0,
 
 	-- Tab settings
