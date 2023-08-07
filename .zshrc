@@ -65,3 +65,6 @@ alias pnci="rm -rf node_modules && pnpm install --frozen-lock-file"
 alias asdfn="asdf install nodejs"
 alias asdfri="asdf reshim && asdf install"
 alias asdfi="asdf install"
+
+# Enable starship prompt
+eval "$(starship init zsh)"
