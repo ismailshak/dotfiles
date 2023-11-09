@@ -4,6 +4,8 @@
 # Inserts a blank line between shell prompts
 add_newline = true
 
+command_timeout=1000
+
 [character]
 # Replace the '❯' symbol in the prompt with '➜'
 success_symbol = '[➜](bold green)'
@@ -14,3 +16,4 @@ disabled = true # Enable if they support docker version
 
 [git_branch]
 format = 'on [$symbol$branch]($style) '
+
