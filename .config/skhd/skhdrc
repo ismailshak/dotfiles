@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Restart skhd
+cmd + alt + shift - s : skhd --restart-service
+
+# Toggle system wide dark mode
+cmd + alt + shift - a : dark-mode
+
