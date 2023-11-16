@@ -1,0 +1,15 @@
+#!/bin/bash
+# Cycles next focus through windows regardless of layout
+
+# Get the current layout
+LAYOUT=$(yabai -m query --spaces --space | jq '.type')
+
+# If the current layout is bsp, then use next command
+if [[ $LAYOUT == '"bsp"' ]]; then
+    yabai -m window --focus next || yabai -m window --focus first
+fi
+
+# If the current layout is stack, then use stack.next command
+if [[ $LAYOUT == '"stack"' ]]; then
+    yabai -m window --focus stack.next || yabai -m window --focus stack.first
+fi
