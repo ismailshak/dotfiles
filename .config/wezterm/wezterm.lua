@@ -16,7 +16,7 @@ return {
 		"Input Nerd Font",
 		"JetBrains Mono",
 	}),
-	font_size = 14.0,
+	font_size = 18.0,
 
 	-- Tab settings
 	hide_tab_bar_if_only_one_tab = true,
