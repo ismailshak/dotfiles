@@ -6,3 +6,60 @@ cmd + alt + shift - s : skhd --restart-service
 # Toggle system wide dark mode
 cmd + alt + shift - a : dark-mode
 
+# YABAI
+# =====
+
+# Restart yabai
+cmd + alt + shift - y : yabai --restart-service
+#
+# # Maximize focused window
+cmd + alt - m : yabai -m window --toggle zoom-fullscreen
+#
+# # Move windows to other displays
+cmd + alt - d : ~/.config/yabai/move-window.sh west
+cmd + alt - v : ~/.config/yabai/move-window.sh east
+#
+# Balance windows
+cmd + alt - b : yabai -m space --balance
+
+# Rotate layout clockwise
+cmd + alt - r : yabai -m space --rotate 270
+
+# Flip along y-axis
+cmd + alt - y : yabai -m space --mirror y-axis
+
+# Flip along x-axis
+cmd + alt - x : yabai -m space --mirror x-axis
+
+# Toggle split type
+cmd + alt - t : yabai -m window --toggle split
+
+# Resize focused window
+cmd + alt - h : yabai -m window --resize left:-50:0 || yabai -m window --resize right:-50:0
+cmd + alt - l : yabai -m window --resize right:50:0 || yabai -m window --resize left:50:0
+cmd + alt - j : yabai -m window --resize bottom:0:-50 || yabai -m window --resize top:0:-50
+cmd + alt - k : yabai -m window --resize bottom:0:50 || yabai -m window --resize top:0:50
+
+# Switch layouts
+cmd + alt - s : yabai -m space --layout stack
+cmd + alt - g : yabai -m space --layout bsp
+cmd + alt - f : yabai -m space --layout float
+
+# Toggle padding levels
+cmd + alt - p : ~/.config/yabai/toggle-padding.sh
+
+# Cycle focus through windows in the same space
+cmd + alt - n : ~/.config/yabai/cycle-next-focus.sh
+cmd + alt - o : ~/.config/yabai/cycle-prev-focus.sh
+
+# Cycle focus through displays
+cmd + alt + shift - n : yabai -m display --focus next || yabai -m display --focus first
+cmd + alt + shift - o : yabai -m display --focus prev || yabai -m display --focus last
+
+# Cycle spaces on a display
+cmd + alt + ctrl - n : yabai -m space --focus next || yabai -m space --focus first
+cmd + alt + ctrl - o : yabai -m space --focus prev || yabai -m space --focus last
+
+# Rotate windows keeping split unchanged
+cmd + alt - q : ~/.config/yabai/rotate-clockwise.sh
+cmd + alt - w : ~/.config/yabai/rotate-counterclockwise.sh
