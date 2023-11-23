@@ -330,7 +330,7 @@ function _install_homebrew() {
 }
 
 function _handle_homebrew_path() {
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "/Users/${whoami}/.zprofile"
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "/Users/$(whoami)/.zprofile"
   eval "$(/opt/homebrew/bin/brew shellenv)"
 }
 
