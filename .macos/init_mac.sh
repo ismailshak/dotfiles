@@ -346,9 +346,11 @@ function install_homebrew() {
 }
 
 function _handle_asdf_path() {
+  asdf_path=". $(brew --prefix asdf)/libexec/asdf.sh"
   append_zshrc ""
-  append_zshrc ". /opt/homebrew/opt/asdf/libexec/asdf.sh"
-  source_zshrc
+  append_zshrc "$asdf_path"
+  echo "Appended '$asdf_path' to ~/.zshrc"
+  echo "bin: $(which asdf)"
 }
 
 function install_asdf() {
@@ -360,11 +362,16 @@ function install_asdf() {
   else
     prompt_success "${prefix}: Already installed $(grey $(asdf --version))"
   fi
+
+  execute echo "YO"
 }
 
 function install_nodejs() {
+  execute echo "HERE"
   local prefix=$(job_prefix "nodejs")
+  execute echo "HERE 2"
   if ! execute which node; then
+    execute echo "HERE 3"
     spinner "$TAB{s} $prefix: Installing latest nodejs..." asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
     execute asdf install nodejs latest
     execute asdf global nodejs latest
@@ -679,6 +686,7 @@ task_header "Installing tools"
 install_oh_my_zsh # Install oh-my-zsh early, since it dominates the ~/.zshrc
 install_homebrew
 install_asdf
+execute echo "hello?"
 install_nodejs
 install_go
 install_neovim
