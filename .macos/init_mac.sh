@@ -346,7 +346,9 @@ function install_homebrew() {
 }
 
 function _handle_asdf_path() {
-  append_zshrc "\n. /opt/homebrew/opt/asdf/libexec/asdf.sh"
+  append_zshrc ""
+  append_zshrc ". /opt/homebrew/opt/asdf/libexec/asdf.sh"
+  source_zshrc
 }
 
 function install_asdf() {
