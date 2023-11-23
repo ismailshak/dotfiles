@@ -11,7 +11,6 @@ return {
 	-- Font & Theme
 	color_scheme = theme,
 	font = wezterm.font_with_fallback({
-		-- "Input Nerd Font",
 		"CommitMono Nerd Font",
 		"Input Nerd Font",
 		"JetBrains Mono",

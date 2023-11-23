@@ -195,7 +195,7 @@ function check_xcode() {
   if swallow xcode-select -p; then
     prompt_success "$prefix: Installed"
   else
-    prompt_failure "$prefix: Not found. Install it from the App Store"
+    prompt_failure "$prefix: Not found. Install it from the App Store or run \`xcode-select --install\`"
     # TODO: instead of exiting maybe we can wait for a confirmation and loop check until it is
     exit 1
   fi
@@ -295,17 +295,20 @@ function configure_dock() {
 # TOOLS
 # -----
 
+function append_zshrc() {
+  echo -e "$1" >> ${ZDOTDIR:-~}/.zshrc
+}
+
 function _install_oh_my_zsh() {
   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
-function _oh_my_zsh_theme() {
-  # Clone repo
-  git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
-  # Symlink spaceship.zsh-theme to oh-my-zsh custom themes directory
-  ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-  # Replace default theme with spaceship
-  sed -i '' 's/^ZSH_THEME=.*/ZSH_THEME="spaceship"/g' ~/.zshrc
+function _terminal_prompt_theme() {
+  # Execute install script
+  curl -sS https://starship.rs/install.sh | sh
+
+  # Configure theme
+  append_zshrc "eval \"\$(starship init zsh)\""
 
   # Source zshrc so changes take effect
   source_zshrc
@@ -313,11 +316,10 @@ function _oh_my_zsh_theme() {
 
 function install_oh_my_zsh() {
   local prefix=$(job_prefix "oh-my-zsh")
-  # echo "Setting oh-my-zsh to 'spaceship' theme"
   if [ ! -d ~/.oh-my-zsh ]; then
     spinner "$TAB{s} $prefix: Installing..." _install_oh_my_zsh
     erase_line && prompt_success "${prefix}: Installed"
-    execute _oh_my_zsh_theme
+    execute _terminal_prompt_theme
   else
     prompt_success "${prefix}: Already installed"
   fi
@@ -345,7 +347,7 @@ function install_homebrew() {
 }
 
 function _handle_asdf_path() {
-  echo -e "\n. /opt/homebrew/opt/asdf/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
+  append_zshrc "\n. /opt/homebrew/opt/asdf/libexec/asdf.sh"
 }
 
 function install_asdf() {
@@ -362,7 +364,6 @@ function install_asdf() {
 function install_nodejs() {
   local prefix=$(job_prefix "nodejs")
   if ! execute which node; then
-    spinner "$TAB{s} $prefix: Installing nodejs dependencies..." brew gpg gawk
     spinner "$TAB{s} $prefix: Installing latest nodejs..." asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
     execute asdf install nodejs latest
     execute asdf global nodejs latest
@@ -373,39 +374,67 @@ function install_nodejs() {
 }
 
 function _golang_vars() {
-  echo "export GOPATH=$HOME/go" >> ${ZDOTDIR:-~}/.zshrc
-  echo "export GOROOT=/opt/homebrew/opt/go/libexec" >> ${ZDOTDIR:-~}/.zshrc
-  source_zshrc # So we can reference these env vars
-  echo "export PATH=\"$PATH:$GOPATH/bin\"" >> ${ZDOTDIR:-~}/.zshrc
-  echo "export PATH=\"$PATH:$GOROOT/bin\"" >> ${ZDOTDIR:-~}/.zshrc
+  append_zshrc ". ~/.asdf/plugins/golang/set-env.zsh"
+  source_zshrc
 }
 
 function install_go() {
   local prefix=$(job_prefix "golang")
   if ! execute which go; then
-    spinner "$TAB{s} $prefix: Installing..." brew install go
+    spinner "$TAB{s} $prefix: Installing golang dependencies..." brew install coreutils
+    spinner "$TAB{s} $prefix: Installing..." asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
     spinner "$TAB{s} $prefix: Preparing..." _golang_vars
+    execute asdf install golang latest
+    execute asdf global golang latest
     erase_line && prompt_success "${prefix}: Installed $(grey $(go version))"
   else
     prompt_success "${prefix}: Already installed $(grey "$(go version)")"
   fi
 }
 
-# HOMEBREW PACKAGES / CASKS
+function install_neovim() {
+  local prefix=$(job_prefix "neovim")
+  if ! execute which nvim; then
+    spinner "$TAB{s} $prefix: Installing..." asdf plugin add neovim https://github.com/richin13/asdf-neovim.git
+    execute asdf install neovim latest
+    execute asdf global neovim latest
+    erase_line && prompt_success "${prefix}: Installed $(grey $(nvim --version | head -n 1))"
+  else
+    prompt_success "${prefix}: Already installed $(grey "$(nvim --version | head -n 1)")"
+  fi
+}
+
+function install_pnpm() {
+  local prefix=$(job_prefix "pnpm")
+  if ! execute which nvim; then
+    spinner "$TAB{s} $prefix: Installing..." asdf plugin add pnpm https://github.com/jonathanmorley/asdf-pnpm.git
+    execute asdf install pnpm latest
+    execute asdf global pnpm latest
+    erase_line && prompt_success "${prefix}: Installed $(grey $(pnpm --version))"
+  else
+    prompt_success "${prefix}: Already installed $(grey "$(pnpm --version)")"
+  fi
+}
+
+# HOMEBREW FORMULAS / CASKS
 # -------------------------
 
 function is_pkg_installed() {
   swallow brew list $@
 }
 
-function install_brew_pkg() {
-  local prefix=$(job_prefix "$1")
-  if ! is_pkg_installed $1; then
-    spinner "$TAB{s} $prefix: Installing..." brew install $1
-    erase_line && prompt_success "${prefix}: Installed"
-  else
-    prompt_success "${prefix}: Already installed"
-  fi
+function install_brew_packages() {
+  curl -sL https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos/formulas.txt |
+  while read FORMULA
+  do
+    local prefix=$(job_prefix "$FORMULA")
+    if ! is_pkg_installed $FORMULA; then
+      spinner "$TAB{s} $prefix: Installing..." brew install $FORMULA
+      erase_line && prompt_success "${prefix}: Installed"
+    else
+      prompt_success "${prefix}: Already installed"
+    fi
+  done
 }
 
 function install_brew_casks() {
@@ -423,16 +452,17 @@ function install_brew_casks() {
 }
 
 function _configure_neovim() {
-  git clone https://github.com/ismailshak/nvim ~/.config/nvim
+  # Symlink config
+  ln -s "$CODE_DIR_PATH/nvim" ~/.config/nvim
 
   # Install plugins
-  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  $ nvim --headless "+Lazy! sync" +qa
 }
 
 function configure_neovim() {
   local prefix=$(job_prefix "neovim")
   if [ ! -d ~/.config/nvim ]; then
-    spinner "$TAB{s} $prefix: Cloning config..." git clone https://github.com/ismailshak/nvim ~/.config/nvim
+    spinner "$TAB{s} $prefix: Cloning config..." git clone https://github.com/ismailshak/nvim "~/$CODE/nvim"
     erase_line && spinner "$TAB{s} $prefix: Configuring..." _configure_neovim
     erase_line && prompt_success "${prefix}: Configured"
   else
@@ -503,19 +533,19 @@ function clone_user_repos() {
 # DOCKER
 # ------
 
-#function wait_for_daemon() {
-#  until docker container ps
-#  do
-#    sleep 0.5
-#  done
-#}
+function wait_for_daemon() {
+  until docker version > /dev/null 2>&1
+  do
+    sleep 1
+  done
+}
 
-#function start_docker() {
-#  local prefix=$(job_prefix "docker daemon")x
-#  spinner "$TAB{s} $prefix: Starting desktop app in the background" open --hide --background -a Docker
-#  spinner "$TAB{s} $prefix: Waiting for daemon..." wait_for_daemon
-#  erase_line && prompt_success "${prefix}: Dameon running"
-#}
+function start_docker() {
+  local prefix=$(job_prefix "docker")
+  spinner "$TAB{s} $prefix: Starting desktop app in the background" open --hide --background -a Docker
+  spinner "$TAB{s} $prefix: Waiting for daemon..." wait_for_daemon
+  erase_line && prompt_success "${prefix}: Daemon running"
+}
 
 # DOTFILES
 # --------
@@ -564,6 +594,7 @@ function sync_hushlogin() {
   fi
   sync_file "$CODE_DIR_PATH/dotfiles/.hushlogin" "$target_path" "hushlogin"
 }
+
 
 # INPUT FONT
 # ----------
@@ -650,24 +681,20 @@ install_homebrew
 install_asdf
 install_nodejs
 install_go
+install_neovim
+install_pnpm
 
 log_ln
 task_header "Installing homebrew packages"
-install_brew_pkg "gh"
-install_brew_pkg "neovim"
-install_brew_pkg "tmux"
-install_brew_pkg "ripgrep"
-install_brew_pkg "circleci"
-install_brew_pkg "jq"
-install_brew_pkg "stylua"
+install_brew_packages
 
 log_ln
 task_header "Installing homebrew casks"
 install_brew_casks
 
-#log_ln
-#task_header "Starting docker daemon"
-#start_docker
+log_ln
+task_header "Starting docker daemon"
+start_docker
 
 log_ln
 task_header "Git & Github authentication"
