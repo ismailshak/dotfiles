@@ -1,11 +1,11 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 set -e
 
 # Inspired by: https://github.com/kentcdodds/dotfiles/blob/master/.macos
 #
 # Run without downloading:
-# curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos/init_mac.sh | bash
+# curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos/init_mac.sh | zsh
 
 #
 # TODO:
@@ -310,10 +310,8 @@ function _terminal_prompt_theme() {
   curl -sS https://starship.rs/install.sh | sh -s --  --yes
 
   # Configure theme
+  append_zshrc ""
   append_zshrc "eval \"\$(starship init zsh)\""
-
-  # Source zshrc so changes take effect
-  source_zshrc
 }
 
 function install_oh_my_zsh() {
@@ -376,7 +374,6 @@ function install_nodejs() {
 
 function _golang_vars() {
   append_zshrc ". ~/.asdf/plugins/golang/set-env.zsh"
-  source_zshrc
 }
 
 function install_go() {
