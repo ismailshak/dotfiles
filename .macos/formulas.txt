@@ -1,0 +1,17 @@
+bat
+circleci
+dark-mode
+delta
+fd
+fzf
+gh
+ismailshak/tap/transit
+jq
+lazydocker
+lazygit
+ripgrep
+skhd
+tmux
+wget
+yabai
+yq
