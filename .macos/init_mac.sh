@@ -305,7 +305,7 @@ function _install_oh_my_zsh() {
 
 function _terminal_prompt_theme() {
   # Execute install script
-  curl -sS https://starship.rs/install.sh | sh
+  curl -sS https://starship.rs/install.sh | sh --yes
 
   # Configure theme
   append_zshrc "eval \"\$(starship init zsh)\""
