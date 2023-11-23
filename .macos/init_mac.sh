@@ -196,7 +196,6 @@ function check_xcode() {
     prompt_success "$prefix: Installed"
   else
     prompt_failure "$prefix: Not found. Install it from the App Store or run \`xcode-select --install\`"
-    # TODO: instead of exiting maybe we can wait for a confirmation and loop check until it is
     exit 1
   fi
 }
@@ -305,7 +304,7 @@ function _install_oh_my_zsh() {
 
 function _terminal_prompt_theme() {
   # Execute install script
-  curl -sS https://starship.rs/install.sh | bash -s -- --yes
+  curl -sS https://starship.rs/install.sh | sh -s --  --yes
 
   # Configure theme
   append_zshrc "eval \"\$(starship init zsh)\""
