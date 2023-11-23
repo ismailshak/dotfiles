@@ -303,6 +303,9 @@ function _install_oh_my_zsh() {
 }
 
 function _terminal_prompt_theme() {
+  # Install dir does not yet exist
+  swallow sudo mkdir -p /usr/local/bin
+
   # Execute install script
   curl -sS https://starship.rs/install.sh | sh -s --  --yes
 
