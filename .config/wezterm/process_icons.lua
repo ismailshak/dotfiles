@@ -44,6 +44,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.blue } },
 		{ Text = wezterm.nerdfonts.mdi_language_go },
 	},
+	["lazygit"] = {
+		{ Foreground = { Color = palette.green } },
+		{ Text = wezterm.nerdfonts.dev_git_compare },
+	},
 	["lua"] = {
 		{ Foreground = { Color = palette.blue } },
 		{ Text = wezterm.nerdfonts.seti_lua },
@@ -63,6 +67,11 @@ M.process_icons = {
 	["nvim"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.custom_vim },
+	},
+	-- Spotify CLI
+	["spt"] = {
+		{ Foreground = { Color = palette.green } },
+		{ Text = wezterm.nerdfonts.md_spotify },
 	},
 	["ssh"] = {
 		{ Foreground = { Color = palette.lavender } },
