@@ -32,9 +32,9 @@
 [include]
   path = ~/code/dotfiles/.config/delta/themes.gitconfig
 [core]
-  pager = delta
+  pager = delta --features "$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo chameleon-dark || echo chameleon-light)"
 [delta]
-  features = decorations navigate chameleon
+  features = decorations navigate
   side-by-side = true
 [interactive]
   diffFilter = delta --color-only --features=interactive
