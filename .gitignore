@@ -3,3 +3,7 @@ nvim/plugin
 
 # files
 *.DS_Store
+
+# spt config
+.config/spotify-tui/.spotify_token_cache.json
+.config/spotify-tui/client.yml
