@@ -1,0 +1,9 @@
+# Symlinked
+# to: ~/Library/Application Support/lazygit/config.yml
+# from: ~/code/dotfiles/.config/lazygit/config.yml
+gui:
+  nerdFontsVersion: "3"
+git:
+  paging:
+    colorArg: always
+    useConfig: true
