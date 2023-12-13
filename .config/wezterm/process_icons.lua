@@ -80,6 +80,9 @@ M.process_icons = {
 	["transit"] = {
 		{ Text = "🚇" },
 	},
+	["wslhost.exe"] = {
+		{ Text = "🐧" },
+	},
 	["vim"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.dev_vim },

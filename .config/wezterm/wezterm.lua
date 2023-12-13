@@ -4,19 +4,18 @@ local colors = require("colors")
 local palette = colors.palette
 local theme = colors.theme
 
+wezterm.on("format-window-title", helpers.format_window_title)
 wezterm.on("format-tab-title", helpers.format_tab_title)
 wezterm.on("update-status", helpers.set_status)
 
 return {
+	-- Launch process
+	default_domain = helpers.get_domain(),
+
 	-- Font & Theme
 	color_scheme = theme,
-	font = wezterm.font_with_fallback({
-		-- "Input Nerd Font",
-		"CommitMono Nerd Font",
-		"Input Nerd Font",
-		"JetBrains Mono",
-	}),
-	font_size = 18.0,
+	font = helpers.get_font(),
+	font_size = helpers.get_initial_font_size(),
 
 	-- Tab settings
 	hide_tab_bar_if_only_one_tab = true,
@@ -34,11 +33,11 @@ return {
 	},
 
 	-- Window settings
-	initial_rows = 50,
-	initial_cols = 160,
+	initial_rows = helpers.get_initial_size().rows,
+	initial_cols = helpers.get_initial_size().cols,
 	adjust_window_size_when_changing_font_size = false,
 	window_background_opacity = 1.0,
-	window_decorations = "RESIZE",
+	window_decorations = helpers.get_window_decorations(),
 	window_padding = {
 		left = 0,
 		right = 0,

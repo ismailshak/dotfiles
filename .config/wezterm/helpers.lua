@@ -1,10 +1,57 @@
 local wezterm = require("wezterm")
 local palette = require("colors").palette
+local utils = require("utils")
 
 local M = {}
 
+M.get_domain = function()
+	if utils.is_windows() then
+		return "WSL:Ubuntu"
+	end
+
+	return "local"
+end
+
 M.get_current_working_dir = function(tab)
 	return tab.active_pane.current_working_dir
+end
+
+M.get_font = function()
+	if utils.is_windows() then
+		return wezterm.font("Input Nerd Font")
+	end
+
+	return wezterm.font("CommitMono Nerd Font")
+end
+
+M.get_window_decorations = function()
+	if utils.is_windows() then
+		return "TITLE | RESIZE"
+	end
+
+	return "RESIZE"
+end
+
+M.get_initial_font_size = function()
+	if utils.is_macos() then
+		return 18.0
+	end
+
+	return 12.0
+end
+
+M.get_initial_size = function()
+	if utils.is_macos() then
+		return {
+			rows = 50,
+			cols = 160,
+		}
+	end
+
+	return {
+		rows = 40,
+		cols = 120,
+	}
 end
 
 M.format_tab_dir = function(current_dir)
@@ -18,6 +65,10 @@ M.get_process = function(tab)
 	local process_name = string.gsub(tab.active_pane.foreground_process_name, "(.*[/\\])(.*)", "%2")
 
 	return wezterm.format(process_icons[process_name] or { { Text = string.format("[%s]", process_name) } })
+end
+
+M.format_window_title = function(tab, pane, tabs, panes, config)
+	return "wezterm"
 end
 
 M.format_tab_title = function(tab)
