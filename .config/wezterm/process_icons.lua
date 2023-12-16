@@ -14,7 +14,7 @@ M.process_icons = {
 	},
 	["bat"] = {
 		{ Foreground = { Color = palette.lavender } },
-		{ Text = wezterm.nerdfonts.mdi_page_first },
+		{ Text = wezterm.nerdfonts.md_bat },
 	},
 	["beam.smp"] = {
 		{ Foreground = { Color = palette.purple } },
@@ -42,7 +42,7 @@ M.process_icons = {
 	},
 	["go"] = {
 		{ Foreground = { Color = palette.blue } },
-		{ Text = wezterm.nerdfonts.mdi_language_go },
+		{ Text = wezterm.nerdfonts.md_language_go },
 	},
 	["lazygit"] = {
 		{ Foreground = { Color = palette.green } },
@@ -54,7 +54,7 @@ M.process_icons = {
 	},
 	["node"] = {
 		{ Foreground = { Color = palette.green } },
-		{ Text = wezterm.nerdfonts.mdi_hexagon },
+		{ Text = wezterm.nerdfonts.md_hexagon },
 	},
 	["Python"] = {
 		{ Foreground = { Color = palette.yellow } },
@@ -62,7 +62,7 @@ M.process_icons = {
 	},
 	["psql"] = {
 		{ Foreground = { Color = palette.lavender } },
-		{ Text = wezterm.nerdfonts.mdi_elephant },
+		{ Text = wezterm.nerdfonts.md_elephant },
 	},
 	["nvim"] = {
 		{ Foreground = { Color = palette.green } },
