@@ -6,10 +6,6 @@ local M = {}
 -- wezterm.gui is not available to the mux server, so take care to
 -- do something reasonable when this config is evaluated by the mux
 function M.get_system_background()
-	if not utils.is_macos() then
-		return "Dark"
-	end
-
 	if wezterm.gui then
 		return wezterm.gui.get_appearance():find("Dark") and "Dark" or "Light"
 	end
