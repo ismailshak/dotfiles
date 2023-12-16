@@ -4,7 +4,7 @@ local utils = require("utils")
 
 local M = {}
 
-M.get_domain = function()
+function M.get_domain()
 	if utils.is_windows() then
 		return "WSL:Ubuntu"
 	end
@@ -12,11 +12,11 @@ M.get_domain = function()
 	return "local"
 end
 
-M.get_current_working_dir = function(tab)
+function M.get_current_working_dir(tab)
 	return tab.active_pane.current_working_dir
 end
 
-M.get_font = function()
+function M.get_font()
 	if utils.is_windows() then
 		return wezterm.font("Input Nerd Font")
 	end
@@ -24,7 +24,7 @@ M.get_font = function()
 	return wezterm.font("CommitMono Nerd Font")
 end
 
-M.get_window_decorations = function()
+function M.get_window_decorations()
 	if utils.is_windows() then
 		return "TITLE | RESIZE"
 	end
@@ -32,7 +32,7 @@ M.get_window_decorations = function()
 	return "RESIZE"
 end
 
-M.get_initial_font_size = function()
+function M.get_initial_font_size()
 	if utils.is_macos() then
 		return 18.0
 	end
@@ -40,7 +40,7 @@ M.get_initial_font_size = function()
 	return 12.0
 end
 
-M.get_initial_size = function()
+function M.get_initial_size()
 	if utils.is_macos() then
 		return {
 			rows = 50,
@@ -54,24 +54,24 @@ M.get_initial_size = function()
 	}
 end
 
-M.format_tab_dir = function(current_dir)
+function M.format_tab_dir(current_dir)
 	local HOME_DIR = string.format("file://%s", os.getenv("HOME"))
 
 	return current_dir == HOME_DIR and "  ~" or string.format("%s", string.gsub(current_dir, "(.*[/\\])(.*)", "%2"))
 end
 
-M.get_process = function(tab)
+function M.get_process(tab)
 	local process_icons = require("process_icons").process_icons
 	local process_name = string.gsub(tab.active_pane.foreground_process_name, "(.*[/\\])(.*)", "%2")
 
 	return wezterm.format(process_icons[process_name] or { { Text = string.format("[%s]", process_name) } })
 end
 
-M.format_window_title = function(tab, pane, tabs, panes, config)
+function M.format_window_title(tab, pane, tabs, panes, config)
 	return "wezterm"
 end
 
-M.format_tab_title = function(tab)
+function M.format_tab_title(tab)
 	local edge_background = palette.dark_bg
 
 	if tab.is_active then
@@ -94,7 +94,7 @@ M.format_tab_title = function(tab)
 	})
 end
 
-M.get_battery_icon = function(percentage, state)
+function M.get_battery_icon(percentage, state)
 	local icon = wezterm.nerdfonts.fa_battery_empty
 	if percentage > 0.99 then
 		icon = wezterm.nerdfonts.fa_battery_full
@@ -117,7 +117,7 @@ M.get_battery_icon = function(percentage, state)
 	return icon
 end
 
-M.set_status = function(window)
+function M.set_status(window)
 	local battery = wezterm.battery_info()[1]
 	local battery_icon = M.get_battery_icon(battery.state_of_charge, battery.state)
 	window:set_right_status(wezterm.format({
