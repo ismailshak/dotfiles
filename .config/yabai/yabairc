@@ -19,3 +19,7 @@ yabai -m rule --add app="^Alfred Preferences$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
 yabai -m rule --add app="^QuickTime Player$" sticky=on manage=off
+yabai -m rule --add app="^Preview$" sticky=on manage=off
+yabai -m rule --add app="^Docker" sticky=on manage=off
+yabai -m rule --add app="^Zoom" sticky=on manage=of
+yabai -m rule --add app="^Podman" sticky=on manage=off
