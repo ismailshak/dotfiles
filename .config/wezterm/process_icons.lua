@@ -24,6 +24,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.red } },
 		{ Text = wezterm.nerdfonts.dev_rust },
 	},
+	["cargo-watch"] = {
+		{ Foreground = { Color = palette.red } },
+		{ Text = wezterm.nerdfonts.dev_rust },
+	},
 	["curl"] = {
 		{ Foreground = { Color = palette.lavender } },
 		{ Text = wezterm.nerdfonts.cod_terminal_cmd },
@@ -67,6 +71,10 @@ M.process_icons = {
 	["nvim"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.custom_vim },
+	},
+	["ruby"] = {
+		{ Foreground = { Color = palette.red } },
+		{ Text = wezterm.nerdfonts.dev_ruby_rough },
 	},
 	-- Spotify CLI
 	["spt"] = {
