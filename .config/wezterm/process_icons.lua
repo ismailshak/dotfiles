@@ -72,6 +72,14 @@ M.process_icons = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.custom_vim },
 	},
+	["rsync"] = {
+		{ Foreground = { Color = palette.maroon } },
+		{ Text = wezterm.nerdfonts.md_cloud_sync },
+	},
+	["rsync.samba"] = {
+		{ Foreground = { Color = palette.maroon } },
+		{ Text = wezterm.nerdfonts.md_cloud_sync },
+	},
 	["ruby"] = {
 		{ Foreground = { Color = palette.red } },
 		{ Text = wezterm.nerdfonts.dev_ruby_rough },
