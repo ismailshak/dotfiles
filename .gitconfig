@@ -18,6 +18,10 @@
   colorMoved = default
 [help]
   autocorrect = 25
+[log]
+  mailmap = true
+[mailmap]
+  file = "~/.mailmap"
 [alias]
   aa = "add -A"
   amend = commit -a --amend --no-edit
