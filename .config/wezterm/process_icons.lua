@@ -48,6 +48,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.blue } },
 		{ Text = wezterm.nerdfonts.md_language_go },
 	},
+	["htop"] = {
+		{ Foreground = { Color = palette.blue } },
+		{ Text = wezterm.nerdfonts.cod_server },
+	},
 	["lazygit"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.dev_git_compare },
@@ -91,7 +95,7 @@ M.process_icons = {
 	},
 	["ssh"] = {
 		{ Foreground = { Color = palette.lavender } },
-		{ Text = wezterm.nerdfonts.cod_terminal },
+		{ Text = wezterm.nerdfonts.md_ssh },
 	},
 	["transit"] = {
 		{ Text = "🚇" },
