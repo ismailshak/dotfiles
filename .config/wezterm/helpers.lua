@@ -111,7 +111,7 @@ function M.get_battery_icon(percentage, state)
 	end
 
 	if state == "Full" or (state == "Charging" and percentage == 1.0) then
-		icon = wezterm.nerdfonts.mdi_power_plug .. " " .. icon
+		icon = wezterm.nerdfonts.md_power_plug .. " " .. icon
 	end
 
 	return icon
