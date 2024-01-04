@@ -88,6 +88,7 @@ function M.format_tab_title(tab)
 		{ Background = { Color = edge_background } },
 		{ Text = M.get_process(tab) },
 		{ Text = " " },
+		{ Foreground = { Color = palette.light_bg } },
 		{ Text = M.format_tab_dir(current_dir) },
 		{ Foreground = { Color = palette.background } },
 		{ Text = "  ▕" },
@@ -122,6 +123,7 @@ function M.set_status(window)
 	local battery_icon = M.get_battery_icon(battery.state_of_charge, battery.state)
 	window:set_right_status(wezterm.format({
 		{ Attribute = { Intensity = "Half" } },
+		{ Foreground = { Color = palette.grey_fg } },
 		{ Text = wezterm.strftime(" %a %b %-d %I:%M%P ") },
 		{ Foreground = { Color = palette.dark_fg } },
 		{ Background = { Color = palette.light_bg } },
