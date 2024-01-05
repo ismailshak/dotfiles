@@ -16,8 +16,8 @@ cmd + alt + shift - y : yabai --restart-service
 cmd + alt - m : yabai -m window --toggle zoom-fullscreen
 #
 # # Move windows to other displays
-cmd + alt - d : ~/.config/yabai/move-window.sh west
-cmd + alt - v : ~/.config/yabai/move-window.sh east
+cmd + alt - d : ~/.config/yabai/move-window-display.sh west
+cmd + alt - v : ~/.config/yabai/move-window-display.sh east
 #
 # Balance windows
 cmd + alt - b : yabai -m space --balance
@@ -56,9 +56,9 @@ cmd + alt - o : ~/.config/yabai/cycle-prev-focus.sh
 cmd + alt + shift - n : yabai -m display --focus next || yabai -m display --focus first
 cmd + alt + shift - o : yabai -m display --focus prev || yabai -m display --focus last
 
-# Cycle spaces on a display
-cmd + alt + ctrl - n : yabai -m space --focus next || yabai -m space --focus first
-cmd + alt + ctrl - o : yabai -m space --focus prev || yabai -m space --focus last
+# Move windows to other spaces
+cmd + alt + ctrl - n : ~/.config/yabai/move-window-space.sh prev
+cmd + alt + ctrl - o : ~/.config/yabai/move-window-space.sh next
 
 # Rotate windows keeping split unchanged
 cmd + alt - q : ~/.config/yabai/rotate-clockwise.sh
