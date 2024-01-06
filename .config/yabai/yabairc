@@ -24,3 +24,5 @@ yabai -m rule --add app="^Docker" sticky=on manage=off
 yabai -m rule --add app="^Zoom" sticky=on manage=of
 yabai -m rule --add app="^Podman" sticky=on manage=off
 yabai -m rule --add label="Firfox PIP" app="^Firefox$" title="^(Picture-in-Picture)$" manage=off
+yabai -m rule --add app="^Arc$" title="^Space.*$" manage=off layer=below
+yabai -m rule --add app="^Arc$" title="^$" manage=off layer=below
