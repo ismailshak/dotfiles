@@ -13,7 +13,7 @@ function M.get_domain()
 end
 
 function M.get_current_working_dir(tab)
-	return tab.active_pane.current_working_dir
+	return tab.active_pane.current_working_dir.file_path or ""
 end
 
 function M.get_font()
