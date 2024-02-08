@@ -9,6 +9,9 @@ wezterm.on("format-tab-title", helpers.format_tab_title)
 wezterm.on("update-status", helpers.set_status)
 
 return {
+	-- Wezterm updates
+	check_for_updates = false,
+
 	-- Launch process
 	default_domain = helpers.get_domain(),
 
