@@ -23,6 +23,10 @@ disabled = true # Enable if they support docker version
 [git_branch]
 format = 'on [$symbol$branch]($style) '
 
+[c]
+symbol = " "
+style = "bold blue"
+
 [custom.nvim]
 command = "nvim --version | head -n 1 | cut -d ' ' -f 2"
 symbol = ""
