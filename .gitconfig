@@ -30,13 +30,18 @@
   ui = auto
 [alias]
   aa = "add -A"
-  amend = commit -a --amend --no-edit
-  b = checkout -b
-  cm = "commit -m"
+  amend = commit --all --amend --no-edit
+  co = checkout
+  cob = checkout -b
+  cm = commit -m
   poh = push origin HEAD
-  rh = reset --hard HEAD
   rs = reset --soft HEAD~1
+  rh = reset --hard HEAD
+  rho = "!git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)"
   cleanup = "!git branch --merged | grep  -v '\\*\\|main\\|master\\|dev' | xargs -n 1 git branch -d"
+  rb = rebase --committer-date-is-author-date
+  rbi = rebase -i --committer-date-is-author-date
+  rbc = rebase --continue
 
 ; delta-specific config
 [include]
