@@ -36,6 +36,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.blue } },
 		{ Text = wezterm.nerdfonts.linux_docker },
 	},
+	["dune"] = {
+		{ Foreground = { Color = palette.orange } },
+		{ Text = wezterm.nerdfonts.seti_ocaml },
+	},
 	["git"] = {
 		{ Foreground = { Color = palette.maroon } },
 		{ Text = wezterm.nerdfonts.dev_git },
