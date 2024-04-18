@@ -11,14 +11,14 @@ cmd + alt + shift - a : dark-mode
 
 # Restart yabai
 cmd + alt + shift - y : yabai --restart-service
-#
-# # Maximize focused window
+
+# Maximize focused window
 cmd + alt - m : yabai -m window --toggle zoom-fullscreen
-#
-# # Move windows to other displays
+
+# Move windows to other displays
 cmd + alt - d : ~/.config/yabai/move-window-display.sh west
 cmd + alt - v : ~/.config/yabai/move-window-display.sh east
-#
+
 # Balance windows
 cmd + alt - b : yabai -m space --balance
 
