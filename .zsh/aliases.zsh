@@ -50,10 +50,7 @@ alias nu="npm uninstall"
 alias nrs="npm run start"
 alias nrb="npm run build"
 alias nrt="npm run test"
-
-nr() {
-	npm run "$1"
-};
+alias nr="npm run"
 
 # pnpm aliases
 
@@ -62,10 +59,7 @@ alias pnu="pnpm uninstall"
 alias pns="pnpm start"
 alias pnb="pnpm build"
 alias pnt="pnpm run test"
-
-pnr() {
-  pnpm run "$1"
-};
+alias pnr="pnpm run"
 
 # asdf aliases
 
