@@ -40,6 +40,14 @@ M.process_icons = {
 		{ Foreground = { Color = palette.orange } },
 		{ Text = wezterm.nerdfonts.seti_ocaml },
 	},
+	["fd"] = {
+		{ Foreground = { Color = palette.blue } },
+		{ Text = wezterm.nerdfonts.md_magnify },
+	},
+	["find"] = {
+		{ Foreground = { Color = palette.blue } },
+		{ Text = wezterm.nerdfonts.md_magnify },
+	},
 	["git"] = {
 		{ Foreground = { Color = palette.maroon } },
 		{ Text = wezterm.nerdfonts.dev_git },
