@@ -9,6 +9,8 @@ alias openport="npx localtunnel --port"
 alias catt="bat"
 alias lg="lazygit"
 alias ld="lazydocker"
+alias e="exit"
+alias c="clear"
 
 delete_all_dirs() {
 	find . -name "$1" -type d -print -prune -exec rm -rf '{}' \;
