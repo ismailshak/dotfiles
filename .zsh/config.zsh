@@ -1,3 +1,15 @@
+# Custom ZSH configuration
+# ========================
+#
+# Run this to symlink this file to the expected directory:
+# ln -s ~/<path-to-this-dir>/.zsh ~/.zsh
+#
+# Then add the following at the end of your .zshrc:
+#
+# # Source custom configuration
+# [ -f ~/.zsh/config.zsh ] && source ~/.zsh/config.zsh
+
+
 # oh-my-zsh configuration
 #------------------------
 
