@@ -12,6 +12,9 @@ return {
 	-- Wezterm updates
 	check_for_updates = false,
 
+	-- System bell
+	audible_bell = "Disabled",
+
 	-- Launch process
 	default_domain = helpers.get_domain(),
 
