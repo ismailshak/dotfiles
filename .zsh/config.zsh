@@ -9,22 +9,6 @@
 # # Source custom configuration
 # [ -f ~/.zsh/config.zsh ] && source ~/.zsh/config.zsh
 
-
-# oh-my-zsh configuration
-#------------------------
-
-export ZSH="$HOME/.oh-my-zsh"
-
-# make omz history wrapper output timestamps
-HIST_STAMPS="yyyy.mm.dd"
-
-plugins=(git)
-
-# Load oh-my-zsh
-source $ZSH/oh-my-zsh.sh
-
-#------------------------
-
 # Initialize starship prompt
 eval "$(starship init zsh)"
 
@@ -43,3 +27,5 @@ source ~/.zsh/aliases.zsh
 # fzf aliases
 source ~/.zsh/fzf_aliases.zsh
 
+# history wrapper
+source ~/.zsh/history.zsh
