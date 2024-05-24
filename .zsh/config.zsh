@@ -21,11 +21,7 @@ export PATH="node_modules/.bin:$PATH"
 # Add global tools OPAM switch to PATH (OCaml)
 [ -d "$HOME/.opam/tools/bin" ] && export PATH="$PATH:$HOME/.opam/tools/bin"
 
-# main aliases
 source ~/.zsh/aliases.zsh
-
-# fzf aliases
 source ~/.zsh/fzf_aliases.zsh
-
-# history wrapper
 source ~/.zsh/history.zsh
+source ~/.zsh/keybinding.zsh
