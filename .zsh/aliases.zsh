@@ -9,6 +9,7 @@ alias openport="npx localtunnel --port"
 alias catt="bat"
 alias lg="lazygit"
 alias ld="lazydocker"
+alias n="nvim"
 alias e="exit"
 alias c="clear"
 
