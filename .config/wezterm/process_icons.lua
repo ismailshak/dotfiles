@@ -101,7 +101,7 @@ M.process_icons = {
 		{ Text = wezterm.nerdfonts.dev_ruby_rough },
 	},
 	-- Spotify CLI
-	["spt"] = {
+	["spotify_player"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.md_spotify },
 	},
