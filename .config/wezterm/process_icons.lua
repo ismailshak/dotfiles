@@ -28,6 +28,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.red } },
 		{ Text = wezterm.nerdfonts.dev_rust },
 	},
+  ["cbonsai"] = {
+		{ Foreground = { Color = palette.green } },
+		{ Text = wezterm.nerdfonts.md_tree },
+	},
 	["curl"] = {
 		{ Foreground = { Color = palette.lavender } },
 		{ Text = wezterm.nerdfonts.cod_terminal_cmd },
@@ -100,7 +104,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.red } },
 		{ Text = wezterm.nerdfonts.dev_ruby_rough },
 	},
-	-- Spotify CLI
+	["slides"] = {
+		{ Foreground = { Color = palette.blue } },
+		{ Text = wezterm.nerdfonts.md_presentation },
+	},
 	["spotify_player"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.md_spotify },
