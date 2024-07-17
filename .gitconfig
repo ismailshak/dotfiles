@@ -42,6 +42,7 @@
   rb = rebase --committer-date-is-author-date
   rbi = rebase -i --committer-date-is-author-date
   rbc = rebase --continue
+  rba = rebase --abort
 
 ; delta-specific config
 [include]
