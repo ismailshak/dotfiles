@@ -70,10 +70,29 @@ return {
 			action = wezterm.action.CloseCurrentPane({ confirm = false }),
 		},
 		{
+			key = "h",
+			mods = "CTRL|SHIFT",
+			action = wezterm.action.ActivatePaneDirection("Left"),
+		},
+		{
+			key = "k",
+			mods = "CTRL|SHIFT",
+			action = wezterm.action.ActivatePaneDirection("Up"),
+		},
+		{
+			key = "j",
+			mods = "CTRL|SHIFT",
+			action = wezterm.action.ActivatePaneDirection("Down"),
+		},
+		{
+			key = "l",
+			mods = "CTRL|SHIFT",
+			action = wezterm.action.ActivatePaneDirection("Right"),
+		},
+		{
 			key = "f",
 			mods = "LEADER",
 			action = wezterm.action.ToggleFullScreen,
 		},
-		{ key = "L", mods = "CTRL", action = wezterm.action.ShowDebugOverlay },
 	},
 }
