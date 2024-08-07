@@ -19,7 +19,7 @@ fkill() {
 }
 
 # checkout git branch/tag, with a preview showing the commits between the tag/branch and HEAD
-fco_preview() {
+fco() {
   local tags branches target
   branches=$(
     git --no-pager branch --all \
