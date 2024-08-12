@@ -9,6 +9,8 @@
 # # Source custom configuration
 # [ -f ~/.zsh/config.zsh ] && source ~/.zsh/config.zsh
 
+autoload -U compaudit compinit zrecompile
+
 # Initialize starship prompt
 eval "$(starship init zsh)"
 
