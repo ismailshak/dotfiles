@@ -9,7 +9,10 @@
 # # Source custom configuration
 # [ -f ~/.zsh/config.zsh ] && source ~/.zsh/config.zsh
 
-autoload -U compaudit compinit zrecompile
+autoload -U compaudit compinit zrecompile && compinit
+
+# Load completions from ~/.zsh/completion
+fpath=(~/.zsh/completion $fpath)
 
 # Initialize starship prompt
 eval "$(starship init zsh)"
