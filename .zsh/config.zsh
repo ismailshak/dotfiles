@@ -26,6 +26,12 @@ export PATH="node_modules/.bin:$PATH"
 # Add global tools OPAM switch to PATH (OCaml)
 [ -d "$HOME/.opam/tools/bin" ] && export PATH="$PATH:$HOME/.opam/tools/bin"
 
+# asdf configuration
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+# Add Golang bin to PATH
+. ~/.asdf/plugins/golang/set-env.zsh
+
 source ~/.zsh/aliases.zsh
 source ~/.zsh/fzf_aliases.zsh
 source ~/.zsh/history.zsh
