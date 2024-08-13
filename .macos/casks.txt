@@ -1,7 +1,7 @@
 alfred
 discord
-dropbox
 docker
+dropbox
 firefox
 iterm2
 lastpass
@@ -9,6 +9,7 @@ logitech-g-hub
 notion
 obsidian
 postman
+qmk-toolbox
 spotify
 tableplus
 visual-studio-code
