@@ -5,54 +5,55 @@ set -e
 # Inspired by: https://github.com/kentcdodds/dotfiles/blob/master/.macos
 #
 # Run without downloading:
-# curl https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos/init_mac.sh | bash
+# bash <(curl -s https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos/init_mac.sh)
 
 #
 # TODO:
-#     - add prompts for user interactions (--interactive mode basically)
-#     - look into exposing the spinner's task's exit code (so we can prompt_success or prompt_failure)
-
+#   - expose the spinner's task's exit code (so we can prompt_success or prompt_failure)
 
 # Settings
 LOG_FILE_PATH="/tmp/init_mac_logs.txt"
 CODE_DIR="code"
 CODE_DIR_PATH="${HOME}/${CODE_DIR}"
-GITHUB_USER="ismailshak"
-GITHUB_EMAIL="ismailshak94@yahoo.com"
 
 # UI
 TAB="  "
 PROMPT_ICON="?"
 SUCCESS_ICON="✓"
 FAILURE_ICON="✗"
-SPINNER_BLOCKS="▁ ▂ ▃ ▄ ▅ ▆ ▇ █ ▇ ▆ ▅ ▄ ▃ ▁"
-SPINNER_BRAILLE="⣾⣽⣻⢿⡿⣟⣯⣷"
-SPINNER_CIRCLES="◐ ◓ ◑ ◒"
-SPINNER_TRIANGLES="◢ ◣ ◤ ◥"
+# SPINNER_BLOCKS="▁ ▂ ▃ ▄ ▅ ▆ ▇ █ ▇ ▆ ▅ ▄ ▃ ▁"
+SPINNER_BRAILLE="⣷⣯⣟⡿⢿⣻⣽⣾"
+# SPINNER_CIRCLES="◐ ◓ ◑ ◒"
+# SPINNER_TRIANGLES="◢ ◣ ◤ ◥"
 SPINNER=$SPINNER_BRAILLE
+
+# Values to set
+GITHUB_USER_EMAIL=""
+GITHUB_SCRIPT_TOKEN=""
+export GITHUB_SSH_KEY_TITLE="" # Exporting because `jq` usage later
 
 # UTILITY
 # -------
 
 function write_to_log() {
-  echo -e "$@" >> "$LOG_FILE_PATH"
+	echo -e "$@" >>"$LOG_FILE_PATH"
 }
 
 # Trap Ctrl+C. Print a message before exiting
 function exit_handler() {
-  echo
-  echo
-  echo "Cancelling... (script can be reran safely)"
-  write_to_log "\n\n****** Script was cancelled $(date) ******"
+	echo
+	echo
+	echo "Cancelling... (script can be reran safely)"
+	write_to_log "\n\n****** Script was cancelled $(date) ******"
 
-  exit
+	exit
 }
 
 # Register handler to trap
 trap 'exit_handler' SIGINT
 
 source_zshrc() {
-  source ~/.zshrc
+	source ~/.zshrc
 }
 
 # COMMAND HELPERS
@@ -60,36 +61,35 @@ source_zshrc() {
 
 # Run command and redirect all output to a log file
 function execute() {
-  write_to_log "\n-----------------------\nOutput from: '$*'\n-----------------------\n"
-  $@ >> "$LOG_FILE_PATH" 2>&1
+	write_to_log "\n-----------------------\nOutput from: '$*'\n-----------------------\n"
+	"$@" >>"$LOG_FILE_PATH" 2>&1
 }
 
 # Redirect all output to the void
 function swallow() {
-  $@ &> /dev/null
+	"$@" &>/dev/null
 }
 
 # Wrap command with a spinner. Leaves cursor on the same line as spinner label
 function spinner() {
-  # Run given command in the background
-  execute ${@:2} &
+	# Run given command in the background
+	execute "${@:2}" &
 
-  # Process id of the supplied command
-  pid=$!
+	# Process id of the supplied command
+	pid=$!
 
-  # Iterate until the process exits
-  i=0
-  length=${#SPINNER}
-  symbol="{s}"
-  while kill -0 $pid 2>/dev/null
-  do
-    i=$(( (i+1) % $length ))
-    # We take the first argument and substitute the symbol with the spinner
-    echo -ne "\r${1/$symbol/${SPINNER:$i:1}}"
-    sleep .15
-  done
-  # TODO: Figure out background command exit code and handle it
-  # echo "$?"
+	# Iterate until the process exits
+	i=0
+	length=${#SPINNER}
+	symbol="{s}"
+	while kill -0 $pid 2>/dev/null; do
+		i=$(((i + 1) % $length))
+		# We take the first argument and substitute the symbol with the spinner
+		echo -ne "\r${1/$symbol/${SPINNER:$i:1}}"
+		sleep .15
+	done
+	# TODO: Figure out background command exit code and handle it
+	# echo "$?"
 }
 
 # LOG FUNCTIONS
@@ -97,12 +97,12 @@ function spinner() {
 
 # Output cursor will remain on the same line
 function log() {
-  echo -e -n "$*"
+	echo -e -n "$*"
 }
 
 # Console cursor will jump to the next line
 function log_ln() {
-  echo -e "$@"
+	echo -e "$@"
 }
 
 # CURSOR FUNCTIONS
@@ -110,79 +110,79 @@ function log_ln() {
 
 # Move cursor back to the beginning of the current line
 function erase_line() {
-  echo -n -e "\r\033[0K"
+	echo -n -e "\r\033[0K"
 }
 
 # Move cursor back to the beginning of the previous line
 function erase_previous_line() {
-  echo -e "\r\033[1A\033[0K$@"
+	echo -e "\r\033[1A\033[0K$*"
 }
 
 # COLOR FUNCTIONS
 # ---------------
 
 function bold() {
-  log_ln "\x1B[1m$*\x1B[0m"
+	log_ln "\x1B[1m$*\x1B[0m"
 }
 function underline() {
-  log_ln "\x1B[4m$*\x1B[0m"
+	log_ln "\x1B[4m$*\x1B[0m"
 }
-function white(){
-  log_ln "\x1B[37m$*\x1B[0m"
+function white() {
+	log_ln "\x1B[37m$*\x1B[0m"
 }
 function grey() {
-  log_ln "\x1B[90m$*\x1B[0m"
+	log_ln "\x1B[90m$*\x1B[0m"
 }
-function black(){
-  log_ln "\x1B[30m$*\x1B[0m"
+function black() {
+	log_ln "\x1B[30m$*\x1B[0m"
 }
-function red(){
-  log_ln "\x1B[31m$*\x1B[0m"
+function red() {
+	log_ln "\x1B[31m$*\x1B[0m"
 }
-function green(){
-  log_ln "\x1B[32m$*\x1B[0m"
+function green() {
+	log_ln "\x1B[32m$*\x1B[0m"
 }
-function yellow(){
-  log_ln "\x1B[33m$*\x1B[0m"
+function yellow() {
+	log_ln "\x1B[33m$*\x1B[0m"
 }
-function blue(){
-  log_ln "\x1B[34m$*\x1B[0m"
+function blue() {
+	log_ln "\x1B[34m$*\x1B[0m"
 }
-function purple(){
-  log_ln "\x1B[35m$*\x1B[0m"
+function purple() {
+	log_ln "\x1B[35m$*\x1B[0m"
 }
-function cyan(){
-  log_ln "\x1B[36m$*\x1B[0m"
+function cyan() {
+	log_ln "\x1B[36m$*\x1B[0m"
 }
 
 # UI
 # --
 
 function job_prefix() {
-  log "$(purple $1)"
+	log "$(purple $1)"
 }
 
 function task_header() {
-  log_ln "- $(bold $1)"
+	log_ln "- $(bold $1)"
 }
 
 function log_todo() {
-  log_ln "$TAB$1 $2"
+	log_ln "$TAB$1 $2"
 }
 
 # PROMPT HELPERS
 # --------------
 
 function prompt() {
-  log "$TAB$(cyan $PROMPT_ICON) $1"
+	log "$TAB$(cyan $PROMPT_ICON) $1"
 }
 
 function prompt_success() {
-  erase_line && echo "$TAB$(green $SUCCESS_ICON) $1"
+	erase_line && echo "$TAB$(green $SUCCESS_ICON) $1"
 }
 
 function prompt_failure() {
-  erase_line && echo "$TAB$(red $FAILURE_ICON) $1"
+	erase_line && echo "$TAB$(red $FAILURE_ICON) $1"
 }
 
 # VALIDATION HELPERS
@@ -190,54 +190,82 @@ function prompt_failure() {
 
 # Specifically, Xcode's command line tools
 function check_xcode() {
-  local prefix=$(job_prefix "Xcode")
-  prompt "$prefix: ..."
-  if swallow xcode-select -p; then
-    prompt_success "$prefix: Installed"
-  else
-    prompt_failure "$prefix: Not found. Install it from the App Store"
-    # TODO: instead of exiting maybe we can wait for a confirmation and loop check until it is
-    exit 1
-  fi
+	local prefix=$(job_prefix "Xcode")
+	prompt "$prefix: ..."
+	if swallow xcode-select -p; then
+		prompt_success "$prefix: Installed"
+	else
+		prompt_failure "$prefix: Not found. Run 'xcode-select install'"
+		# TODO: instead of exiting maybe we can wait for a confirmation and loop check until it is
+		exit 1
+	fi
 }
 
 # Do we have internet access
 function check_internet() {
-  local prefix=$(job_prefix "Internet")
-  prompt "$prefix..."
-  if swallow nc -zw1 google.com 443; then
-    prompt_success "$prefix: Connected"
-  else
-    prompt_failure "$prefix: Check your internet connection"
-    exit 1
-  fi
+	local prefix=$(job_prefix "Internet")
+	prompt "$prefix..."
+	if swallow nc -zw1 google.com 443; then
+		prompt_success "$prefix: Connected"
+	else
+		prompt_failure "$prefix: Check your internet connection"
+		exit 1
+	fi
 }
 
 # Ask user to authorize upfront, and keep it alive until the script completes
 function check_privileges() {
-  local prefix=$(job_prefix "Admin privileges")
-  prompt "$prefix: "
-  if swallow sudo -v --non-interactive; then
-    prompt_success "$prefix: Already authorized"
-  else
-    sudo -v -p "Laptop password: "
-    erase_previous_line "$TAB$(green "$SUCCESS_ICON") $prefix: Authenticated"
-  fi
+	local prefix=$(job_prefix "Admin privileges")
+	prompt "$prefix: "
+	if swallow sudo -v --non-interactive; then
+		prompt_success "$prefix: Already authorized"
+	else
+		sudo -v -p "Laptop password: "
+		erase_previous_line "$TAB$(green "$SUCCESS_ICON") $prefix: Authenticated"
+	fi
 
-  # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
-  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+	# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+	while true; do
+		sudo -n true
+		sleep 60
+		kill -0 "$$" || exit
+	done 2>/dev/null &
 }
 
 # Create the directory where all user code repos will live
 function check_code_dir() {
-  local prefix=$(job_prefix "Code directory")
-  prompt "$prefix..."
-  if [[ -d "$CODE_DIR_PATH" ]]; then
-    prompt_success "$prefix: Already exists"
-  else
-    mkdir -p "${CODE_DIR_PATH}"
-    prompt_success "$prefix: Created '$CODE_DIR_PATH'"
-  fi
+	local prefix=$(job_prefix "Code directory")
+	prompt "$prefix..."
+	if [[ -d "$CODE_DIR_PATH" ]]; then
+		prompt_success "$prefix: Already exists"
+	else
+		mkdir -p "${CODE_DIR_PATH}"
+		prompt_success "$prefix: Created '$CODE_DIR_PATH'"
+	fi
+}
+
+# USER INPUT
+# ----------
+
+function prompt_github_email() {
+	local prefix=$(job_prefix "GitHub email")
+	prompt "$prefix: "
+	read -rp "" GITHUB_USER_EMAIL
+	erase_previous_line "$TAB$(green "$SUCCESS_ICON") $prefix: Stored"
+}
+
+function prompt_github_token() {
+	local prefix=$(job_prefix "GitHub token")
+	prompt "$prefix: "
+	read -srp "" GITHUB_SCRIPT_TOKEN
+	erase_line && echo "$TAB$(green "$SUCCESS_ICON") $prefix: Stored"
+}
+
+function prompt_github_ssh_key_title() {
+	local prefix=$(job_prefix "GitHub SSH key title")
+	prompt "$prefix: "
+	read -rp "" GITHUB_SSH_KEY_TITLE
+	erase_previous_line "$TAB$(green "$SUCCESS_ICON") $prefix: Stored"
 }
 
 # MAC SETTINGS
@@ -247,376 +275,345 @@ function check_code_dir() {
 # https://www.real-world-systems.com/docs/defaults.1.html
 
 function configure_general_settings() {
-  local prefix=$(job_prefix "General settings")
-  prompt "$prefix: ..."
-  # Disable automatic capitalization
-  execute defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -int 0
-  # Disable auto-correct
-  execute defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -int 0
-  # Enable tap to click
-  execute defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-  # Disable “natural” (Lion-style) scrolling
-  #execute defaults write NSGlobalDomain com.apple.swipescrolldirection -int 0
-  # Set a fast key repeat rate
-  execute defaults write NSGlobalDomain KeyRepeat -int 2
-  execute defaults write NSGlobalDomain InitialKeyRepeat -int 15
+	local prefix=$(job_prefix "General settings")
+	prompt "$prefix: ..."
+	# Disable automatic capitalization
+	execute defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -int 0
+	# Disable auto-correct
+	execute defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -int 0
+	# Enable tap to click
+	execute defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+	# Disable “natural” (Lion-style) scrolling
+	#execute defaults write NSGlobalDomain com.apple.swipescrolldirection -int 0
+	# Set a fast key repeat rate
+	execute defaults write NSGlobalDomain KeyRepeat -int 2
+	execute defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
-  prompt_success "$prefix: Updated"
+	prompt_success "$prefix: Updated"
 }
 
 function configure_finder() {
-  local prefix=$(job_prefix "Finder settings")
-  prompt "$prefix: ..."
-  # Remove items from trash after 30 days
-  execute defaults write com.apple.finder "FXRemoveOldTrashItems" -bool "true"
-  # Disable warning when changing file extension
-  execute defaults write com.apple.finder "FXEnableExtensionChangeWarning" -bool "false"
+	local prefix=$(job_prefix "Finder settings")
+	prompt "$prefix: ..."
+	# Remove items from trash after 30 days
+	execute defaults write com.apple.finder "FXRemoveOldTrashItems" -bool "true"
+	# Disable warning when changing file extension
+	execute defaults write com.apple.finder "FXEnableExtensionChangeWarning" -bool "false"
 
-  # Restart Finder
-  execute killall Finder
+	# Restart Finder
+	execute killall Finder
 
-  prompt_success "$prefix: Updated"
+	prompt_success "$prefix: Updated"
 }
 
 function configure_dock() {
-  local prefix=$(job_prefix "Dock settings")
-  prompt "$prefix: ..."
-  # Enable autohide
-  execute defaults write com.apple.dock "autohide" -int 1
-  # Set dock size
-  execute defaults write com.apple.dock tilesize -int 46
+	local prefix=$(job_prefix "Dock settings")
+	prompt "$prefix: ..."
+	# Enable autohide
+	execute defaults write com.apple.dock "autohide" -int 1
+	# Set dock size
+	execute defaults write com.apple.dock tilesize -int 46
 
-  # Restart Dock so settings take effect
-  execute killall Dock
+	# Restart Dock so settings take effect
+	execute killall Dock
 
-  prompt_success "$prefix: Updated"
+	prompt_success "$prefix: Updated"
 }
 
 # TOOLS
 # -----
 
-function _install_oh_my_zsh() {
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-}
-
-function _oh_my_zsh_theme() {
-  # Clone repo
-  git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
-  # Symlink spaceship.zsh-theme to oh-my-zsh custom themes directory
-  ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-  # Replace default theme with spaceship
-  sed -i '' 's/^ZSH_THEME=.*/ZSH_THEME="spaceship"/g' ~/.zshrc
-
-  # Source zshrc so changes take effect
-  source_zshrc
-}
-
-function install_oh_my_zsh() {
-  local prefix=$(job_prefix "oh-my-zsh")
-  # echo "Setting oh-my-zsh to 'spaceship' theme"
-  if [ ! -d ~/.oh-my-zsh ]; then
-    spinner "$TAB{s} $prefix: Installing..." _install_oh_my_zsh
-    erase_line && prompt_success "${prefix}: Installed"
-    execute _oh_my_zsh_theme
-  else
-    prompt_success "${prefix}: Already installed"
-  fi
-}
-
 function _install_homebrew() {
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
 function _handle_homebrew_path() {
-  # TODO: maybe handle intel macs?
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/ielshakankiry/.zprofile
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+	echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>"$HOME/.zprofile"
 }
 
 function install_homebrew() {
-  local prefix=$(job_prefix "homebrew")
-  if [ ! -x /usr/local/bin/brew ] && [ ! -x /opt/homebrew/bin/brew ]; then
-      spinner "$TAB{s} $prefix: Installing..." _install_homebrew
-      execute _handle_homebrew_path
-      erase_line && prompt_success "${prefix}: Installed $(grey $(brew --version | head -n 1))"
-  else
-      prompt_success "${prefix}: Already installed $(grey $(brew --version | head -n 1))"
-  fi
+	local prefix=$(job_prefix "homebrew")
+	if [ ! -x /usr/local/bin/brew ] && [ ! -x /opt/homebrew/bin/brew ]; then
+		spinner "$TAB{s} $prefix: Installing..." _install_homebrew
+		execute _handle_homebrew_path
+		eval "$(/opt/homebrew/bin/brew shellenv)"
+		erase_line && prompt_success "${prefix}: Installed $(grey "$(brew --version | head -n 1)")"
+	else
+		eval "$(/opt/homebrew/bin/brew shellenv)"
+		prompt_success "${prefix}: Already installed $(grey "$(brew --version | head -n 1)")"
+	fi
 }
 
+# Temporarily source asdf script since it will be added to zshrc later
 function _handle_asdf_path() {
-  echo -e "\n. /opt/homebrew/opt/asdf/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
+	. $(brew --prefix asdf)/libexec/asdf.sh
 }
 
 function install_asdf() {
-  local prefix=$(job_prefix "asdf")
-  if ! execute which asdf; then
-    spinner "$TAB{s} $prefix: Installing..." brew install asdf
-    execute _handle_asdf_path
-    erase_line && prompt_success "${prefix}: Installed $(grey $(asdf --version))"
-  else
-    prompt_success "${prefix}: Already installed $(grey $(asdf --version))"
-  fi
+	local prefix=$(job_prefix "asdf")
+	if ! execute which asdf; then
+		spinner "$TAB{s} $prefix: Installing..." brew install asdf
+		execute _handle_asdf_path
+		erase_line && prompt_success "${prefix}: Installed $(grey "$(asdf --version)")"
+	else
+		execute _handle_asdf_path
+		prompt_success "${prefix}: Already installed $(grey "$(asdf --version)")"
+	fi
 }
 
 function install_nodejs() {
-  local prefix=$(job_prefix "nodejs")
-  if ! execute which node; then
-    spinner "$TAB{s} $prefix: Installing nodejs dependencies..." brew gpg gawk
-    spinner "$TAB{s} $prefix: Installing latest nodejs..." asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-    execute asdf install nodejs latest
-    execute asdf global nodejs latest
-    erase_line && prompt_success "${prefix}: Installed $(grey $(node --version))"
-  else
-    prompt_success "${prefix}: Already installed $(grey "$(node --version)")"
-  fi
+	local prefix=$(job_prefix "nodejs")
+	if ! execute which node; then
+		spinner "$TAB{s} $prefix: Installing..." asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+		execute asdf install nodejs latest
+		execute asdf global nodejs latest
+		erase_line && prompt_success "${prefix}: Installed $(grey "$(node --version)")"
+	else
+		prompt_success "${prefix}: Already installed $(grey "$(node --version)")"
+	fi
 }
 
-function _golang_vars() {
-  echo "export GOPATH=$HOME/go" >> ${ZDOTDIR:-~}/.zshrc
-  echo "export GOROOT=/opt/homebrew/opt/go/libexec" >> ${ZDOTDIR:-~}/.zshrc
-  source_zshrc # So we can reference these env vars
-  echo "export PATH=\"$PATH:$GOPATH/bin\"" >> ${ZDOTDIR:-~}/.zshrc
-  echo "export PATH=\"$PATH:$GOROOT/bin\"" >> ${ZDOTDIR:-~}/.zshrc
+function install_pnpm() {
+	local prefix=$(job_prefix "pnpm")
+	if ! execute which pnpm; then
+		spinner "$TAB{s} $prefix: Installing..." asdf plugin add pnpm https://github.com/jonathanmorley/asdf-pnpm
+		execute asdf install pnpm latest
+		execute asdf global pnpm latest
+		erase_line && prompt_success "${prefix}: Installed $(grey "$(pnpm --version)")"
+	else
+		prompt_success "${prefix}: Already installed $(grey "$(pnpm --version)")"
+	fi
+
 }
 
 function install_go() {
-  local prefix=$(job_prefix "golang")
-  if ! execute which go; then
-    spinner "$TAB{s} $prefix: Installing..." brew install go
-    spinner "$TAB{s} $prefix: Preparing..." _golang_vars
-    erase_line && prompt_success "${prefix}: Installed $(grey $(go version))"
-  else
-    prompt_success "${prefix}: Already installed $(grey "$(go version)")"
-  fi
+	local prefix=$(job_prefix "golang")
+	if ! execute which go; then
+		spinner "$TAB{s} $prefix: Installing..." asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
+		execute asdf install golang latest
+		execute asdf global golang latest
+		erase_line && prompt_success "${prefix}: Installed $(grey "$(go version)")"
+	else
+		prompt_success "${prefix}: Already installed $(grey "$(go version)")"
+	fi
 }
 
-# HOMEBREW PACKAGES / CASKS
-# -------------------------
-
-function is_pkg_installed() {
-  swallow brew list $@
-}
-
-function install_brew_pkg() {
-  local prefix=$(job_prefix "$1")
-  if ! is_pkg_installed $1; then
-    spinner "$TAB{s} $prefix: Installing..." brew install $1
-    erase_line && prompt_success "${prefix}: Installed"
-  else
-    prompt_success "${prefix}: Already installed"
-  fi
-}
-
-function install_brew_casks() {
-  curl -sL https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos/casks.txt |
-  while read CASK
-  do
-    local prefix=$(job_prefix "$CASK")
-    if ! is_pkg_installed $CASK; then
-      spinner "$TAB{s} $prefix: Installing..." brew install --cask $CASK
-      erase_line && prompt_success "${prefix}: Installed"
-    else
-      prompt_success "${prefix}: Already installed"
-    fi
-  done
+function install_neovim() {
+	local prefix=$(job_prefix "neovim")
+	if [ ! -d ~/.config/nvim ]; then
+		spinner "$TAB{s} $prefix: Installing..." asdf plugin add neovim https://github.com/richin13/asdf-neovim.git
+		erase_line && prompt_success "${prefix}: Installed"
+	else
+		prompt_success "${prefix}: Already configured"
+	fi
 }
 
 function _configure_neovim() {
-  git clone https://github.com/ismailshak/nvim ~/.config/nvim
+	symlink_dir "$CODE_DIR_PATH/nvim" "$HOME/.config/nvim"
 
-  # Install plugins
-  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+	# Subshell to install neovim plugins so that changing directories doesn't affect the script
+	(
+		cd "$CODE_DIR_PATH/nvim"
+		asdf install
+		asdf global neovim $(cat .tool-versions | awk '/neovim/ {print $2}')
+	)
+
+	nvim --headless "+Lazy! sync" "+MasonToolsInstallSync" +qa
 }
 
 function configure_neovim() {
-  local prefix=$(job_prefix "neovim")
-  if [ ! -d ~/.config/nvim ]; then
-    spinner "$TAB{s} $prefix: Cloning config..." git clone https://github.com/ismailshak/nvim ~/.config/nvim
-    erase_line && spinner "$TAB{s} $prefix: Configuring..." _configure_neovim
-    erase_line && prompt_success "${prefix}: Configured"
-  else
-    prompt_success "${prefix}: Already configured"
-  fi
+	local prefix=$(job_prefix "neovim")
+	if [ ! -d ~/.config/nvim ]; then
+		spinner "$TAB{s} $prefix: Configuring..." _configure_neovim
+		erase_line && prompt_success "${prefix}: Configured"
+	else
+		prompt_success "${prefix}: Already configured"
+	fi
+}
+
+# HOMEBREW FORMULAS / CASKS
+# -------------------------
+
+function is_pkg_installed() {
+	swallow brew list "$@"
+}
+
+function install_brew_pkg() {
+	local prefix=$(job_prefix "$1")
+	if ! is_pkg_installed $1; then
+		spinner "$TAB{s} $prefix: Installing..." brew install $1
+		erase_line && prompt_success "${prefix}: Installed"
+	else
+		prompt_success "${prefix}: Already installed"
+	fi
+}
+
+function install_brew_casks() {
+	curl -sL https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos/casks.txt |
+		while read CASK; do
+			local prefix=$(job_prefix "$CASK")
+			if ! is_pkg_installed $CASK; then
+				spinner "$TAB{s} $prefix: Installing..." brew install --cask $CASK
+				erase_line && prompt_success "${prefix}: Installed"
+			else
+				prompt_success "${prefix}: Already installed"
+			fi
+		done
+}
+
+function install_brew_formulas() {
+	curl -sL https://raw.githubusercontent.com/ismailshak/dotfiles/main/.macos/formulas.txt |
+		while read FORMULA; do
+			local prefix=$(job_prefix "$FORMULA")
+			if ! is_pkg_installed "$FORMULA"; then
+				spinner "$TAB{s} $prefix: Installing..." brew install $FORMULA
+				erase_line && prompt_success "${prefix}: Installed"
+			else
+				prompt_success "${prefix}: Already installed"
+			fi
+		done
+
 }
 
 # GIT / GITHUB
 # ------------
 
 function _setup_ssh() {
-  touch ~/.ssh/config
-  ssh-keygen -q -t rsa -b 4096 -C "$GITHUB_EMAIL" -N '' -f ~/.ssh/id_rsa <<<y
-  echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_rsa" | tee ~/.ssh/config
-  eval "$(ssh-agent -s)"
+	# Generate a new SSH key
+	ssh-keygen -q -t ed25519 -C "$GITHUB_USER_EMAIL" -N '' -f ~/.ssh/id_ed25519 <<<y
+
+	# Create a config file to store the ssh-agent settings
+	touch ~/.ssh/config
+	echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_rsa" | tee ~/.ssh/config
+
+	# Start the ssh-agent in the background
+	eval "$(ssh-agent -s)"
+
+	# Add private key to the ssh-agent and store passphrase in the keychain
+	ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 }
 
 function setup_git_ssh() {
-  local prefix=$(job_prefix "git SSH credentials")
-  if [ ! -s ~/.ssh/id_rsa ]; then
-    spinner "$TAB{s} $prefix: Configuring..." _setup_ssh
-    erase_line && prompt_success "${prefix}: Created"
-  else
-    prompt_success "${prefix}: Already installed"
-  fi
+	local prefix=$(job_prefix "git SSH keys")
+	if [ ! -s ~/.ssh/id_ed25519 ]; then
+		spinner "$TAB{s} $prefix: Configuring..." _setup_ssh
+		erase_line && prompt_success "${prefix}: Created"
+	else
+		prompt_success "${prefix}: Already configured"
+	fi
+}
+
+# Upload the SSH key to Github
+function upload_ssh_key() {
+	local prefix=$(job_prefix "github SSH key")
+	# Check if the key is already uploaded
+	if ! execute gh ssh-key list --jq '.[] | select(.title == env.GITHUB_SSH_KEY_TITLE)'; then
+		# Upload the key
+		spinner "$TAB{s} $prefix: Uploading..." gh ssh-key add ~/.ssh/id_ed25519.pub --title "$GITHUB_SSH_KEY_TITLE"
+		erase_line && prompt_success "${prefix}: Uploaded"
+	else
+		prompt_success "${prefix}: Already uploaded"
+	fi
+}
+
+function _gh_auth() {
+	echo "$GITHUB_SCRIPT_TOKEN" | gh auth login --with-token
+
+	gh config set -h "github.com" host "github.com"
+	gh config set -h "github.com" git_protocol "ssh"
 }
 
 function setup_gh_cli() {
-  local prefix=$(job_prefix "gh auth")
-  if ! execute gh auth status; then
-    spinner "$TAB{s} $prefix: Configuring..." gh auth login --web --git-protocol ssh
-    erase_line && prompt_success "${prefix}: Authenticated"
-  else
-    prompt_success "${prefix}: Already authenticated"
-  fi
+	local prefix=$(job_prefix "gh auth")
+	if ! execute gh auth status; then
+		spinner "$TAB{s} $prefix: Configuring..." _gh_auth
+		erase_line && prompt_success "${prefix}: Authenticated"
+	else
+		prompt_success "${prefix}: Already authenticated"
+	fi
+}
+
+function _clone() {
+	GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" gh repo clone "$1"
 }
 
 # Clone all repos for user that just auth'd above
-function clone_user_repos() {
-  execute cd $CODE_DIR_PATH
+# (wrapped in parens so it executes in a subshell)
+function clone_user_repos() (
+	execute cd "$CODE_DIR_PATH"
 
-  j=0
-  cloneLogLimit=5
-  gh repo list --json name --jq '.[].name' |
-  while read REPO
-  do
-    local prefix=$(job_prefix $REPO)
-    if [ -d $REPO ]; then
-      prompt_success "$prefix: Already cloned"
-      continue
-    fi
+	j=0
+	cloneLogLimit=5
+	gh repo list --no-archived --json name --jq '.[].name' |
+		while read REPO; do
+			local prefix=$(job_prefix "$REPO")
+			if [ -d "$REPO" ]; then
+				prompt_success "$prefix: Already cloned"
+				continue
+			fi
 
-    if (( $j > $cloneLogLimit )); then
-      execute gh repo clone $REPO
-      erase_line && log $(grey "$TAB ... and $j more repos ...")
-    else
-      spinner "$TAB{s} ${prefix}: Cloning..." gh repo clone $REPO
-      erase_line && prompt_success "${prefix}: Cloned"
-    fi
-    # TODO: fix this not incrementing
-    # and log "... and X more repos ..." when limit is reached
-    j=$((j++ ))
-  done
+			if ((j > cloneLogLimit)); then
+				execute _clone "$REPO"
+				erase_line && log $(grey "$TAB ... and $j more repos ...")
+			else
+				spinner "$TAB{s} ${prefix}: Cloning..." _clone $REPO
+				erase_line && prompt_success "${prefix}: Cloned"
+			fi
+			j=$((j + 1))
+		done
 
-  execute cd -
-}
-
-# DOCKER
-# ------
-
-#function wait_for_daemon() {
-#  until docker container ps
-#  do
-#    sleep 0.5
-#  done
-#}
-
-#function start_docker() {
-#  local prefix=$(job_prefix "docker daemon")x
-#  spinner "$TAB{s} $prefix: Starting desktop app in the background" open --hide --background -a Docker
-#  spinner "$TAB{s} $prefix: Waiting for daemon..." wait_for_daemon
-#  erase_line && prompt_success "${prefix}: Dameon running"
-#}
+	execute cd -
+)
 
 # DOTFILES
 # --------
 
-function sync_file() {
-  local file_path=$1
-  local prefix=$(job_prefix $3)
-  if [ -f "$file_path" ]; then
-     cat "$file_path" >> "$2"
-    prompt_success "${prefix}: Copied"
-  else
-    prompt_failure "${prefix}: '$file_path' not found"
-  fi
+function symlink_file() {
+	local file_path=$1
+	local target_path=$2
+	local prefix=$(job_prefix $3)
+	if [ -f "$file_path" ]; then
+		ln -s "$file_path" "$target_path"
+		prompt_success "${prefix}: Linked"
+	else
+		prompt_failure "${prefix}: '$file_path' not found"
+	fi
 }
 
-function sync_gitconfig() {
-  local target_path=~/.gitconfig
-  if [ ! -f "$target_path" ]; then
-    touch "$target_path"
-  fi
-
-  sync_file "$CODE_DIR_PATH/dotfiles/.gitconfig" "$target_path" "gitconfig"
+function symlink_dir() {
+	dir_path=$1
+	target_path=$2
+	prefix=$(job_prefix $3)
+	if [ -d "$dir_path" ]; then
+		ln -s "$dir_path" "$target_path"
+		prompt_success "${prefix}: Linked"
+	else
+		prompt_failure "${prefix}: '$dir_path' not found"
+	fi
 }
 
-function sync_zshrc() {
-  local target_path=~/.zshrc
-  if [ ! -f "$target_path" ]; then
-    touch "$target_path"
-  fi
-  sync_file "$CODE_DIR_PATH/dotfiles/.zshrc" "$target_path" "zshrc"
+function sync_dotfiles() {
+	local prefix=$(job_prefix "dotfiles")
+	spinner "$TAB{s} ${prefix}: Syncing..." make -C "$CODE_DIR_PATH/dotfiles" sync_dots
+	erase_line && prompt_success "${prefix}: Synced"
 }
 
-function sync_tmuxconf() {
-  local target_path=~/.tmux.conf
-  if [ ! -f "$target_path" ]; then
-    touch "$target_path"
-  fi
-  sync_file "$CODE_DIR_PATH/dotfiles/.tmux.conf" "$target_path" "tmux config"
+function sync_app_icons() {
+	local prefix=$(job_prefix "app icons")
+	spinner "$TAB{s} ${prefix}: Syncing..." make -C "$CODE_DIR_PATH/dotfiles" sync_icons
+	erase_line && prompt_success "${prefix}: Synced"
 }
 
-# Disabled the welcome log when you open a terminal
-function sync_hushlogin() {
-  local target_path=~/.hushlogin
-  if [ ! -f "$target_path" ]; then
-    touch "$target_path"
-  fi
-  sync_file "$CODE_DIR_PATH/dotfiles/.hushlogin" "$target_path" "hushlogin"
-}
-
-# INPUT FONT
+# COMMIT MONO FONT
 # ----------
 
-# Contains the customization options
-DOWNLOAD_URL=https://input.djr.com/build/\?customize\&fontSelection\=fourStyleFamily\&regular\=InputMono-Regular\&italic\=InputMono-Italic\&bold\=InputMono-Bold\&boldItalic\=InputMono-BoldItalic\&a\=0\&g\=ss\&i\=serif\&l\=serif\&zero\=slash\&asterisk\=0\&braces\=straight\&preset\=default\&line-height\=1.2\&accept\=I+do\&email\=
+# Contains the customization options for Input Mono
+# INPUT_DOWNLOAD_URL=https://input.djr.com/build/\?customize\&fontSelection\=fourStyleFamily\&regular\=InputMono-Regular\&italic\=InputMono-Italic\&bold\=InputMono-Bold\&boldItalic\=InputMono-BoldItalic\&a\=0\&g\=ss\&i\=serif\&l\=serif\&zero\=slash\&asterisk\=0\&braces\=straight\&preset\=default\&line-height\=1.2\&accept\=I+do\&email\=
 
-ZIP_NAME="input-font.zip"
-TEMP_DIR="$HOME/tmp-font"
-FONT_ASSET_PATH="$TEMP_DIR/Input_Fonts/Input"
-FINAL_DIR="$HOME/Documents/input-font"
-
-function setup_input_font() {
-  local prefix=$(job_prefix "Install")
-
-  # Operate out of a temp dir
-  rm -rf "$TEMP_DIR"
-  mkdir "$TEMP_DIR"
-  cd "$TEMP_DIR"
-
-  # Create the final destination dir
-  rm -rf "$FINAL_DIR"
-  mkdir -p "$FINAL_DIR/source"
-
-  # Download from URL
-  spinner "$TAB{s} $prefix: Downloading..." curl -o $ZIP_NAME -L $DOWNLOAD_URL
-
-  # Unzip
-  spinner "$TAB{s} $prefix: Unzipping..." unzip $ZIP_NAME
-
-  # Copy font assets to a 'source' dir inside the dedicated dir
-  execute find "$TEMP_DIR" -name '*.ttf' -exec cp -prv '{}' "$FINAL_DIR/source" ';'
-  # cp "$FONT_ASSET_PATH/*.ttf" "$FINAL_DIR/source" # <--- this would work in zsh
-
-  # Delete temp dir
-  execute rm -rf "$TEMP_DIR"
-
-  # Navigate back to wherever we were
-  execute cd -
-
-  erase_line && prompt_success "$prefix: Done"
-}
-
-function _run_patch_script() {
-  docker run -v $FINAL_DIR/source:/in -v $FINAL_DIR/patched:/out nerdfonts/patcher --careful --complete --adjust-line-height
-}
-
-function patch_input_font() {
-  local prefix=$(job_prefix "Patch nerd font")
-
-  spinner "$TAB{s} $prefix: Patching... $(grey "This may take a while")" _run_patch_script
-
-  erase_line && prompt_success "$prefix: Done $(grey "step logs can be found in the docker container used to patch")"
+function install_fonts() {
+	local prefix=$(job_prefix "Fonts")
+	spinner "$TAB{s} ${prefix}: Installing..." make -C "$CODE_DIR_PATH/dotfiles" sync_fonts
+	prompt_success "${prefix}: Installed"
 }
 
 # SCRIPT EXECUTION
@@ -638,6 +635,12 @@ check_privileges
 check_code_dir
 
 log_ln
+task_header "Gathering some information"
+prompt_github_email
+prompt_github_token
+prompt_github_ssh_key_title
+
+log_ln
 task_header "Configuring laptop settings"
 configure_general_settings
 configure_finder
@@ -645,79 +648,65 @@ configure_dock
 
 log_ln
 task_header "Installing tools"
-install_oh_my_zsh # Install oh-my-zsh early, since it dominates the ~/.zshrc
 install_homebrew
 install_asdf
+install_neovim
 install_nodejs
+install_pnpm
 install_go
 
 log_ln
 task_header "Installing homebrew packages"
-install_brew_pkg "gh"
-install_brew_pkg "neovim"
-install_brew_pkg "tmux"
-install_brew_pkg "ripgrep"
-install_brew_pkg "circleci"
-install_brew_pkg "jq"
-install_brew_pkg "stylua"
-
-log_ln
-task_header "Installing homebrew casks"
-install_brew_casks
-
-#log_ln
-#task_header "Starting docker daemon"
-#start_docker
+install_brew_formulas
 
 log_ln
 task_header "Git & Github authentication"
 setup_git_ssh
+setup_gh_cli
+upload_ssh_key
 
-# This is interactive, maybe we prompt for a token or something
-#setup_gh_cli
+log_ln
+task_header "Cloning all user repos to '${CODE_DIR_PATH}'"
+clone_user_repos
 
-# Won't have my SSH keys uploaded by this point, so won't be able to clone
-
-#log_ln
-#task_header "Cloning all user repos to '${CODE_DIR_PATH}'"
-#clone_user_repos
+log_ln
+task_header "Syncing dotfiles"
+sync_dotfiles
 
 log_ln
 task_header "Configuring neovim"
 configure_neovim
 
 log_ln
-task_header "Syncing dotfiles"
-sync_gitconfig
-sync_zshrc
-sync_tmuxconf
-sync_hushlogin
+task_header "Configuring fonts"
+install_fonts
 
 log_ln
-task_header "Installing Input font"
-setup_input_font
-patch_input_font
+task_header "Installing homebrew casks"
+install_brew_casks
+
+log_ln
+task_header "Syncing app icons"
+sync_app_icons
 
 log_ln
 task_header "List of things that need manual setup"
 log_todo "🔒" "Log into all the things"
-log_todo "📌" "Packer install remaining neovim plugins"
 log_todo "🔋" "Restore Alfred pack"
-log_todo "☁️ " "Visit https://github.com/settings/keys and paste the key was copied to your clipboard" && pbcopy < ~/.ssh/id_rsa.pub
-log_todo "🔣" "Set VSCode & iTerm's font to Input"
+log_todo "🐘" "Restore TablePlus license"
+log_todo "🐳" "Install docker"
 
 log_ln
 log_ln "All done 🚀"
 
 log_ln
-log_ln $(grey "Script logs can be found here: $(underline "$LOG_FILE_PATH")")
+log_ln "$(grey "Script logs can be found here: $(underline "$LOG_FILE_PATH")")"
 log_ln
-log_ln $(grey "The log file will be automatically destroyed on the next restart")
-log_ln $(grey "To keep the log file, move it out of '/tmp/':")
-log_ln $(grey "cp $LOG_FILE_PATH ~/Desktop")
+log_ln "$(grey "The log file will be automatically deleted in 30 days")"
+log_ln "$(grey "To keep the log file, move it out of '/tmp/':")"
+log_ln "$(grey "cp $LOG_FILE_PATH ~/Desktop")"
 
 write_to_log
 write_to_log "================================================"
 write_to_log "            END - $(date)"
 write_to_log "================================================"
-
