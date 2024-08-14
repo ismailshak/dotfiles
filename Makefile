@@ -17,9 +17,9 @@ sync_dots:
 
 
 sync_icons:
-	cp -n ./icons/wezterm.icns /Applications/WezTerm.app/Contents/Resources/terminal.icns
+	cp -n $(CURRENT_DIR)/icons/wezterm.icns /Applications/WezTerm.app/Contents/Resources/terminal.icns
 	rm /var/folders/*/*/*/com.apple.dock.iconcache
 	rm -r /var/folders/*/*/*/com.apple.iconservices*
 
 sync_fonts:
-	-cp -vn ./fonts/* ~/Library/Fonts/
+	-cp -vn $(CURRENT_DIR)/fonts/* ~/Library/Fonts/
