@@ -8,6 +8,9 @@ sync_dots:
 			target="$HOME/.config/$(basename $item)" \
 			[ -e "$target" ] || ln -s "$item" "$target" \
 	done
+	touch $(HOME)/.zshrc
+	grep -qxF '[ -f ~/.zsh/config.zsh ] && source ~/.zsh/config.zsh' $(HOME)/.zshrc || echo '[ -f ~/.zsh/config.zsh ] && source ~/.zsh/config.zsh' >> $(HOME)/.zshrc
+
 
 sync_icons:
 	cp -n ./icons/wezterm.icns /Applications/WezTerm.app/Contents/Resources/terminal.icns
