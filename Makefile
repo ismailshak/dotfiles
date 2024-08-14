@@ -4,10 +4,12 @@ sync_dots:
 	[ -e ~/.mailmap ] || ln -s $(PWD)/.mailmap ~/.mailmap
 	[ -e ~/.tmux.conf ] || ln -s $(PWD)/.tmux.conf ~/.tmux.conf
 	[ -e ~/.hushlogin ] || ln -s $(PWD)/.hushlogin ~/.hushlogin
-	for item in $(PWD)/.config/*; do \
-			target="$HOME/.config/$(basename $item)" \
-			[ -e "$target" ] || ln -s "$item" "$target" \
+	
+	@for item in /Users/shak/code/dotfiles/.config/*; do \
+	target="$$HOME/.config/$$(basename $$item)"; \
+	[ -e "$$target" ] || ln -s "$$item" "$$target"; \
 	done
+
 	touch $(HOME)/.zshrc
 	grep -qxF '[ -f ~/.zsh/config.zsh ] && source ~/.zsh/config.zsh' $(HOME)/.zshrc || echo '[ -f ~/.zsh/config.zsh ] && source ~/.zsh/config.zsh' >> $(HOME)/.zshrc
 
@@ -18,4 +20,4 @@ sync_icons:
 	rm -r /var/folders/*/*/*/com.apple.iconservices*
 
 sync_fonts:
-	cp -n ./fonts/* ~/Library/Fonts/
+	-cp -vn ./fonts/* ~/Library/Fonts/
