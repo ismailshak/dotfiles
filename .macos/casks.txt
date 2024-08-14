@@ -1,6 +1,5 @@
 alfred
 discord
-docker
 dropbox
 firefox
 iterm2
