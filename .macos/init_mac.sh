@@ -30,7 +30,7 @@ SPINNER=$SPINNER_BRAILLE
 # Values to set
 GITHUB_USER_EMAIL=""
 GITHUB_SCRIPT_TOKEN=""
-export GITHUB_SSH_KEY_TITLE="" # Exporting because `jq` usage later
+GITHUB_SSH_KEY_TITLE=""
 
 # UTILITY
 # -------
@@ -503,11 +503,15 @@ function setup_git_ssh() {
 	fi
 }
 
+function _gh_key_exists() {
+	gh ssh-key list | grep "$GITHUB_SSH_KEY_TITLE"
+}
+
 # Upload the SSH key to Github
 function upload_ssh_key() {
 	local prefix=$(job_prefix "github SSH key")
 	# Check if the key is already uploaded
-	if ! execute gh ssh-key list --jq '.[] | select(.title == env.GITHUB_SSH_KEY_TITLE)'; then
+	if ! execute _gh_key_exists; then
 		# Upload the key
 		spinner "$TAB{s} $prefix: Uploading..." gh ssh-key add ~/.ssh/id_ed25519.pub --title "$GITHUB_SSH_KEY_TITLE"
 		erase_line && prompt_success "${prefix}: Uploaded"
