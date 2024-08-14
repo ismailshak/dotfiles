@@ -1,4 +1,5 @@
 alfred
+arc
 discord
 dropbox
 firefox
