@@ -22,13 +22,13 @@ M.process_icons = {
 	},
 	["cargo"] = {
 		{ Foreground = { Color = palette.red } },
-		{ Text = wezterm.nerdfonts.dev_rust },
+		{ Text = wezterm.nerdfonts.md_language_rust },
 	},
 	["cargo-watch"] = {
 		{ Foreground = { Color = palette.red } },
-		{ Text = wezterm.nerdfonts.dev_rust },
+		{ Text = wezterm.nerdfonts.md_language_rust },
 	},
-  ["cbonsai"] = {
+	["cbonsai"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.md_tree },
 	},
