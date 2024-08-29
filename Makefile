@@ -7,7 +7,7 @@ sync_dots:
 	[ -e ~/.tmux.conf ] || ln -s $(CURRENT_DIR)/.tmux.conf ~/.tmux.conf
 	[ -e ~/.hushlogin ] || ln -s $(CURRENT_DIR)/.hushlogin ~/.hushlogin
 	
-	@for item in /Users/shak/code/dotfiles/.config/*; do \
+	@for item in $(CURRENT_DIR)/.config/*; do \
 	target="$$HOME/.config/$$(basename $$item)"; \
 	[ -e "$$target" ] || ln -s "$$item" "$$target"; \
 	done
