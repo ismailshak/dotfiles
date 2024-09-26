@@ -30,19 +30,21 @@
   ui = auto
 [alias]
   aa = "add -A"
-  amend = commit --all --amend --no-edit
-  co = checkout
-  cob = checkout -b
-  cm = commit -m
-  poh = push origin HEAD
-  rs = reset --soft HEAD~1
-  rh = reset --hard HEAD
-  rho = "!git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)"
+  amend = "commit --all --amend --no-edit"
   cleanup = "!git branch --merged | grep  -v '\\*\\|main\\|master\\|dev' | xargs -n 1 git branch -d"
-  rb = rebase --committer-date-is-author-date
-  rbi = rebase -i --committer-date-is-author-date
-  rbc = rebase --continue
-  rba = rebase --abort
+  cm = "commit -m"
+  co = "checkout"
+  cob = "checkout -b"
+  ls = "log --format=format:'%C(dim white)%<(12)%cr%C(reset) %C(bold magenta)%h%C(reset) %s %C(yellow)%d%C(reset) %C(cyan bold)%an%C(reset)'"
+  lls = "log --format=format:'%C(dim white)%<(16)%ch%C(reset) %C(bold magenta)%h%C(reset) %s %C(yellow)%d%C(reset) %C(cyan bold)%an%C(reset)'"
+  poh = "push origin HEAD"
+  rb = "rebase --committer-date-is-author-date"
+  rba = "rebase --abort"
+  rbc = "rebase --continue"
+  rbi = "rebase -i --committer-date-is-author-date"
+  rh = "reset --hard HEAD"
+  rho = "!git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)"
+  rs = "reset --soft HEAD~1"
 
 ; delta-specific config
 [include]
