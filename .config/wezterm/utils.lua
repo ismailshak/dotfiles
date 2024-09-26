@@ -10,4 +10,9 @@ function M.is_windows()
 	return wezterm.target_triple == "x86_64-pc-windows-msvc"
 end
 
+function M.basename(s)
+	local basename = s:match("([^/]+)/?$")
+	return basename
+end
+
 return M

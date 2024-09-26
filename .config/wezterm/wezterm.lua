@@ -94,5 +94,10 @@ return {
 			mods = "LEADER",
 			action = wezterm.action.ToggleFullScreen,
 		},
+		{
+			key = "L",
+			mods = "SHIFT|CTRL",
+			action = wezterm.action.ShowDebugOverlay,
+		},
 	},
 }
