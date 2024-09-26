@@ -68,6 +68,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.blue } },
 		{ Text = wezterm.nerdfonts.cod_server },
 	},
+	["lazydocker"] = {
+		{ Foreground = { Color = palette.blue } },
+		{ Text = wezterm.nerdfonts.linux_docker },
+	},
 	["lazygit"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.dev_git_compare },
