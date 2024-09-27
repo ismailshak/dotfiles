@@ -33,6 +33,6 @@ export PATH="node_modules/.bin:$PATH"
 . ~/.asdf/plugins/golang/set-env.zsh
 
 source ~/.zsh/aliases.zsh
-source ~/.zsh/fzf_aliases.zsh
+source ~/.zsh/fzf.zsh
 source ~/.zsh/history.zsh
 source ~/.zsh/keybinding.zsh
