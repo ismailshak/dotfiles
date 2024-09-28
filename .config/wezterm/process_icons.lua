@@ -20,6 +20,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.purple } },
 		{ Text = wezterm.nerdfonts.custom_elixir },
 	},
+	["btop"] = {
+		{ Foreground = { Color = palette.blue } },
+		{ Text = wezterm.nerdfonts.cod_pulse },
+	},
 	["cargo"] = {
 		{ Foreground = { Color = palette.red } },
 		{ Text = wezterm.nerdfonts.md_language_rust },
