@@ -3,6 +3,7 @@ btop
 cbonsai
 circleci
 dark-mode
+eza
 fd
 ffmpeg
 fzf

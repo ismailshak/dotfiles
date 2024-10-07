@@ -56,6 +56,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.blue } },
 		{ Text = wezterm.nerdfonts.md_magnify },
 	},
+	["fzf"] = {
+		{ Foreground = { Color = palette.green } },
+		{ Text = wezterm.nerdfonts.dev_terminal },
+	},
 	["git"] = {
 		{ Foreground = { Color = palette.maroon } },
 		{ Text = wezterm.nerdfonts.dev_git },
