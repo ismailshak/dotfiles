@@ -108,7 +108,7 @@ function M.get_battery_icon(percentage, state)
 	elseif percentage > 0.49 then
 		icon = wezterm.nerdfonts.fa_battery_half
 	elseif percentage > 0.24 then
-		icon = percentage > wezterm.nerdfonts.fa_battery_quarter
+		icon = wezterm.nerdfonts.fa_battery_quarter
 	end
 
 	if state == "Charging" and percentage < 1.0 then
