@@ -128,6 +128,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.lavender } },
 		{ Text = wezterm.nerdfonts.md_ssh },
 	},
+	["sudo"] = {
+		{ Foreground = { Color = palette.lavender } },
+		{ Text = wezterm.nerdfonts.md_security },
+	},
 	["transit"] = {
 		{ Text = "🚇" },
 	},
