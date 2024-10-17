@@ -95,7 +95,7 @@ return {
 			action = wezterm.action.ToggleFullScreen,
 		},
 		{
-			key = "L",
+			key = "d",
 			mods = "SHIFT|CTRL",
 			action = wezterm.action.ShowDebugOverlay,
 		},
