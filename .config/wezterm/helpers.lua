@@ -21,10 +21,6 @@ function M.get_current_working_dir(tab)
 end
 
 function M.get_font()
-	if utils.is_windows() then
-		return wezterm.font("Input Nerd Font")
-	end
-
 	return wezterm.font("CommitMono Nerd Font")
 end
 
