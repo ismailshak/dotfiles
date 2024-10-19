@@ -27,7 +27,7 @@ export PATH="node_modules/.bin:$PATH"
 [ -d "$HOME/.opam/tools/bin" ] && export PATH="$PATH:$HOME/.opam/tools/bin"
 
 # asdf configuration
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+. "$(brew --prefix)/opt/asdf/libexec/asdf.sh"
 
 # Add Golang bin to PATH
 . ~/.asdf/plugins/golang/set-env.zsh
