@@ -20,6 +20,9 @@ eval "$(starship init zsh)"
 # Initialize zoxide
 eval "$(zoxide init zsh)"
 
+# Set default editor
+export EDITOR="nvim"
+
 # Add local node_modules to PATH
 export PATH="node_modules/.bin:$PATH"
 
