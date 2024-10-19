@@ -1,6 +1,5 @@
-[user]
-  name = Ismail Elshakankiry
-  email = ismailshak94@yahoo.com
+[include]
+  path = ~/.gitconfig_local
 [core]
   fsmonitor = true
 [init]
