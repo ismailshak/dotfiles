@@ -50,7 +50,7 @@
 [include]
   path = ~/code/dotfiles/.config/delta/themes.gitconfig
 [core]
-  pager = delta --features "$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo chameleon-dark || echo chameleon-light)"
+  pager = delta --features "$(if [ $(uname) = 'Linux' ]; then echo chameleon-dark; else defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo chameleon-dark || echo chameleon-light; fi)"
 [delta]
   features = decorations navigate
   side-by-side = true
