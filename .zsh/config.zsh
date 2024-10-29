@@ -35,6 +35,9 @@ export PATH="node_modules/.bin:$PATH"
 # Add Golang bin to PATH
 . ~/.asdf/plugins/golang/set-env.zsh
 
+# Add Cargo bin to PATH
+. "$HOME/.cargo/env"
+
 source ~/.zsh/aliases.zsh
 source ~/.zsh/completion.zsh
 source ~/.zsh/fzf.zsh
