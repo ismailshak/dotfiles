@@ -22,6 +22,7 @@ togif() { ffmpeg -i $1 -filter_complex "[0:v] fps=12,split [a][b];[a] palettegen
 cdiff() { code --diff "$1" "$2" }
 ndiff() { nvim -d "$1" "$2" }
 gdiff() { git diff --color --no-index "$1" "$2" }
+pdiff() { npm diff --diff="$1" --diff="$2" | delta }
 
 # git aliases (most aliases are in ~/.gitconfig)
 
