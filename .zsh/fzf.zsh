@@ -113,3 +113,13 @@ fff() {
     --preview-window 'right,50%,border-left' \
     --bind 'enter:become(nvim "$(echo {1} | awk "{print \$2}")")'
 }
+
+# find PRs and either checkout the branch (enter)
+# or open the PR in the browser (ctrl-o)
+fpr() {
+  gh pr list --json number,title,headRefName,author | jq -r '.[] | "\(.number) • \(.title) • \(.headRefName) • \(.author.login)"' |
+    fzf --delimiter • \
+        --preview "gh pr view {1}" \
+        --bind "enter:become(gh pr checkout {1})" \
+        --bind "ctrl-o:become(gh pr view {1} --web)"
+}
