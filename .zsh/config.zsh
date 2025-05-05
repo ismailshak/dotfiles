@@ -26,7 +26,7 @@ export EDITOR="nvim"
 # Add local node_modules to PATH
 export PATH="node_modules/.bin:$PATH"
 
-# Set wezterm as the terminal
+# Set TERM so terminfo is correctly loaded
 export TERM="wezterm"
 
 # Add global tools OPAM switch to PATH (OCaml)
@@ -40,14 +40,6 @@ export TERM="wezterm"
 
 # Add Cargo bin to PATH
 . "$HOME/.cargo/env"
-
-if [ ! -d ~/.terminfo ]; then
-  echo "Wezterm terminfo not found, installing..."
-  tempfile=$(mktemp)
-  curl -o $tempfile https://raw.githubusercontent.com/wezterm/wezterm/master/termwiz/data/wezterm.terminfo
-  tic -x -o ~/.terminfo $tempfile
-  rm $tempfile
-fi
 
 source ~/.zsh/aliases.zsh
 source ~/.zsh/completion.zsh

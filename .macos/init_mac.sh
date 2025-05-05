@@ -431,6 +431,25 @@ function configure_neovim() {
   fi
 }
 
+# Downloads and installs wezterm's terminfo file
+# so that things like underlines and strikethroughs work
+function _configure_wezterm() {
+  tempfile=$(mktemp)
+  curl -o "$tempfile" https://raw.githubusercontent.com/wezterm/wezterm/master/termwiz/data/wezterm.terminfo
+  tic -x -o ~/.terminfo "$tempfile"
+  rm "$tempfile"
+}
+
+function configure_wezterm() {
+  local prefix=$(job_prefix "wezterm")
+  if ! infocmp wezterm &>/dev/null; then
+    spinner "$TAB{s} $prefix: Compiling terminfo..." _configure_wezterm
+    erase_line && prompt_success "${prefix}: Configured"
+  else
+    prompt_success "${prefix}: Already configured"
+  fi
+}
+
 # HOMEBREW FORMULAS / CASKS
 # -------------------------
 
@@ -680,6 +699,7 @@ sync_dotfiles
 log_ln
 task_header "Configuring neovim"
 configure_neovim
+configure_wezterm
 
 log_ln
 task_header "Configuring fonts"
