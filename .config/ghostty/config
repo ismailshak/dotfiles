@@ -1,0 +1,16 @@
+font-family = "CommitMono Nerd Font"
+
+# Disables ligatures
+font-feature = "-calt"
+font-feature = "-liga"
+font-feature = "-dlig"
+
+theme = "light:iceberg-light,dark:iceberg-dark"
+
+shell-integration-features = "no-cursor"
+cursor-style = "block"
+cursor-style-blink = "false"
+
+window-padding-x = 0
+window-padding-y = 0
+macos-titlebar-style = "hidden"
