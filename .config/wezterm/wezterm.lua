@@ -22,6 +22,7 @@ return {
 	color_scheme = theme,
 	font = helpers.get_font(),
 	font_size = helpers.get_initial_font_size(),
+	strikethrough_position = "0.5cell",
 
 	-- Tab settings
 	hide_tab_bar_if_only_one_tab = true,
