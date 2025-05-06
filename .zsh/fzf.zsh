@@ -119,7 +119,7 @@ fff() {
 fpr() {
   gh pr list --json number,title,headRefName,author | jq -r '.[] | "\(.number) • \(.title) • \(.headRefName) • \(.author.login)"' |
     fzf --delimiter • \
-        --preview "gh pr view {1}" \
+        --preview "GH_FORCE_TTY=1 gh pr view {1}" \
         --bind "enter:become(gh pr checkout {1})" \
         --bind "ctrl-o:become(gh pr view {1} --web)"
 }
