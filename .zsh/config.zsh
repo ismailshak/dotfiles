@@ -20,6 +20,9 @@ eval "$(starship init zsh)"
 # Initialize zoxide
 eval "$(zoxide init zsh)"
 
+# mise-en-place configuration
+eval "$(~/.local/bin/mise activate zsh)"
+
 # Set default editor
 export EDITOR="nvim"
 
@@ -31,12 +34,6 @@ export TERM="wezterm"
 
 # Add global tools OPAM switch to PATH (OCaml)
 [ -d "$HOME/.opam/tools/bin" ] && export PATH="$PATH:$HOME/.opam/tools/bin"
-
-# asdf configuration
-. "$(brew --prefix)/opt/asdf/libexec/asdf.sh"
-
-# Add Golang bin to PATH
-. ~/.asdf/plugins/golang/set-env.zsh
 
 # Add Cargo bin to PATH
 . "$HOME/.cargo/env"
