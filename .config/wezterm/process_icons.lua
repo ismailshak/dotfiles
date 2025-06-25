@@ -96,6 +96,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.md_hexagon },
 	},
+	["pnpm"] = {
+		{ Foreground = { Color = palette.yellow } },
+		{ Text = wezterm.nerdfonts.dev_pnpm },
+	},
 	["Python"] = {
 		{ Foreground = { Color = palette.yellow } },
 		{ Text = wezterm.nerdfonts.dev_python },
