@@ -4,7 +4,7 @@
 cmd + alt + shift - s : skhd --restart-service
 
 # Toggle system wide dark mode
-cmd + alt + shift - a : dark-mode
+cmd + alt + shift - a : osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to not dark mode'
 
 # YABAI
 # =====
