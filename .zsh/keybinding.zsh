@@ -37,3 +37,8 @@ bindkey -M vicmd '^[[1;3D' backward-word
 
 # [Space] - trigger history expansion (e.g. !ls<Space> or !!<Space>)
 bindkey ' ' magic-space
+
+# [Ctrl+X, Ctrl+E] - edit command line in external $EDITOR
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
