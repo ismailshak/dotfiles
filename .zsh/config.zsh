@@ -36,7 +36,8 @@ export TERM="wezterm"
 [ -d "$HOME/.opam/tools/bin" ] && export PATH="$PATH:$HOME/.opam/tools/bin"
 
 # Add Cargo bin to PATH
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
+[ -d "$HOME/.cargo/bin" ] && . "$HOME/.cargo/env"
 
 source ~/.zsh/aliases.zsh
 source ~/.zsh/completion.zsh
