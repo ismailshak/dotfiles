@@ -11,7 +11,9 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --padding=1,0,0,1
   --no-scrollbar
   --cycle
-  --layout=reverse'
+  --layout=reverse
+  --bind "ctrl-u:preview-up,ctrl-d:preview-down"
+'
 
 # history
 fh() {
