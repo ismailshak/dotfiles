@@ -81,6 +81,7 @@ ffg() {
 # find directories with fd and cd into them
 # (eza is used to add colors and icons to the output)
 ffd() {
+  local target
   target=$(fd --type d --hidden --follow --no-ignore \
     --exclude .git \
     --exclude node_modules \
@@ -91,10 +92,9 @@ ffd() {
     --exclude public \
     --exclude coverage \
     --exclude target \
-    --exec eza --icons=always --color=always --list-dirs --no-quotes \
+    | eza --icons=always --color=always --list-dirs --no-quotes --stdin \
     | fzf --ansi \
-    --delimiter : \
-    --preview 'eza --color=always --icons=always --git --git-repos --long --no-filesize --no-time --no-user --no-permissions --group-directories-first --tree --level=2 --all --git-ignore "$(echo "{1}" | awk "{print \$2}" | rev | cut -c 2- | rev )"' \
+    --preview 'eza --color=always --icons=always --git --git-repos --long --no-filesize --no-time --no-user --no-permissions --group-directories-first --tree --level=2 --all --git-ignore {2}' \
     --preview-window 'right,50%,border-left' \
     | awk '{print $2}')
 
