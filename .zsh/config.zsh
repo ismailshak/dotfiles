@@ -32,6 +32,9 @@ export PATH="node_modules/.bin:$PATH"
 # Set TERM so terminfo is correctly loaded
 export TERM="wezterm"
 
+# Use neovim as man pager
+export MANPAGER="nvim +Man!"
+
 # Add global tools OPAM switch to PATH (OCaml)
 [ -d "$HOME/.opam/tools/bin" ] && export PATH="$PATH:$HOME/.opam/tools/bin"
 
