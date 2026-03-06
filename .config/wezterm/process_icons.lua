@@ -36,6 +36,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.md_tree },
 	},
+	["claude"] = {
+		{ Foreground = { Color = palette.orange } },
+		{ Text = wezterm.nerdfonts.md_head_snowflake },
+	},
 	["curl"] = {
 		{ Foreground = { Color = palette.lavender } },
 		{ Text = wezterm.nerdfonts.cod_terminal_cmd },
