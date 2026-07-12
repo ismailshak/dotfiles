@@ -1,0 +1,15 @@
+# Core
+age
+avahi-daemon
+build-essential
+curl
+git
+libnss-mdns
+restic
+rsync
+unzip
+zsh
+
+# Dev environment
+jq
+tmux

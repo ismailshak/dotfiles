@@ -1,0 +1,11 @@
+# name      repo                      asset_pattern                           binary 
+bat         sharkdp/bat               {arch.gnu}-unknown-linux-gnu.tar.gz     bat    
+btop        aristocratos/btop         {arch.musl}-unknown-linux-musl.tar.gz   btop   
+delta       dandavison/delta          {arch.gnu}-unknown-linux-gnu.tar.gz     delta  
+fzf         junegunn/fzf              linux_{arch.go}.tar.gz                  fzf    
+just        casey/just                {arch.musl}-unknown-linux-musl.tar.gz   just   
+lazydocker  jesseduffield/lazydocker  Linux_{arch.mixed}.tar.gz               lazydocker
+ripgrep     BurntSushi/ripgrep        {arch.gnu}-unknown-linux                rg     
+sops        getsops/sops              linux.{arch.go}                         sops   
+starship	  starship/starship	        {arch.musl}-unknown-linux-musl.tar.gz	  starship
+zoxide      ajeetdsouza/zoxide        {arch.musl}-unknown-linux-musl.tar.gz   zoxide 

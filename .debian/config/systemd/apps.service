@@ -1,0 +1,19 @@
+[Unit]
+Description=Atlas Docker Compose Stack
+# don't start until Docker + network are ready
+After=docker.service network-online.target
+Requires=docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=apps
+Group=apps
+WorkingDirectory=/home/apps/atlas
+ExecStart=/usr/local/bin/apps-up.sh
+ExecStop=/usr/bin/docker compose down
+
+[Install]
+# start at the normal multi-user boot stage
+WantedBy=multi-user.target
