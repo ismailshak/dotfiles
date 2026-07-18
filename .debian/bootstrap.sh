@@ -10,8 +10,12 @@ cd "$(dirname "$0")"
 # shellcheck source=./.debian/lib.sh
 source ./lib.sh
 
+# shellcheck source=./.debian/modules/preflight.sh
+source "modules/preflight.sh"
+run_preflight
+
 # Ordered list of modules to run
-MODULES=(preflight packages users access secrets apps health backups)
+MODULES=(packages users access secrets apps health backups)
 
 only=""
 [[ ${1:-} == --only ]] && only=${2:-}
