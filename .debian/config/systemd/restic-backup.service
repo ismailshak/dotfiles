@@ -1,0 +1,10 @@
+[Unit]
+Description=Restic backup to Backblaze B2
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=root
+EnvironmentFile=/etc/restic/env
+ExecStart=/usr/local/bin/backup-server.sh

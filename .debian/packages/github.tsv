@@ -5,6 +5,7 @@ delta       dandavison/delta          {arch.gnu}-unknown-linux-gnu.tar.gz     de
 fzf         junegunn/fzf              linux_{arch.go}.tar.gz                  fzf    
 just        casey/just                {arch.musl}-unknown-linux-musl.tar.gz   just   
 lazydocker  jesseduffield/lazydocker  Linux_{arch.mixed}.tar.gz               lazydocker
+restic      restic/restic             linux_{arch.go}.bz2                     restic
 ripgrep     BurntSushi/ripgrep        {arch.gnu}-unknown-linux                rg     
 sops        getsops/sops              linux.{arch.go}                         sops   
 starship	  starship/starship	        {arch.musl}-unknown-linux-musl.tar.gz	  starship

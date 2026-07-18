@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 source ./lib.sh
 
 # Ordered list of modules to run
-MODULES=(preflight packages users access secrets apps health)
+MODULES=(preflight packages users access secrets apps health backups)
 
 only=""
 [[ ${1:-} == --only ]] && only=${2:-}

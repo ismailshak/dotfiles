@@ -86,7 +86,7 @@ install_mise() {
   gpg --keyserver hkps://keys.openpgp.org --recv-keys 24853EC9F655CE80B48E6C3A8B81C9D17413A06D
   curl https://mise.jdx.dev/install.sh.sig | gpg --decrypt >"$install_script"
 
-  # sudo is needed because the install script `mv`s the biny to /usr/local/bin
+  # sudo is needed because the install script `mv`s the binary to /usr/local/bin
   sudo MISE_INSTALL_PATH="/usr/local/bin/mise" sh "$install_script"
 }
 
