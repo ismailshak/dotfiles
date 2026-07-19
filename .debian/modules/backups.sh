@@ -18,11 +18,11 @@ configure_restic_env() {
 
   # Owned by root
   sudo tee "$RESTIC_ENV_FILE" >/dev/null <<EOF
-RESTIC_REPOSITORY="$RESTIC_REPOSITORY"
-RESTIC_PASSWORD="$RESTIC_PASSWORD"
-AWS_ACCESS_KEY_ID="$BACKBLAZE_KEY_ID"
-AWS_SECRET_ACCESS_KEY="$BACKBLAZE_APP_KEY"
-HC_URL="$HC_URL"
+export RESTIC_REPOSITORY="$RESTIC_REPOSITORY"
+export RESTIC_PASSWORD="$RESTIC_PASSWORD"
+export AWS_ACCESS_KEY_ID="$BACKBLAZE_KEY_ID"
+export AWS_SECRET_ACCESS_KEY="$BACKBLAZE_APP_KEY"
+export HC_URL="$HC_URL"
 EOF
 
   sudo chmod 600 "$RESTIC_ENV_FILE"
@@ -49,4 +49,5 @@ run_backups() {
   step "restic env file" false -- configure_restic_env "$RESTIC_REPOSITORY" "$RESTIC_PASSWORD" "$BACKBLAZE_KEY_ID" "$BACKBLAZE_APP_KEY" "$HC_URL"
   step "install backup-server.sh" test -f /usr/local/bin/backup-server.sh -- install_system_file bin/backup-server.sh /usr/local/bin/backup-server.sh 755
   step "restic-backup.service" systemctl is-enabled restic-backup.timer -- install_backup_unit
+  step "install restore-server.sh" test -f /usr/local/bin/restore-server.sh -- install_system_file bin/restore-server.sh /usr/local/bin/restore-server.sh 755
 }

@@ -20,7 +20,7 @@ curl -fsS -m 10 --retry 3 "$HC_URL/start" >/dev/null || true
 COMPOSE_DIR="/home/apps/atlas"
 {
   shopt -s nullglob
-  echo "[$(date)] Running backup hooks (DB dumps, etc.)..."
+  echo "[$(date)] Running backup hooks..."
   for hook in "$COMPOSE_DIR"/backup-hooks/*.sh; do
     [[ -x "$hook" ]] && {
       echo "  → $(basename "$hook")"
@@ -38,6 +38,8 @@ COMPOSE_DIR="/home/apps/atlas"
     echo "[$(date)] Running weekly repository integrity check..."
     restic check
   fi
+
+  echo "[$(date)] Backup completed successfully."
 
 } |& tee "$LOG"
 
