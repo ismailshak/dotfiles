@@ -100,7 +100,7 @@ install_wezterm_terminfo() {
   tempfile="$tmp/terminfo"
   curl -o "$tempfile" https://raw.githubusercontent.com/wezterm/wezterm/main/termwiz/data/wezterm.terminfo &&
     chmod a+r "$tempfile" &&
-    tic -x -o "$USER_HOME/.terminfo" "$tempfile"
+    sudo tic -x -o /etc/terminfo "$tempfile"
 }
 
 run_packages() {
