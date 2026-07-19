@@ -7,6 +7,7 @@ git
 libnss-mdns
 restic
 rsync
+sqlite3
 unzip
 zsh
 
