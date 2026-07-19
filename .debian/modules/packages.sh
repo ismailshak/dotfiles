@@ -15,15 +15,35 @@ install_from_github() {
 
   echo "Installing $binary from $repo ($url)"
 
-  tmp=$(mktempd) # auto-cleaned by lib.sh's trap
+  tmp=$(mktempd)
   curl -fsSL "$url" -o "$tmp/dl"
-  tar -xzf "$tmp/dl" -C "$tmp" 2>/dev/null || cp "$tmp/dl" "$tmp/$binary" # tarball or bare binary
 
-  # find the binary in the extracted files
+  # Handle different archive formats
+  case "$url" in
+  *.tar.gz | *.tgz)
+    tar -xzf "$tmp/dl" -C "$tmp" 2>/dev/null
+    ;;
+  *.tar.bz2)
+    tar -xjf "$tmp/dl" -C "$tmp" 2>/dev/null
+    ;;
+  *.tar)
+    tar -xf "$tmp/dl" -C "$tmp" 2>/dev/null
+    ;;
+  *.bz2)
+    bunzip2 -c "$tmp/dl" >"$tmp/$binary"
+    ;;
+  *.gz)
+    gunzip -c "$tmp/dl" >"$tmp/$binary"
+    ;;
+  *)
+    cp "$tmp/dl" "$tmp/$binary"
+    ;;
+  esac
+
+  # Find the binary in extracted files (or use the decompressed one)
   local bin_path
   bin_path=$(find "$tmp" -name "$binary" -type f | head -1)
   install_system_file "$bin_path" "/usr/local/bin/$binary" 0755
-
 }
 
 install_docker() {
