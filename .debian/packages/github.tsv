@@ -9,4 +9,5 @@ restic      restic/restic             linux_{arch.go}.bz2                     re
 ripgrep     BurntSushi/ripgrep        {arch.gnu}-unknown-linux                rg     
 sops        getsops/sops              linux.{arch.go}                         sops   
 starship	  starship/starship	        {arch.musl}-unknown-linux-musl.tar.gz	  starship
+tmux        tmux/tmux-builds          linux-{arch.musl}.tar.gz                tmux
 zoxide      ajeetdsouza/zoxide        {arch.musl}-unknown-linux-musl.tar.gz   zoxide 

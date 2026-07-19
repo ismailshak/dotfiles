@@ -6,7 +6,6 @@ build-essential
 curl
 git
 libnss-mdns
-restic
 rsync
 sqlite3
 unzip
@@ -14,4 +13,3 @@ zsh
 
 # Dev environment
 jq
-tmux
