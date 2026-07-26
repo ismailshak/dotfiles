@@ -1,7 +1,7 @@
 # dotfiles
 
-- [asdf](https://github.com/asdf-vm/asdf)
-- [pnpm](https://github.com/pnpm/pnpm)
-- [bat](https://github.com/sharkdp/bat)
-- [delta](https://github.com/dandavison/delta)
-- [tmux](https://github.com/tmux/tmux)
+- [`.config`](./.config) - config files for various tools
+- [`.debian`](./.debian) - bootstrap debian machine
+- [`.macos`](./.macos) - bootstrap macos machine
+- [`.zsh`](./.zsh) - zsh configuration
+- `*` -  misc.
