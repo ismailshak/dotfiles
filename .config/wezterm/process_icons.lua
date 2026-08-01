@@ -132,6 +132,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.blue } },
 		{ Text = wezterm.nerdfonts.md_presentation },
 	},
+	["sops"] = {
+		{ Foreground = { Color = palette.lavender } },
+		{ Text = wezterm.nerdfonts.cod_gist_secret },
+	},
 	["spotify_player"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.md_spotify },
