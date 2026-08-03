@@ -148,6 +148,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.lavender } },
 		{ Text = wezterm.nerdfonts.md_security },
 	},
+	["tmux"] = {
+		{ Foreground = { Color = palette.green } },
+		{ Text = wezterm.nerdfonts.cod_empty_window },
+	},
 	["transit"] = {
 		{ Text = "🚇" },
 	},
