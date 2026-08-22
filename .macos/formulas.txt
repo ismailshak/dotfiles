@@ -2,6 +2,7 @@ bat
 btop
 cbonsai
 circleci
+cloudflared
 dark-mode
 eza
 fd
@@ -20,6 +21,7 @@ qmk/qmk/qmk
 ripgrep
 spotify_player
 starship
+tea
 tmux
 tree
 wget
