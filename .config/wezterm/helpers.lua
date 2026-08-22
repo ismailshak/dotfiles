@@ -1,5 +1,6 @@
 local wezterm = require("wezterm")
-local palette = require("colors").palette
+local colors = require("colors")
+local palette = colors.palette
 local utils = require("utils")
 
 local M = {}
@@ -22,6 +23,28 @@ end
 
 function M.get_font()
 	return wezterm.font("CommitMono Nerd Font")
+end
+
+function M.get_font_rules()
+	local mid = colors.mid_color()
+	return {
+		{
+			intensity = "Half",
+			italic = false,
+			font = wezterm.font_with_fallback(
+				{ "CommitMono Nerd Font" },
+				{ weight = "Regular", style = "Normal", foreground = mid }
+			),
+		},
+		{
+			intensity = "Half",
+			italic = true,
+			font = wezterm.font_with_fallback(
+				{ "CommitMono Nerd Font" },
+				{ weight = "Regular", style = "Italic", foreground = mid }
+			),
+		},
+	}
 end
 
 function M.get_window_decorations()

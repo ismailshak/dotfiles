@@ -68,4 +68,18 @@ M.dark_palette = {
 
 M.palette = M.get_system_background() == "Dark" and M.dark_palette or M.light_palette
 
+-- Returns a color partway between the scheme's foreground and background,
+-- used to emulate reduced opacity for dim (SGR 2) text since wezterm has no
+-- built-in opacity/color handling for dim -- only font weight substitution.
+function M.mid_color()
+	local fr, fg, fb = wezterm.color.parse(scheme_colors.foreground):srgba_u8()
+	local br, bg, bb = wezterm.color.parse(scheme_colors.background):srgba_u8()
+	return string.format(
+		"#%02x%02x%02x",
+		math.floor((fr + br) / 2),
+		math.floor((fg + bg) / 2),
+		math.floor((fb + bb) / 2)
+	)
+end
+
 return M

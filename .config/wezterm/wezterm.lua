@@ -21,6 +21,7 @@ return {
 	-- Font & Theme
 	color_scheme = theme,
 	font = helpers.get_font(),
+	font_rules = helpers.get_font_rules(),
 	font_size = helpers.get_initial_font_size(),
 	strikethrough_position = "0.5cell",
 
