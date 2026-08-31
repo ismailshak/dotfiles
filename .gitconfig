@@ -29,7 +29,19 @@
 [alias]
   aa = "add -A"
   amend = "commit --all --amend --no-edit"
-  cleanup = "!git branch --merged | grep  -v '\\*\\|main\\|master\\|dev' | xargs -n 1 git branch -d"
+  cleanup = "!f() { \
+      dry=${1:+echo}; \
+      base=$(git symbolic-ref -q --short refs/remotes/origin/HEAD || echo origin/main); \
+      git fetch -pq; \
+      git for-each-ref --format='%(refname:short)' refs/heads \
+        | grep -vxF -e main -e master -e dev -e \"$(git branch --show-current)\" \
+        | while read -r b; do \
+            git cherry $base $b | grep -q '^+' \
+              || { $dry git branch -D $b; continue; }; \
+            git cherry $base $(git commit-tree $b^{tree} -p $(git merge-base $base $b) -m _) \
+              | grep -q '^-' && $dry git branch -D $b; \
+          done; :; \
+    }; f \"$@\""
   cm = "commit -m"
   co = "checkout"
   cob = "checkout -b"
