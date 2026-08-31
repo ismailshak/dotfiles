@@ -11,7 +11,7 @@
 [branch]
   autoSetupRebase = always
   autoSetupMerge = always
-  sort = -committerdate
+	sort = committerdate
 [fetch]
   prune = true
 [diff]
