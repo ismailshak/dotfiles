@@ -43,6 +43,7 @@ M.light_palette = {
 	yellow = "#F9DC66",
 	maroon = "#EBA0AC",
 	lavender = "#929acc",
+	white = "#575862",
 }
 
 M.dark_palette = {
@@ -64,6 +65,7 @@ M.dark_palette = {
 	yellow = "#F9DC66",
 	maroon = "#EBA0AC",
 	lavender = "#B4BEFE",
+	white = "#E3E4E8",
 }
 
 M.palette = M.get_system_background() == "Dark" and M.dark_palette or M.light_palette

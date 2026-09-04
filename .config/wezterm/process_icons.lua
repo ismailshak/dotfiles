@@ -96,6 +96,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.blue } },
 		{ Text = wezterm.nerdfonts.seti_lua },
 	},
+	["mise"] = {
+		{ Foreground = { Color = palette.white } },
+		{ Text = wezterm.nerdfonts.md_chef_hat },
+	},
 	["node"] = {
 		{ Foreground = { Color = palette.green } },
 		{ Text = wezterm.nerdfonts.md_hexagon },
