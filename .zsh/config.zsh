@@ -14,13 +14,6 @@
 #
 # =========================
 
-# Initialize starship prompt
-command -v starship &>/dev/null && eval "$(starship init zsh)"
-
-# Initialize zoxide
-command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
-
-# mise-en-place configuration
 # mise-en-place configuration
 _mise_paths=(
   "$HOME/.local/bin/mise"
@@ -34,6 +27,12 @@ for _mise_path in "${_mise_paths[@]}"; do
   fi
 done
 unset _mise_path _mise_paths
+
+# Initialize starship prompt
+command -v starship &>/dev/null && eval "$(starship init zsh)"
+
+# Initialize zoxide
+command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 
 # Set default editor
 export EDITOR="nvim"
