@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# .debian/modules/backups.sh - set up snapshots and remote back ups
+# .bootstrap/debian/modules/backups.sh - set up snapshots and remote back ups
 #
 # (depends on Docker [packages.sh] and the age key [secrets.sh])
 

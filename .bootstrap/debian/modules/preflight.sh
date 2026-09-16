@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# .debian/modules/preflight.sh - check for prerequisites before running the bootstrap (and keep sudo alive for background processes)
+# .bootstrap/debian/modules/preflight.sh - check for prerequisites before running the bootstrap (and keep sudo alive for background processes)
 
 run_preflight() {
   # wipe LOG_FILE on each run, but keep the file itself so we can tail it later

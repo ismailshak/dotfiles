@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# .debian/modules/health.sh - configure system health features like auto-updates, firewall, and logging.
+# .bootstrap/debian/modules/health.sh - configure system health features like auto-updates, firewall, and logging.
 
 LAN_IFACE="$(ip route show default | awk '{print $5}' | head -n1)"
 LAN_SUBNET="$(ip route show dev "$LAN_IFACE" proto kernel | awk '{print $1}' | head -n1)"

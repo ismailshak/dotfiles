@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# .debian/modules/secrets.sh - install age keys for sops
+# .bootstrap/debian/modules/secrets.sh - install age keys for sops
 
 install_age_key() {
   local target_user="$1"

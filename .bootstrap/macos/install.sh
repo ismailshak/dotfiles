@@ -22,4 +22,4 @@ else
   git clone "$REPO_URL" "$DEST"
 fi
 
-bash "$DEST/.macos/bootstrap.sh"
+bash "$DEST/.bootstrap/macos/bootstrap.sh"

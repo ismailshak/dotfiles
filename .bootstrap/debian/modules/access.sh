@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# .debian/modules/access.sh - configure SSH and Tailscale access
+# .bootstrap/debian/modules/access.sh - configure SSH and Tailscale access
 #
 # (depends on tailscale [packages.sh])
 

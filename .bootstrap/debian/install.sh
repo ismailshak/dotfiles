@@ -3,7 +3,7 @@
 # This script is intended to be run on a fresh Debian system to bootstrap the setup.
 #
 # Run it with:
-# wget -qO- https://raw.githubusercontent.com/ismailshak/dotfiles/main/.debian/install.sh | sh
+# wget -qO- https://raw.githubusercontent.com/ismailshak/dotfiles/main/.bootstrap/debian/install.sh | sh
 
 set -e
 
@@ -20,4 +20,4 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 
 git clone "$REPO_URL" "$DEST"
-bash "$DEST/.debian/bootstrap.sh"
+bash "$DEST/.bootstrap/debian/bootstrap.sh"

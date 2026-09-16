@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# .debian/modules/apps.sh - installs the apps systemd service and runs the compose stack.
+# .bootstrap/debian/modules/apps.sh - installs the apps systemd service and runs the compose stack.
 #
 # (depends on Docker [packages.sh] and the age key [secrets.sh])
 

@@ -1,8 +1,6 @@
 # dotfiles
 
-- [`.bootstrap`](./.bootstrap) - functions shared by the debian and macos bootstrap scripts
+- [`.bootstrap`](./.bootstrap) - bootstrap a debian or macos machine
 - [`.config`](./.config) - config files for various tools
-- [`.debian`](./.debian) - bootstrap debian machine
-- [`.macos`](./.macos) - bootstrap macos machine
 - [`.zsh`](./.zsh) - zsh configuration
 - `*` -  misc.

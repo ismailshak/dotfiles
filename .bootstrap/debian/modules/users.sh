@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# .debian/modules/users.sh - create and manage users and groups
+# .bootstrap/debian/modules/users.sh - create and manage users and groups
 
 in_group() { id -nG "$1" 2>/dev/null | grep -qw "$2"; }
 

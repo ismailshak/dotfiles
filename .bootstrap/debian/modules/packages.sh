@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# .debian/modules/packages.sh - install packages and tools, wires up dotfiles and uploads SSH keys to GitHub.
+# .bootstrap/debian/modules/packages.sh - install packages and tools, wires up dotfiles and uploads SSH keys to GitHub.
 
 APT_MANIFEST="packages/apt.txt"
 GH_MANIFEST="packages/github.tsv"
