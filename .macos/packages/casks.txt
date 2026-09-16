@@ -4,7 +4,6 @@ discord
 dropbox
 firefox
 iterm2
-lastpass
 logitech-g-hub
 notion
 obsidian

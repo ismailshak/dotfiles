@@ -1,36 +1,17 @@
 #!/usr/bin/env bash
-#
-# .debian/lib.sh - common functions for the bootstrap scripts
 
 set -euo pipefail
 
 LOG_FILE="${LOG_FILE:-/tmp/bootstrap-log.log}"
 SPINNER="⣷⣯⣟⡿⢿⣻⣽⣾"
 
-APPS_USER="apps"
-APPS_DIR="/home/${APPS_USER}"
-USERNAME="$(whoami)"
-USER_HOME="$(getent passwd "$USERNAME" | cut -d: -f6)"
-CODE_DIR="${CODE_DIR:-$USER_HOME/code}"
-DOTFILES_REPO="ismailshak/dotfiles"
-
-# mise reads the tool list from the dotfiles checkout install.sh cloned, because
-# ~/.config/mise is not linked until the "dotfiles sync" step and gh, which mise
-# installs, is needed before that. The shims put mise's tools on PATH for every module.
-export MISE_GLOBAL_CONFIG_FILE="$(dirname "$PWD")/.config/mise/config.toml"
-export PATH="$USER_HOME/.local/share/mise/shims:$PATH"
-
 # -- Output --
 
-# Redirect stdout and stderr to the log file directly
-# (every new log line is prefixed with a timestamp).
+# stdout and stderr go to the log with a timestamp per line; fd 3 is the terminal
 exec 3>&1
 exec > >(while IFS= read -r line; do printf '[%s] %s\n' "$(date '+%H:%M:%S')" "$line"; done >>"$LOG_FILE") 2>&1
 
-# Send output to the original stdout (the terminal), bypassing the log file.
 tty() { printf '%s' "$*" >&3; }
-
-# Send output to the original stdout (the terminal) with a newline, bypassing the log file.
 tty_ln() { printf '%s\n' "$*" >&3; }
 
 # -- Rendering --
@@ -48,15 +29,12 @@ fail() { tty_ln "  ${c_red}✗${c_reset} $*"; }
 note() { tty_ln "    ${c_grey}$*${c_reset}"; }
 warn() { tty_ln "  ${c_yellow}⚠${c_reset}  $*"; }
 
-# Run a command in the background and show a spinner while it runs.
-# $1: label to show next to the spinner
-# $@: command to run in the background
 spin() {
   local label=$1
-  echo "--- step: $label ($(date '+%H:%M:%S')) ---" # goes to log via exec redirect
+  echo "--- step: $label ($(date '+%H:%M:%S')) ---"
 
   shift
-  "$@" & # output already goes to the log (see exec above)
+  "$@" &
   local pid=$! i=0 n=${#SPINNER}
   while kill -0 "$pid" 2>/dev/null; do
     i=$(((i + 1) % n))
@@ -66,19 +44,12 @@ spin() {
   wait "$pid"
 }
 
-# Print a phase header to the terminal.
 phase() {
   tty_ln ""
   tty_ln "${c_bold}- $*${c_reset}"
 }
 
-# Run a step with optional guard commands.
-# If any guard command succeeds, the step is skipped.
-# $1: label to show next to the spinner
-# $@: guard commands (optional), followed by `--`, followed by the action command
-#
-# Example:
-#   step "Install foo" command -v foo -- sudo apt install -y foo
+# step <label> [guard...] -- <action...>: skipped when the guard succeeds, aborts with the log tail when the action fails
 step() {
   local label=$1
   shift
@@ -101,26 +72,19 @@ step() {
 
   local rc=0
   spin "$label" "${action[@]}" || rc=$?
+  tty $'\r\033[0K'
   if ((rc == 0)); then
-    tty $'\r\033[0K' # clear the spinner line
     ok "$label"
   else
-    tty $'\r\033[0K' # clear the spinner line
     fail "$label (exit $rc)"
-    tail -n 8 "$LOG_FILE" >&3 2>/dev/null || true # show what happened inline (no hunting in /tmp)
+    tail -n 8 "$LOG_FILE" >&3 2>/dev/null || true
     return "$rc"
   fi
 }
 
 # -- User input --
 
-# Ask for confirmation (yes/no) from the user.
-# $1: prompt to show
-# $2: default answer (Y/N), optional, defaults to N
-# Returns 0 if the user confirmed, 1 otherwise.
-#
-# Example:
-#  if confirm "Do you want to continue?" Y; then
+# confirm <question> [Y|N]: returns 0 on yes; without a tty the default answer is taken
 confirm() {
   local q=$1 default=${2:-N} reply
   [[ -t 0 ]] || {
@@ -133,12 +97,7 @@ confirm() {
   [[ $reply == [Yy] ]]
 }
 
-# Ask for input from the user and store it in a variable.
-# $1: prompt to show
-# $2: name of the variable to store the answer in
-#
-# Example:
-#   ask "Enter your name" name
+# ask [-s] <prompt> <var>: stores the answer in the named variable; -s masks the input
 ask() {
   local secret=0
   [[ $1 == -s ]] && {
@@ -166,12 +125,7 @@ ask() {
   printf -v "$__var" '%s' "$__val"
 }
 
-# Ask for multiline input from the user and store it in a variable.
-# $1: prompt to show
-# $2: name of the variable to store the answer in
-#
-# Example:
-#  ask_multiline "Enter your SSH public key" ssh_key
+# ask_multiline <prompt> <var>: stores the answer in the named variable; an empty line ends the input
 ask_multiline() {
   local __var=$2 __val='' line
   tty "$1 (press Enter twice to submit): "
@@ -197,10 +151,16 @@ cleanup() {
 }
 
 trap cleanup EXIT
-trap 'exit 130' INT TERM # Ctrl-C → 130, which then fires EXIT
+trap 'exit 130' INT TERM # Ctrl-C exits 130, which then fires EXIT
 
-# Create a temporary directory and register it for cleanup.
-# Returns the path of the temporary directory.
+keep_sudo_warm() {
+  (while true; do
+    sudo -n true
+    sleep 50
+  done) &
+  SUDO_KEEPALIVE_PID=$! # cleanup() reaps this
+}
+
 mktempd() {
   local d
   d=$(mktemp -d)
@@ -208,10 +168,6 @@ mktempd() {
   printf '%s' "$d"
 }
 
-# Install a file to the system with the given permissions.
-# $1: source file
-# $2: destination file
-# $3: permissions (optional, defaults to 0644)
 install_system_file() {
   sudo install -D -m "${3:-0644}" "$1" "$2"
 }

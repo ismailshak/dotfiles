@@ -1,12 +1,10 @@
 btop
 cbonsai
-circleci
 dark-mode
 ffmpeg
 ismailshak/tap/transit
 koekeishiya/formulae/skhd
 koekeishiya/formulae/yabai
-lastpass-cli
 lazygit
 qmk/qmk/qmk
 spotify_player

@@ -3,7 +3,6 @@ CURRENT_DIR := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 sync_dots:
 	[ -e ~/.zsh ] || ln -s $(CURRENT_DIR)/.zsh ~/.zsh
 	[ -e ~/.gitconfig ] || ln -s $(CURRENT_DIR)/.gitconfig ~/.gitconfig
-	[ -e ~/.mailmap ] || ln -s $(CURRENT_DIR)/.mailmap ~/.mailmap
 	[ -e ~/.tmux.conf ] || ln -s $(CURRENT_DIR)/.tmux.conf ~/.tmux.conf
 	[ -e ~/.hushlogin ] || ln -s $(CURRENT_DIR)/.hushlogin ~/.hushlogin
 	
@@ -17,9 +16,9 @@ sync_dots:
 
 
 sync_icons:
-	cp -n $(CURRENT_DIR)/icons/wezterm.icns /Applications/WezTerm.app/Contents/Resources/terminal.icns
-	rm /var/folders/*/*/*/com.apple.dock.iconcache
-	rm -r /var/folders/*/*/*/com.apple.iconservices*
+	cp -f $(CURRENT_DIR)/icons/wezterm.icns /Applications/WezTerm.app/Contents/Resources/terminal.icns
+	rm -f /var/folders/*/*/*/com.apple.dock.iconcache
+	rm -rf /var/folders/*/*/*/com.apple.iconservices*
 
 sync_fonts:
 	-cp -vn $(CURRENT_DIR)/fonts/* ~/Library/Fonts/

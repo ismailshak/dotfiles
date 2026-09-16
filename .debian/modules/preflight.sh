@@ -2,14 +2,6 @@
 #
 # .debian/modules/preflight.sh - check for prerequisites before running the bootstrap (and keep sudo alive for background processes)
 
-keep_sudo_warm() {
-  (while true; do
-    sudo -n true
-    sleep 50
-  done) &
-  SUDO_KEEPALIVE_PID=$! # cleanup() in lib.sh reaps this
-}
-
 run_preflight() {
   # wipe LOG_FILE on each run, but keep the file itself so we can tail it later
   : >"$LOG_FILE"
