@@ -14,6 +14,12 @@ USER_HOME="$(getent passwd "$USERNAME" | cut -d: -f6)"
 CODE_DIR="${CODE_DIR:-$USER_HOME/code}"
 DOTFILES_REPO="ismailshak/dotfiles"
 
+# mise reads the tool list from the dotfiles checkout install.sh cloned, because
+# ~/.config/mise is not linked until the "dotfiles sync" step and gh, which mise
+# installs, is needed before that. The shims put mise's tools on PATH for every module.
+export MISE_GLOBAL_CONFIG_FILE="$(dirname "$PWD")/.config/mise/config.toml"
+export PATH="$USER_HOME/.local/share/mise/shims:$PATH"
+
 # -- Output --
 
 # Redirect stdout and stderr to the log file directly

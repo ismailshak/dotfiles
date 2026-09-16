@@ -1,11 +1,29 @@
 [tools]
+# Runtime
 go = "1.26"
 node = "24"
-neovim = "0.11.2"
 pnpm = "10"
+
+# Tools
+bat = "latest"
+cloudflared = "latest"
+delta = "latest"
+eza = "latest"
+fd = "latest"
+fzf = "latest"
+gh = "latest"
+jq = "latest"
+just = "latest"
+lazydocker = "latest"
+neovim = "0.11.2"
+ripgrep = "latest"
+starship = "latest"
+tmux = "latest"
+yq = "latest"
+zoxide = "latest"
 
 # Go tools
 "go:golang.org/x/tools/gopls" = "latest"
 "go:golang.org/x/tools/cmd/goimports" = "latest"
 "go:github.com/go-delve/delve/cmd/dlv" = "latest"
-
+"go:code.gitea.io/tea" = "latest"

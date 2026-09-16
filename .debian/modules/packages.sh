@@ -66,15 +66,6 @@ EOF
   sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
-install_gh() {
-  curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg |
-    sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-  sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" |
-    sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
-  sudo apt-get update -y && sudo apt-get install -y gh
-}
-
 GH_SSH_KEY_PATH="$USER_HOME/.ssh/id_ed25519_github"
 setup_gh_ssh() {
   # Generate a new SSH key for GitHub if it doesn't exist
@@ -155,8 +146,8 @@ run_packages() {
   done < <(grep -vE '^\s*(#|$)' "$GH_MANIFEST")
 
   step "mise" command -v mise -- install_mise
+  step "mise tools" [ -z "$(mise ls --missing)" ] -- mise install
   step "docker" command -v docker -- install_docker
-  step "gh cli" command -v gh -- install_gh
   note "check $LOG_FILE for the gh auth one-time code"
   step "gh auth" gh auth status -- gh auth login --skip-ssh-key --git-protocol ssh --web --scopes "admin:public_key"
   step "gh ssh" test -f "$GH_SSH_KEY_PATH" -- setup_gh_ssh

@@ -8,8 +8,6 @@ git
 libnss-mdns
 rsync
 sqlite3
+tree
 unzip
 zsh
-
-# Dev environment
-jq
