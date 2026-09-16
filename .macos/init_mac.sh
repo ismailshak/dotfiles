@@ -344,79 +344,33 @@ function install_homebrew() {
   fi
 }
 
-# Temporarily source asdf script since it will be added to zshrc later
-function _handle_asdf_path() {
-  . $(brew --prefix asdf)/libexec/asdf.sh
-}
+MISE_CONFIG_URL="https://raw.githubusercontent.com/ismailshak/dotfiles/main/.config/mise/config.toml"
+export MISE_GLOBAL_CONFIG_FILE="/tmp/init_mac_mise_config.toml"
+export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"
 
-function install_asdf() {
-  local prefix=$(job_prefix "asdf")
-  if ! execute which asdf; then
-    spinner "$TAB{s} $prefix: Installing..." brew install asdf
-    execute _handle_asdf_path
-    erase_line && prompt_success "${prefix}: Installed $(grey "$(asdf --version)")"
+function install_mise() {
+  local prefix=$(job_prefix "mise")
+  if [ ! -x "$HOME/.local/bin/mise" ]; then
+    spinner "$TAB{s} $prefix: Installing..." sh -c "curl -fsSL https://mise.run | sh"
+    erase_line && prompt_success "${prefix}: Installed $(grey "$(mise --version)")"
   else
-    execute _handle_asdf_path
-    prompt_success "${prefix}: Already installed $(grey "$(asdf --version)")"
+    prompt_success "${prefix}: Already installed $(grey "$(mise --version)")"
   fi
 }
 
-function install_nodejs() {
-  local prefix=$(job_prefix "nodejs")
-  if ! execute which node; then
-    spinner "$TAB{s} $prefix: Installing..." asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-    execute asdf install nodejs latest
-    execute asdf global nodejs latest
-    erase_line && prompt_success "${prefix}: Installed $(grey "$(node --version)")"
-  else
-    prompt_success "${prefix}: Already installed $(grey "$(node --version)")"
-  fi
+function _install_mise_tools() {
+  curl -fsSL "$MISE_CONFIG_URL" -o "$MISE_GLOBAL_CONFIG_FILE"
+  mise install
 }
 
-function install_pnpm() {
-  local prefix=$(job_prefix "pnpm")
-  if ! execute which pnpm; then
-    spinner "$TAB{s} $prefix: Installing..." asdf plugin add pnpm https://github.com/jonathanmorley/asdf-pnpm
-    execute asdf install pnpm latest
-    execute asdf global pnpm latest
-    erase_line && prompt_success "${prefix}: Installed $(grey "$(pnpm --version)")"
-  else
-    prompt_success "${prefix}: Already installed $(grey "$(pnpm --version)")"
-  fi
-
-}
-
-function install_go() {
-  local prefix=$(job_prefix "golang")
-  if ! execute which go; then
-    spinner "$TAB{s} $prefix: Installing..." asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
-    execute asdf install golang latest
-    execute asdf global golang latest
-    erase_line && prompt_success "${prefix}: Installed $(grey "$(go version)")"
-  else
-    prompt_success "${prefix}: Already installed $(grey "$(go version)")"
-  fi
-}
-
-function install_neovim() {
-  local prefix=$(job_prefix "neovim")
-  if [ ! -d ~/.config/nvim ]; then
-    spinner "$TAB{s} $prefix: Installing..." asdf plugin add neovim https://github.com/richin13/asdf-neovim.git
-    erase_line && prompt_success "${prefix}: Installed"
-  else
-    prompt_success "${prefix}: Already configured"
-  fi
+function install_mise_tools() {
+  local prefix=$(job_prefix "mise tools")
+  spinner "$TAB{s} ${prefix}: Installing..." _install_mise_tools
+  erase_line && prompt_success "${prefix}: Installed"
 }
 
 function _configure_neovim() {
   symlink_dir "$CODE_DIR_PATH/nvim" "$HOME/.config/nvim"
-
-  # Subshell to install neovim plugins so that changing directories doesn't affect the script
-  (
-    cd "$CODE_DIR_PATH/nvim"
-    asdf install
-    asdf global neovim $(cat .tool-versions | awk '/neovim/ {print $2}')
-  )
 
   nvim --headless "+Lazy! sync" "+MasonToolsInstallSync" +qa
 }
@@ -672,11 +626,8 @@ configure_dock
 log_ln
 task_header "Installing tools"
 install_homebrew
-install_asdf
-install_neovim
-install_nodejs
-install_pnpm
-install_go
+install_mise
+install_mise_tools
 
 log_ln
 task_header "Installing homebrew packages"
