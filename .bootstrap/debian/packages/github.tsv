@@ -1,4 +1,2 @@
 # name      repo                      asset_pattern                           binary 
 btop        aristocratos/btop         {arch.musl}-unknown-linux-musl.tar.gz   btop   
-restic      restic/restic             linux_{arch.go}.bz2                     restic
-sops        getsops/sops              linux.{arch.go}                         sops   

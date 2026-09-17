@@ -15,11 +15,12 @@ USER_HOME="$(getent passwd "$USERNAME" | cut -d: -f6)"
 CODE_DIR="${CODE_DIR:-$USER_HOME/code}"
 DOTFILES_REPO="ismailshak/dotfiles"
 
-# mise reads the tool list from the /tmp checkout because ~/.config/mise is not linked until "dotfiles sync" and gh (a mise tool) is needed before that
+# mise reads the tool list from this checkout. gh is a mise tool and is needed to clone the dotfiles.
+# /etc/mise/config.toml and ~/.config/mise can only be linked after that clone.
 REPO_DIR="$(cd ../.. && pwd)"
 MISE_GLOBAL_CONFIG_FILE="$REPO_DIR/.config/mise/config.toml"
 export MISE_GLOBAL_CONFIG_FILE
-export PATH="$USER_HOME/.local/share/mise/shims:$PATH"
+export PATH="/usr/local/share/mise/shims:$PATH"
 
 # shellcheck source=./.bootstrap/lib.sh
 source ../lib.sh

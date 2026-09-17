@@ -101,6 +101,36 @@ install_mise() {
   sudo MISE_INSTALL_PATH="/usr/local/bin/mise" sh "$install_script"
 }
 
+MISE_SYSTEM_CONFIG="/etc/mise/config.toml"
+MISE_SYSTEM_INSTALLS="/usr/local/share/mise/installs"
+
+# Installs every tool in the mise config into root-owned /usr/local/share/mise, for all users.
+# MISE_GLOBAL_CONFIG_FILE is passed because sudo drops it. root has no other mise config until $MISE_SYSTEM_CONFIG is linked.
+install_mise_tools() {
+  sudo mise trust "$MISE_GLOBAL_CONFIG_FILE" &&
+    sudo MISE_GLOBAL_CONFIG_FILE="$MISE_GLOBAL_CONFIG_FILE" MISE_YES=1 mise install --system &&
+    sudo MISE_GLOBAL_CONFIG_FILE="$MISE_GLOBAL_CONFIG_FILE" mise reshim --system
+}
+
+# $MISE_SYSTEM_CONFIG is the mise config root reads. `sudo mise upgrade` outside the bootstrap depends on it.
+link_mise_system_config() {
+  sudo mkdir -p "$(dirname "$MISE_SYSTEM_CONFIG")" &&
+    sudo ln -sfn "$CODE_DIR/dotfiles/.config/mise/config.toml" "$MISE_SYSTEM_CONFIG" &&
+    sudo mise trust "$MISE_SYSTEM_CONFIG"
+}
+
+# link_mise_binary <tool>: links /usr/local/bin/<tool> to the binary inside the system mise install.
+link_mise_binary() {
+  local src="$MISE_SYSTEM_INSTALLS/$1/latest/$1"
+  test -x "$src" || {
+    echo "$src is missing: run sudo mise install --system"
+    return 1
+  }
+  sudo ln -sfn "$src" "/usr/local/bin/$1"
+}
+
+mise_binary_linked() { [[ $(readlink "/usr/local/bin/$1") == "$MISE_SYSTEM_INSTALLS/$1/latest/$1" ]]; }
+
 clone_dotfiles() {
   env GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" gh repo clone "$DOTFILES_REPO" "$CODE_DIR/dotfiles"
 }
@@ -146,12 +176,16 @@ run_packages() {
   done < <(grep -vE '^\s*(#|$)' "$GH_MANIFEST")
 
   step "mise" command -v mise -- install_mise
-  step "mise tools" [ -z "$(mise ls --missing)" ] -- mise install
+  step "mise tools" [ -z "$(mise ls --missing)" ] -- install_mise_tools
+  # Linking these because they run from systemd units that don't read mise's install dir on the shell's PATH
+  step "restic → /usr/local/bin" mise_binary_linked restic -- link_mise_binary restic
+  step "sops → /usr/local/bin" mise_binary_linked sops -- link_mise_binary sops
   step "docker" command -v docker -- install_docker
   note "check $LOG_FILE for the gh auth one-time code"
   step "gh auth" gh auth status -- gh auth login --skip-ssh-key --git-protocol ssh --web --scopes "admin:public_key"
   step "gh ssh" test -f "$GH_SSH_KEY_PATH" -- setup_gh_ssh
   step "dotfiles" test -d "$CODE_DIR/dotfiles" -- clone_dotfiles
   step "dotfiles sync" false -- make -C "$CODE_DIR/dotfiles" sync_dots
+  step "mise system config" [ "$(readlink "$MISE_SYSTEM_CONFIG")" = "$CODE_DIR/dotfiles/.config/mise/config.toml" ] -- link_mise_system_config
   step "wezterm terminfo" infocmp -x wezterm -- install_wezterm_terminfo
 }
