@@ -29,10 +29,16 @@ configure_firewall() {
   sudo ufw --force enable
 }
 
-configure_logging() {
-  install_system_file config/systemd/journald-00-size.conf /etc/systemd/journald.conf.d/00-size.conf
+JOURNALD_SIZE_CONF="/etc/systemd/journald.conf.d/00-size.conf"
+DOCKER_DAEMON_JSON="/etc/docker/daemon.json"
+
+limit_journal_size() {
+  install_system_file config/systemd/journald-00-size.conf "$JOURNALD_SIZE_CONF"
   sudo systemctl restart systemd-journald
-  install_system_file config/docker/daemon.json /etc/docker/daemon.json
+}
+
+limit_docker_logs() {
+  install_system_file config/docker/daemon.json "$DOCKER_DAEMON_JSON"
   sudo systemctl restart docker
 }
 
@@ -40,5 +46,6 @@ run_health() {
   phase "System Health"
   step "auto-updates" unattended_upgrades_current -- enable_unattended_upgrades
   step "firewall" ufw_active -- configure_firewall
-  step "logging" false -- configure_logging
+  step "journal size limit" cmp -s config/systemd/journald-00-size.conf "$JOURNALD_SIZE_CONF" -- limit_journal_size
+  step "docker log limits" cmp -s config/docker/daemon.json "$DOCKER_DAEMON_JSON" -- limit_docker_logs
 }
