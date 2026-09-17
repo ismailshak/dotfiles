@@ -8,7 +8,7 @@ The modules `bootstrap.sh` runs, in order.
 - `access` - authorized key, sshd hardening, mDNS, tailscale
 - `secrets` - age keys for sops
 - `apps` - the compose stack as a systemd service
-- `health` - unattended upgrades, ufw, journald and docker log limits
+- `health` - unattended upgrades, ufw, journald config and docker config
 - `backups` - restic timer, backup and restore scripts
 
 ## mise
