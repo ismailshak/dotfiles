@@ -171,3 +171,29 @@ mktempd() {
 install_system_file() {
   sudo install -D -m "${3:-0644}" "$1" "$2"
 }
+
+# -- Modules --
+
+# run_modules [--only <module>]: runs preflight, then each module named in MODULES in order.
+# --only always runs preflight before running the provided module.
+# A module is modules/<name>.sh in the current directory and defines run_<name>.
+run_modules() {
+  local only="" m
+  if [[ ${1:-} == --only ]]; then
+    only=${2:-}
+    if [[ " ${MODULES[*]} " != *" $only "* ]]; then
+      echo "Unknown module '$only'. Modules: ${MODULES[*]}" >&3
+      return 1
+    fi
+  fi
+
+  for m in preflight "${MODULES[@]}"; do
+    [[ -n $only && $m != preflight && $m != "$only" ]] && continue
+    # shellcheck source=/dev/null
+    source "modules/${m}.sh"
+    "run_${m}"
+  done
+
+  tty_ln ""
+  tty_ln "${c_green}All done 🚀${c_reset}  ${c_grey}log: $LOG_FILE${c_reset}"
+}

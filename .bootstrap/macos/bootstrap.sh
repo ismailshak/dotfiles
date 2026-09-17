@@ -18,29 +18,7 @@ export PATH="$USER_HOME/.local/share/mise/shims:$USER_HOME/.local/bin:$PATH"
 # shellcheck source=./.bootstrap/lib.sh
 source ../lib.sh
 
-# shellcheck source=./.bootstrap/macos/modules/preflight.sh
-source "modules/preflight.sh"
-run_preflight
+# Modules run in this order
+MODULES=(packages settings apps repos manual)
 
-MODULES=(packages settings apps repos)
-
-only=""
-[[ ${1:-} == --only ]] && only=${2:-}
-
-for m in "${MODULES[@]}"; do
-  [[ -n $only && $m != "$only" ]] && continue
-  # shellcheck source=/dev/null
-  source "modules/${m}.sh"
-  "run_${m}"
-done
-
-if [[ -z $only ]]; then
-  phase "Manual steps"
-  note "🔒 log into apps"
-  note "🔋 restore the Alfred pack"
-  note "🐘 restore the TablePlus license"
-  note "🐳 install Docker Desktop"
-fi
-
-tty_ln ""
-tty_ln "${c_green}All done 🚀${c_reset}  ${c_grey}log: $LOG_FILE${c_reset}"
+run_modules "$@"
