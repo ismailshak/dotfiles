@@ -5,9 +5,17 @@
 LAN_IFACE="$(ip route show default | awk '{print $5}' | head -n1)"
 LAN_SUBNET="$(ip route show dev "$LAN_IFACE" proto kernel | awk '{print $1}' | head -n1)"
 
+APT_CONF_DIR="/etc/apt/apt.conf.d"
+
+unattended_upgrades_current() {
+  cmp -s config/apt/20auto-upgrades "$APT_CONF_DIR/20auto-upgrades" &&
+    cmp -s config/apt/52unattended-upgrades-local "$APT_CONF_DIR/52unattended-upgrades-local"
+}
+
 enable_unattended_upgrades() {
   sudo apt-get install -y unattended-upgrades
-  install_system_file config/apt/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades
+  install_system_file config/apt/20auto-upgrades "$APT_CONF_DIR/20auto-upgrades"
+  install_system_file config/apt/52unattended-upgrades-local "$APT_CONF_DIR/52unattended-upgrades-local"
 }
 
 ufw_active() { sudo ufw status 2>/dev/null | grep -q '^Status: active'; }
@@ -30,7 +38,7 @@ configure_logging() {
 
 run_health() {
   phase "System Health"
-  step "auto-updates" test -f /etc/apt/apt.conf.d/20auto-upgrades -- enable_unattended_upgrades
+  step "auto-updates" unattended_upgrades_current -- enable_unattended_upgrades
   step "firewall" ufw_active -- configure_firewall
   step "logging" false -- configure_logging
 }

@@ -1,0 +1,12 @@
+// Docker and Tailscale are installed from their own apt repos
+Unattended-Upgrade::Origins-Pattern {
+  "origin=Docker";
+  "origin=Tailscale";
+};
+
+// After a kernel update and a restart is required (/var/run/reboot-required), do it at 3am
+Unattended-Upgrade::Automatic-Reboot "true";
+Unattended-Upgrade::Automatic-Reboot-Time "03:00";
+
+// Also send the run summary to syslog. journald receives syslog messages.
+Unattended-Upgrade::SyslogEnable "true";
