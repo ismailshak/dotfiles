@@ -16,5 +16,5 @@ run_repos() {
   done < <(gh repo list --no-archived --json nameWithOwner --jq '.[].nameWithOwner')
 
   step "neovim config" test -e "$USER_HOME/.config/nvim" -- link_nvim_config
-  step "neovim plugins" false -- nvim --headless "+Lazy! sync" "+MasonToolsInstallSync" +qa
+  step "neovim plugins" false -- nvim --headless "+Lazy! restore" "+MasonToolsInstallSync" +qa
 }
