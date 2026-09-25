@@ -1,5 +1,5 @@
 # Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
+command -v fzf &>/dev/null && source <(fzf --zsh)
 
 # Customize menu appearance
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
