@@ -1,7 +1,5 @@
 [include]
   path = ~/.gitconfig_local
-[core]
-  fsmonitor = true
 [init]
   defaultBranch = main
 [pull]
