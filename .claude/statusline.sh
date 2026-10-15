@@ -18,6 +18,11 @@ total_in=$(jq -r '.context_window.total_input_tokens // 0' <<<"$input")
 total_out=$(jq -r '.context_window.total_output_tokens // 0' <<<"$input")
 cost_raw=$(jq -r '.cost.total_cost_usd // ""' <<<"$input")
 
+# Directory
+if [ -n "$branch_dir" ]; then
+  dir_part="${blue} ${reset}${dim}${branch_dir##*/}${reset}"
+fi
+
 # Git branch
 if [ -n "$branch_dir" ]; then
   branch=$(git -C "$branch_dir" --no-optional-locks rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -77,7 +82,7 @@ if [ -n "$cost_raw" ]; then
 fi
 
 output=""
-for part in "$branch_part" "$model_part" "$tokens_part" "$cost_part"; do
+for part in "$dir_part" "$branch_part" "$model_part" "$tokens_part" "$cost_part"; do
   if [ -n "$part" ]; then
     [ -n "$output" ] && output+="$sep"
     output+="$part"
