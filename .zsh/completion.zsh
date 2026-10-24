@@ -1,5 +1,6 @@
-# Load completions from ~/.zsh/completion
-fpath=($HOME/.zsh/completion $fpath)
+# Load completions from ~/.zsh/completions and from the per-user
+# site-functions directory, where `mise completion zsh --install` writes _mise
+fpath=($HOME/.zsh/completions ${XDG_DATA_HOME:-$HOME/.local/share}/zsh/site-functions $fpath)
 
 # Register completion functions
 zstyle ':completion:*' completer _extensions _complete _approximate
