@@ -19,7 +19,7 @@ killport() { kill -9 "$(lsof -i:"$1" -t)" }
 togif() { ffmpeg -i $1 -filter_complex "[0:v] fps=12,split [a][b];[a] palettegen [p];[b][p] paletteuse" $2 }
 
 cdiff() { code --diff "$1" "$2" }
-ndiff() { nvim -d "$1" "$2" }
+ndiff() { nvim "$@" +DiffArgs }
 gdiff() { git diff --color --no-index "$1" "$2" }
 pdiff() { npm diff --diff="$1" --diff="$2" | delta }
 
