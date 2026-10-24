@@ -31,3 +31,6 @@ zoxide = "latest"
 "go:github.com/go-delve/delve/cmd/dlv" = "latest"
 "go:gitea.dev/tea" = "latest"
 "go:github.com/ismailshak/transit" = "main"
+
+[settings.self_update]
+auto = true
