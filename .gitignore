@@ -11,3 +11,7 @@ nvim/plugin
 
 # lazygit config
 .config/lazygit/client.yml
+
+# herdr config
+.config/herdr/*
+!.config/herdr/config.toml
