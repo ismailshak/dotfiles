@@ -76,6 +76,10 @@ M.process_icons = {
 		{ Foreground = { Color = palette.blue } },
 		{ Text = wezterm.nerdfonts.md_language_go },
 	},
+	["herdr"] = {
+		{ Foreground = { Color = palette.white } },
+		{ Text = wezterm.nerdfonts.md_sheep },
+	},
 	["htop"] = {
 		{ Foreground = { Color = palette.blue } },
 		{ Text = wezterm.nerdfonts.cod_server },
