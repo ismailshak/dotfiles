@@ -13,6 +13,7 @@ sep='\033[90m | \033[0m'
 # Parse JSON
 branch_dir=$(jq -r '.workspace.current_dir // ""' <<<"$input")
 model=$(jq -r '.model.display_name // ""' <<<"$input")
+effort=$(jq -r '.effort.level // ""' <<<"$input")
 used_pct=$(jq -r '.context_window.used_percentage // ""' <<<"$input")
 total_in=$(jq -r '.context_window.total_input_tokens // 0' <<<"$input")
 total_out=$(jq -r '.context_window.total_output_tokens // 0' <<<"$input")
@@ -31,7 +32,16 @@ fi
 
 # Model
 if [ -n "$model" ]; then
-  model_part="${blue}󰅩 ${reset}${dim}${model}${reset}"
+  model_part="${blue}󰅩 ${reset}${dim}${model}"
+  case "$effort" in
+    low) model_part+="ˡ" ;;
+    medium) model_part+="ᵐ" ;;
+    high) model_part+="ʰ" ;;
+    xhigh) model_part+="ˣ" ;;
+    # Max uses a capital M because medium already has the lowercase m.
+    max) model_part+="ᴹ" ;;
+  esac
+  model_part+="${reset}"
 fi
 
 # Context window
