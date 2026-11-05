@@ -5,7 +5,17 @@
 # (depends on tailscale [packages.sh])
 
 LAN_IP="$(hostname -I | awk '{print $1}')"
+LAN_IF="$(ip -o route show default | awk '{print $5; exit}')"
 SSHD_HARDENING="/etc/ssh/sshd_config.d/99-hardening.conf"
+AVAHI_CONF="/etc/avahi/avahi-daemon.conf"
+
+# Linux lets avahi join the mDNS group on at most 20 IPv4 interfaces (net.ipv4.igmp_max_memberships).
+# Every compose network adds a bridge, and once they take all 20 the LAN interface can't join, so <hostname>.local stops resolving over IPv4.
+mdns_lan_only() {
+  sudo sed -i "s/^#\?allow-interfaces=.*/allow-interfaces=$LAN_IF/" "$AVAHI_CONF" &&
+    grep -qx "allow-interfaces=$LAN_IF" "$AVAHI_CONF" &&
+    sudo systemctl restart avahi-daemon
+}
 
 authorize_key() {
   mkdir -p "$USER_HOME/.ssh"
@@ -37,6 +47,7 @@ run_access() {
   step "authorized_keys" grep -qsF "$PUBKEY" "$USER_HOME/.ssh/authorized_keys" -- authorize_key
   step "sshd hardening" test -f "$SSHD_HARDENING" -- harden_sshd
   step "mdns" systemctl is-active --quiet avahi-daemon -- sudo systemctl enable --now avahi-daemon
+  step "mdns on $LAN_IF only" grep -qx "allow-interfaces=$LAN_IF" "$AVAHI_CONF" -- mdns_lan_only
 
   warn "Do NOT close this session. Verify SSH access from a second terminal:"
   note "  • ${USERNAME}@$LAN_IP"
