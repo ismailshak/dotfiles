@@ -34,24 +34,14 @@ command -v starship &>/dev/null && eval "$(starship init zsh)"
 # Initialize zoxide
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 
-# Set default editor
-export EDITOR="nvim"
+# EDITOR, MANPAGER, cargo and opam PATH live in ~/.zsh/env.zsh (sourced from
+# ~/.zshenv) so non-interactive shells get them too.
 
 # Add local node_modules to PATH
 export PATH="node_modules/.bin:$PATH"
 
 # Set TERM so terminfo is correctly loaded
 export TERM="wezterm"
-
-# Use neovim as man pager
-export MANPAGER="nvim +Man!"
-
-# Add global tools OPAM switch to PATH (OCaml)
-[ -d "$HOME/.opam/tools/bin" ] && export PATH="$PATH:$HOME/.opam/tools/bin"
-
-# Add Cargo bin to PATH
-# . "$HOME/.cargo/env"
-[ -d "$HOME/.cargo/bin" ] && . "$HOME/.cargo/env"
 
 source ~/.zsh/aliases.zsh
 source ~/.zsh/completion.zsh

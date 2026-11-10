@@ -14,6 +14,16 @@ sync_dots:
 	touch $(HOME)/.zshrc
 	grep -qxF '[ -f ~/.zsh/config.zsh ] && source ~/.zsh/config.zsh' $(HOME)/.zshrc || echo '[ -f ~/.zsh/config.zsh ] && source ~/.zsh/config.zsh' >> $(HOME)/.zshrc
 
+	# .zshenv runs for every zsh, incl. non-interactive `zsh -c` (skhd, launchd).
+	# Prepend the source line (plus a blank line) so machine-local entries below can override it.
+	# `cat >` instead of `mv` keeps ~/.zshenv's inode, so a symlinked .zshenv survives.
+	touch $(HOME)/.zshenv
+	grep -qxF '[ -f ~/.zsh/env.zsh ] && source ~/.zsh/env.zsh' $(HOME)/.zshenv || { \
+	tmp=$$(mktemp) && \
+	{ echo '[ -f ~/.zsh/env.zsh ] && source ~/.zsh/env.zsh'; echo; cat $(HOME)/.zshenv; } > "$$tmp" && \
+	cat "$$tmp" > $(HOME)/.zshenv && rm -f "$$tmp"; \
+	}
+
 
 sync_icons:
 	cp -f $(CURRENT_DIR)/icons/wezterm.icns /Applications/WezTerm.app/Contents/Resources/terminal.icns
