@@ -13,11 +13,11 @@ yabai -m config right_padding 0
 yabai -m config window_gap 0
 
 # Disable window tiling for the following apps
-yabai -m rule --add app="^System Settings$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Finder$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Alfred Preferences$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
+yabai -m rule --add app="^System Settings$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Finder$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Alfred Preferences$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Disk Utility$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Activity Monitor$" sticky=on sub-layer=above manage=off
 yabai -m rule --add app="^QuickTime Player$" sticky=on manage=off
 yabai -m rule --add app="^Preview$" sticky=on manage=off
 yabai -m rule --add app="^Docker" sticky=on manage=off

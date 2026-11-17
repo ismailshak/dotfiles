@@ -3,8 +3,8 @@ cbonsai
 dark-mode
 ffmpeg
 ismailshak/tap/transit
-koekeishiya/formulae/skhd
-koekeishiya/formulae/yabai
+asmvik/formulae/skhd
+asmvik/formulae/yabai
 lazygit
 qmk/qmk/qmk
 spotify_player
