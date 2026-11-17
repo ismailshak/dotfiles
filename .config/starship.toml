@@ -21,6 +21,10 @@ disabled = true
 [git_branch]
 format = 'on [$symbol$branch]($style) '
 
+[bun]
+symbol = " "
+style = "bold yellow"
+
 [c]
 symbol = " "
 style = "bold blue"
